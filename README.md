@@ -1,6 +1,8 @@
 # CS Guide — Interactive Computer Science Learning
 
-A collection of single-file, interactive guides to core Computer Science concepts. No frameworks, no build tools, no installation — just open an HTML file in any browser and start learning.
+A collection of interactive guides to core Computer Science concepts. No frameworks, no build tools, no installation — just open an HTML file in any browser and start learning.
+
+**Live site:** https://ppavankumar19.github.io/cs-guide/
 
 ---
 
@@ -17,16 +19,15 @@ cs-guide/
 
 ## Topics
 
-| Topic | File | Status |
+| Topic | Link | Status |
 |---|---|---|
 | Object-Oriented Programming | `oops.html` | ✅ Available |
-| Data Structures | `ds.html` | 🔜 Coming soon |
-| Algorithms | `algorithms.html` | 🔜 Coming soon |
-| Computer Networks | `networks.html` | 🔜 Coming soon |
-| Operating Systems | `os.html` | 🔜 Coming soon |
-| Database Management | `dbms.html` | 🔜 Coming soon |
-| System Design | `system-design.html` | 🔜 Coming soon |
-| Python Fundamentals | `python.html` | 🔜 Coming soon |
+| Data Structures & Algorithms | [aikaryashala.com/gvpcew](https://aikaryashala.com/gvpcew/index.html) | ✅ Available (external) |
+| Computer Networks | — | 🔜 Coming soon |
+| Operating Systems | — | 🔜 Coming soon |
+| Database Management | — | 🔜 Coming soon |
+| System Design | — | 🔜 Coming soon |
+| Python Fundamentals | — | 🔜 Coming soon |
 
 ---
 
@@ -71,17 +72,14 @@ Every guide follows the same structure:
 ## How to Use
 
 ```bash
-# Clone or download
-git clone <repo-url>
+# Clone
+git clone https://github.com/ppavankumar19/cs-guide.git
 cd cs-guide
 
 # Open the hub
 open index.html          # macOS
 start index.html         # Windows
 xdg-open index.html      # Linux
-
-# Or open any guide directly
-open oops.html
 ```
 
 No server required. Works 100% offline.
@@ -90,7 +88,7 @@ No server required. Works 100% offline.
 
 ## Design System
 
-All guides share the same design tokens and are visually consistent:
+All guides share the same design tokens:
 
 - **Color palette** — Indigo primary, purple accent, semantic success/warning/danger
 - **Dark mode** — CSS custom properties switched via `body.dark` class
@@ -105,8 +103,10 @@ All guides share the same design tokens and are visually consistent:
 To add a new topic guide:
 
 1. Create `topic-name.html` following the structure of `oops.html`
-2. Add a card in `index.html` inside `.topics-grid` (change badge from "Coming soon" to "Available" and wrap with `<a href="...">`)
-3. Update this README
+2. Add a card in `index.html` inside `.topics-grid` with class `available` and an `<a href="...">` wrapper
+3. Update the Topics table in this README
+
+For external guides, link directly from the card using `target="_blank" rel="noopener noreferrer"`.
 
 ---
 

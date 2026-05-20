@@ -305,12 +305,9 @@ section {
 
 /* ========== TOPIC CARDS GRID ========== */
 .topics-grid {
-  display: flex;
-  justify-content: center;
-}
-.topics-grid > * {
-  width: 100%;
-  max-width: 440px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
 }
 
 .topic-card {
@@ -531,8 +528,8 @@ a:focus-visible, button:focus-visible {
     </p>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="stat-num">1</div>
-        <div class="stat-label">Guide available</div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Guides available</div>
       </div>
       <div class="hero-stat">
         <div class="stat-num">50</div>
@@ -582,7 +579,7 @@ a:focus-visible, button:focus-visible {
     <div class="section-head">
       <span class="badge badge-primary">Topics</span>
       <h2>Start learning now</h2>
-      <p>A complete, self-contained interactive guide. More topics coming soon.</p>
+      <p>Complete, interactive guides to core CS topics. More coming soon.</p>
     </div>
 
     <div class="topics-grid">
@@ -604,6 +601,28 @@ a:focus-visible, button:focus-visible {
             <span class="tc-pill">Python</span>
             <span class="tc-pill">8 concepts</span>
             <span class="tc-pill">~45 min</span>
+          </div>
+          <span class="tc-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- DSA — AVAILABLE (external) -->
+      <a href="https://aikaryashala.com/gvpcew/index.html" target="_blank" rel="noopener noreferrer" class="topic-card available" style="--card-color: #10B981; --icon-bg: rgba(16,185,129,.12);">
+        <div class="tc-top">
+          <div class="tc-icon">📊</div>
+          <div class="tc-status"><span class="badge badge-success">Available</span></div>
+        </div>
+        <div>
+          <div class="tc-title">Data Structures &amp; Algorithms</div>
+        </div>
+        <div class="tc-desc">
+          Arrays, linked lists, stacks, queues, trees, graphs, sorting, searching, and dynamic programming — visualized with real-world examples.
+        </div>
+        <div class="tc-meta">
+          <div class="tc-pills">
+            <span class="tc-pill">Python</span>
+            <span class="tc-pill">DSA</span>
+            <span class="tc-pill">↗ External</span>
           </div>
           <span class="tc-arrow">→</span>
         </div>
