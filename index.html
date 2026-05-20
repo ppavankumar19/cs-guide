@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Guide — Interactive Computer Science Learning</title>
+<meta name="description" content="An interactive, single-file guide to core computer science concepts. Learn OOP, data structures, algorithms, and more.">
+<style>
+/* ========== DESIGN TOKENS ========== */
+:root {
+  --primary: #6366F1;
+  --primary-light: #818CF8;
+  --primary-dark: #4F46E5;
+  --purple: #8B5CF6;
+  --teal: #14B8A6;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #0EA5E9;
+  --pink: #EC4899;
+  --orange: #F97316;
+
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-2: #F1F5F9;
+  --surface-3: #E2E8F0;
+  --border: #E2E8F0;
+  --border-focus: #6366F1;
+
+  --text: #0F172A;
+  --text-muted: #475569;
+  --text-subtle: #94A3B8;
+
+  --nav-h: 64px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.12);
+  --transition: 0.2s ease;
+}
+
+body.dark {
+  --bg: #0B0F1A;
+  --surface: #131929;
+  --surface-2: #1A2235;
+  --surface-3: #1E2A3F;
+  --border: #243044;
+  --text: #F0F4FF;
+  --text-muted: #94A3B8;
+  --text-subtle: #4A5568;
+  --shadow: 0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.2);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* ========== PROGRESS BAR ========== */
+.progress-bar {
+  position: fixed; top: 0; left: 0;
+  height: 3px; width: 0;
+  background: linear-gradient(90deg, var(--primary), var(--purple));
+  z-index: 200;
+  transition: width 0.1s linear;
+}
+
+/* ========== NAV ========== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(248,250,252,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  z-index: 100;
+  transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+}
+body.dark .nav {
+  background: rgba(11,15,26,0.85);
+}
+.nav.scrolled {
+  border-color: var(--border);
+  box-shadow: 0 1px 12px rgba(0,0,0,.08);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+}
+.nav-brand-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--primary), var(--purple));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.nav-brand-name {
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
+}
+.nav-brand-name span {
+  color: var(--primary);
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.icon-btn {
+  background: none; border: none;
+  width: 38px; height: 38px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  transition: background var(--transition), color var(--transition);
+}
+.icon-btn:hover { background: var(--surface-2); color: var(--text); }
+
+/* ========== HERO ========== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-h) + 40px) 24px 80px;
+  background: linear-gradient(160deg, var(--bg) 0%, var(--surface-2) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -100px; left: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.hero-badge-dot {
+  width: 7px; height: 7px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+.hero h1 {
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+.hero h1 .gradient-text {
+  background: linear-gradient(135deg, var(--primary), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.1875rem);
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto 40px;
+  line-height: 1.65;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.hero-stat { text-align: center; }
+.stat-num {
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.8125rem;
+  color: var(--text-subtle);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ========== CONTAINER ========== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.container-narrow {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ========== SECTION ========== */
+section {
+  padding: 80px 0;
+}
+.section-head {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.section-head h2 {
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 10px 0 12px;
+  color: var(--text);
+}
+.section-head p {
+  color: var(--text-muted);
+  font-size: 1.0625rem;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ========== BADGE ========== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.badge-primary { background: rgba(99,102,241,.12); color: var(--primary); border-color: rgba(99,102,241,.2); }
+.badge-success { background: rgba(16,185,129,.12); color: var(--success); border-color: rgba(16,185,129,.2); }
+.badge-warning { background: rgba(245,158,11,.12); color: var(--warning); border-color: rgba(245,158,11,.2); }
+.badge-danger  { background: rgba(239,68,68,.12); color: var(--danger); border-color: rgba(239,68,68,.2); }
+.badge-info    { background: rgba(14,165,233,.12); color: var(--info); border-color: rgba(14,165,233,.2); }
+.badge-purple  { background: rgba(139,92,246,.12); color: var(--purple); border-color: rgba(139,92,246,.2); }
+.badge-teal    { background: rgba(20,184,166,.12); color: var(--teal); border-color: rgba(20,184,166,.2); }
+.badge-pink    { background: rgba(236,72,153,.12); color: var(--pink); border-color: rgba(236,72,153,.2); }
+.badge-orange  { background: rgba(249,115,22,.12); color: var(--orange); border-color: rgba(249,115,22,.2); }
+
+/* ========== TOPIC CARDS GRID ========== */
+.topics-grid {
+  display: flex;
+  justify-content: center;
+}
+.topics-grid > * {
+  width: 100%;
+  max-width: 440px;
+}
+
+.topic-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.topic-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-color, var(--primary));
+  border-radius: 4px 4px 0 0;
+}
+.topic-card.available {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.topic-card.available:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--card-color, var(--primary));
+}
+.topic-card.coming-soon {
+  opacity: 0.65;
+}
+
+.tc-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.tc-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: var(--icon-bg, rgba(99,102,241,.12));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.tc-status {
+  flex-shrink: 0;
+}
+
+.tc-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.tc-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.tc-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8125rem;
+  color: var(--text-subtle);
+}
+.tc-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tc-pill {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 2px 10px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.tc-arrow {
+  font-size: 1.1rem;
+  color: var(--card-color, var(--primary));
+  transition: transform var(--transition);
+}
+.topic-card.available:hover .tc-arrow {
+  transform: translateX(4px);
+}
+
+/* ========== FEATURES STRIP ========== */
+.features {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0;
+}
+.feature-item {
+  padding: 36px 32px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.feature-item:last-child { border-right: none; }
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+.feature-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.feature-sub {
+  font-size: 0.8125rem;
+  color: var(--text-subtle);
+}
+
+/* ========== FOOTER ========== */
+footer {
+  padding: 48px 0;
+  border-top: 1px solid var(--border);
+}
+footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+footer p {
+  color: var(--text-subtle);
+  font-size: 0.875rem;
+}
+.heart { color: #EF4444; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .feature-item:nth-child(2) { border-right: none; }
+  .feature-item:nth-child(3) { border-bottom: none; }
+}
+
+@media (max-width: 768px) {
+  .hero { padding: calc(var(--nav-h) + 32px) 20px 64px; }
+  .hero-stats { gap: 24px; padding-top: 32px; margin-top: 32px; }
+  .stat-num { font-size: 1.5rem; }
+  section { padding: 64px 0; }
+  .section-head { margin-bottom: 40px; }
+  .topics-grid > * { max-width: 100%; }
+  .tc-desc { font-size: 0.875rem; }
+}
+
+@media (max-width: 640px) {
+  .hero { padding: calc(var(--nav-h) + 20px) 16px 52px; min-height: auto; }
+  .hero-stats { gap: 20px; flex-wrap: wrap; }
+  .hero-stat { min-width: calc(50% - 10px); }
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-item { border-right: none; border-bottom: 1px solid var(--border); padding: 20px 16px; }
+  .feature-item:last-child { border-bottom: none; }
+  .container, .container-narrow { padding: 0 16px; }
+  section { padding: 48px 0; }
+  .section-head { margin-bottom: 28px; }
+  .topic-card { padding: 20px; }
+  .tc-icon { width: 44px; height: 44px; font-size: 1.25rem; }
+  .nav-inner { padding: 0 16px; }
+  footer { padding: 32px 0; }
+}
+
+/* ========== FOCUS ========== */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Nav -->
+<nav class="nav" id="topNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-icon">CS</div>
+      <span class="nav-brand-name"><span>CS</span> Guide</span>
+    </a>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Interactive · No installation · Single file
+    </div>
+    <h1>Learn <span class="gradient-text">Computer Science</span><br>the visual way</h1>
+    <p class="hero-sub">
+      Hands-on guides to core CS concepts — with live simulators, interactive quizzes, and real-world analogies. No textbook fluff.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Guide available</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">50</div>
+        <div class="stat-label">Quiz questions</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Live simulators</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Dependencies</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Features strip -->
+<section class="features">
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-icon">🧠</div>
+      <div class="feature-label">Learn by doing</div>
+      <div class="feature-sub">Interactive simulators on every concept</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📱</div>
+      <div class="feature-label">Works everywhere</div>
+      <div class="feature-sub">Open in any browser, no setup needed</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🌙</div>
+      <div class="feature-label">Dark mode</div>
+      <div class="feature-sub">Easy on the eyes, day or night</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-label">Interview-ready</div>
+      <div class="feature-sub">Curated questions in every guide</div>
+    </div>
+  </div>
+</section>
+
+<!-- Topics -->
+<section id="topics">
+  <div class="container">
+    <div class="section-head">
+      <span class="badge badge-primary">Topics</span>
+      <h2>Start learning now</h2>
+      <p>A complete, self-contained interactive guide. More topics coming soon.</p>
+    </div>
+
+    <div class="topics-grid">
+
+      <!-- OOP — AVAILABLE -->
+      <a href="oops.html" class="topic-card available" style="--card-color: #6366F1; --icon-bg: rgba(99,102,241,.12);">
+        <div class="tc-top">
+          <div class="tc-icon">🏗️</div>
+          <div class="tc-status"><span class="badge badge-success">Available</span></div>
+        </div>
+        <div>
+          <div class="tc-title">Object-Oriented Programming</div>
+        </div>
+        <div class="tc-desc">
+          Master classes, objects, encapsulation, abstraction, inheritance, polymorphism, and composition — with live simulators and 50 quiz questions.
+        </div>
+        <div class="tc-meta">
+          <div class="tc-pills">
+            <span class="tc-pill">Python</span>
+            <span class="tc-pill">8 concepts</span>
+            <span class="tc-pill">~45 min</span>
+          </div>
+          <span class="tc-arrow">→</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>Built with <span class="heart">♥</span> for CS learners. Open in any browser — no installation needed.</p>
+    <p>Single-file interactive guides · Runs everywhere · Always free</p>
+  </div>
+</footer>
+
+<script>
+// Theme
+const themeBtn = document.getElementById('themeBtn');
+const nav = document.getElementById('topNav');
+const progressBar = document.getElementById('progressBar');
+
+const saved = (() => { try { return localStorage.getItem('cs-guide-theme'); } catch(e) { return null; } })();
+if (saved === 'dark') { document.body.classList.add('dark'); themeBtn.textContent = '☀️'; }
+
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  themeBtn.textContent = isDark ? '☀️' : '🌙';
+  try { localStorage.setItem('cs-guide-theme', isDark ? 'dark' : 'light'); } catch(e) {}
+});
+
+// Nav scroll + progress bar
+window.addEventListener('scroll', () => {
+  const sc = window.scrollY;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min(100, (sc / h) * 100) + '%';
+  nav.classList.toggle('scrolled', sc > 8);
+}, { passive: true });
+</script>
+
+</body>
+</html>

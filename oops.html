@@ -1,0 +1,3680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP Mastery — Learn Object-Oriented Programming in Python</title>
+<meta name="description" content="Learn OOP in Python from scratch with interactive simulators, real-world examples, and 50 practice questions.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ========== RESET & TOKENS ========== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #6366F1;
+    --primary-dark: #4F46E5;
+    --primary-light: #EEF2FF;
+    --accent: #F59E0B;
+    --accent-dark: #D97706;
+    --success: #10B981;
+    --success-bg: #ECFDF5;
+    --danger: #EF4444;
+    --danger-bg: #FEF2F2;
+    --warning: #F59E0B;
+    --warning-bg: #FFFBEB;
+    --info: #0EA5E9;
+    --info-bg: #F0F9FF;
+    --purple: #8B5CF6;
+    --pink: #EC4899;
+    --teal: #14B8A6;
+
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+
+    --bg: #FAFAF9;
+    --surface: #FFFFFF;
+    --surface-2: #F5F5F4;
+    --text: #18181B;
+    --text-muted: #52525B;
+    --text-subtle: #71717A;
+    --border: #E4E4E7;
+    --border-strong: #D4D4D8;
+
+    --radius-sm: 8px;
+    --radius: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+    --shadow-xl: 0 24px 60px rgba(0,0,0,0.12);
+
+    --nav-h: 64px;
+    --content-max: 1100px;
+    --reading-max: 760px;
+
+    --t-fast: 0.15s ease;
+    --t: 0.25s ease;
+    --t-slow: 0.4s ease;
+  }
+  body.dark {
+    --bg: #09090B;
+    --surface: #18181B;
+    --surface-2: #27272A;
+    --text: #FAFAFA;
+    --text-muted: #A1A1AA;
+    --text-subtle: #71717A;
+    --border: #27272A;
+    --border-strong: #3F3F46;
+    --primary-light: rgba(99, 102, 241, 0.12);
+    --success-bg: rgba(16, 185, 129, 0.12);
+    --danger-bg: rgba(239, 68, 68, 0.12);
+    --warning-bg: rgba(245, 158, 11, 0.12);
+    --info-bg: rgba(14, 165, 233, 0.12);
+  }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 24px); }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background var(--t), color var(--t);
+  }
+  ::selection { background: var(--primary); color: #fff; }
+
+  /* ========== TYPOGRAPHY ========== */
+  h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, serif; line-height: 1.15; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(2.5rem, 6vw, 4.25rem); font-weight: 800; }
+  h2 { font-size: clamp(1.875rem, 4.5vw, 2.75rem); font-weight: 700; }
+  h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); font-weight: 700; }
+  h4 { font-size: 1.125rem; font-weight: 700; }
+  p { color: var(--text-muted); }
+  strong { color: var(--text); font-weight: 700; }
+  code:not(.code-block code) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875em;
+    background: var(--surface-2);
+    padding: 2px 6px;
+    border-radius: 6px;
+    color: var(--primary-dark);
+    border: 1px solid var(--border);
+  }
+  body.dark code:not(.code-block code) { color: #A5B4FC; }
+
+  /* ========== LAYOUT ========== */
+  .container { max-width: var(--content-max); margin: 0 auto; padding: 0 24px; }
+  .container-narrow { max-width: var(--reading-max); margin: 0 auto; padding: 0 24px; }
+  section { padding: 96px 0; }
+  section.compact { padding: 64px 0; }
+
+  /* ========== NAV ========== */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(250, 250, 249, 0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid transparent;
+    transition: all var(--t);
+  }
+  body.dark .nav { background: rgba(9, 9, 11, 0.85); }
+  .nav.scrolled { border-bottom-color: var(--border); }
+  .nav-inner {
+    height: 100%; max-width: var(--content-max);
+    margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-weight: 800; font-size: 1.125rem;
+    color: var(--text); text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-brand-mark {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--primary), var(--purple));
+    color: #fff;
+    display: grid; place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 800; font-size: 1rem;
+  }
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+  .nav-link {
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all var(--t-fast);
+    white-space: nowrap;
+  }
+  .nav-link:hover { color: var(--text); background: var(--surface-2); }
+  .nav-link.active { color: var(--primary-dark); background: var(--primary-light); }
+  body.dark .nav-link.active { color: #A5B4FC; }
+  .nav-actions { display: flex; gap: 6px; align-items: center; }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 1rem;
+    transition: all var(--t-fast);
+  }
+  .icon-btn:hover { background: var(--surface-2); transform: scale(1.05); }
+  .mobile-toggle { display: none; }
+
+  /* ========== PROGRESS BAR ========== */
+  .progress {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 3px; z-index: 101;
+    background: linear-gradient(90deg, var(--primary), var(--purple), var(--pink));
+    width: 0%;
+    transition: width 0.1s linear;
+    transform-origin: left;
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    min-height: 100vh;
+    padding: calc(var(--nav-h) + 40px) 0 60px;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 800px 600px at 20% 10%, rgba(99,102,241,0.10), transparent),
+      radial-gradient(ellipse 700px 500px at 80% 90%, rgba(236,72,153,0.08), transparent),
+      radial-gradient(ellipse 500px 400px at 50% 50%, rgba(245,158,11,0.06), transparent);
+    pointer-events: none;
+  }
+  body.dark .hero::before {
+    background:
+      radial-gradient(ellipse 800px 600px at 20% 10%, rgba(99,102,241,0.18), transparent),
+      radial-gradient(ellipse 700px 500px at 80% 90%, rgba(236,72,153,0.12), transparent);
+  }
+  .hero-grid {
+    position: relative;
+    display: grid; grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px; align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .hero-eyebrow-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 0 4px rgba(16,185,129,0.2);
+    animation: pulse 2s infinite;
+  }
+  .hero h1 { margin-bottom: 24px; }
+  .hero h1 .gradient {
+    background: linear-gradient(135deg, var(--primary), var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-lead {
+    font-size: 1.1875rem;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-stats {
+    display: flex; gap: 32px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    row-gap: 20px;
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.75rem; font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.8125rem;
+    color: var(--text-subtle);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+
+  /* hero visual */
+  .hero-visual {
+    position: relative;
+    height: 480px;
+  }
+  .visual-card {
+    position: absolute;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--t-slow);
+  }
+  .visual-card.c1 {
+    top: 0; left: 0;
+    width: 80%;
+    transform: rotate(-2deg);
+  }
+  .visual-card.c1:hover { transform: rotate(-2deg) translateY(-6px); }
+  .visual-card.c2 {
+    top: 160px; right: 0;
+    width: 80%;
+    transform: rotate(2deg);
+    z-index: 2;
+  }
+  .visual-card.c2:hover { transform: rotate(2deg) translateY(-6px); }
+  .visual-card.c3 {
+    top: 318px; left: 4%;
+    width: 86%;
+    transform: rotate(-1deg);
+    background: linear-gradient(135deg, var(--primary), var(--purple));
+    color: #fff;
+    border: none;
+    z-index: 1;
+  }
+  .vc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+  .vc-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem; font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .vc-meta { display: flex; gap: 16px; font-size: 0.875rem; opacity: 0.85; }
+  .vc-meta b { display: block; font-size: 1.125rem; opacity: 1; margin-bottom: 2px; }
+
+  /* ========== BUTTONS ========== */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all var(--t);
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border-strong);
+  }
+  .btn-secondary:hover { background: var(--surface-2); }
+  .btn-accent {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-accent:hover { background: var(--accent-dark); transform: translateY(-2px); }
+  .btn-sm { padding: 8px 14px; font-size: 0.8125rem; }
+  .btn-lg { padding: 14px 28px; font-size: 1rem; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* ========== BADGES & PILLS ========== */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+  }
+  body.dark .badge { color: #A5B4FC; }
+  .badge-success { background: var(--success-bg); color: var(--success); }
+  .badge-warning { background: var(--warning-bg); color: var(--warning); }
+  .badge-danger { background: var(--danger-bg); color: var(--danger); }
+  .badge-info { background: var(--info-bg); color: var(--info); }
+  .badge-purple { background: rgba(139, 92, 246, 0.1); color: var(--purple); }
+  .badge-pink { background: rgba(236, 72, 153, 0.1); color: var(--pink); }
+  .badge-teal { background: rgba(20, 184, 166, 0.1); color: var(--teal); }
+
+  /* ========== SECTION HEADS ========== */
+  .section-head {
+    max-width: var(--reading-max);
+    margin: 0 auto 56px;
+    text-align: center;
+  }
+  .section-head .badge { margin-bottom: 16px; }
+  .section-head h2 { margin-bottom: 16px; }
+  .section-head p {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* ========== CARDS ========== */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: all var(--t);
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-strong);
+  }
+  .grid { display: grid; gap: 20px; }
+  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+  /* ========== CONCEPT SECTIONS ========== */
+  .concept-section {
+    padding: 88px 0;
+    border-top: 1px solid var(--border);
+  }
+  .concept-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px; align-items: start;
+    margin-bottom: 48px;
+    max-width: var(--reading-max);
+    margin-left: auto; margin-right: auto;
+  }
+  .concept-num {
+    width: 64px; height: 64px;
+    border-radius: 18px;
+    display: grid; place-items: center;
+    font-family: 'Fraunces', serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .concept-num.c1 { background: linear-gradient(135deg, #6366F1, #8B5CF6); }
+  .concept-num.c2 { background: linear-gradient(135deg, #8B5CF6, #EC4899); }
+  .concept-num.c3 { background: linear-gradient(135deg, #14B8A6, #0EA5E9); }
+  .concept-num.c4 { background: linear-gradient(135deg, #F59E0B, #EF4444); }
+  .concept-num.c5 { background: linear-gradient(135deg, #10B981, #14B8A6); }
+  .concept-num.c6 { background: linear-gradient(135deg, #0EA5E9, #6366F1); }
+  .concept-num.c7 { background: linear-gradient(135deg, #EC4899, #F59E0B); }
+  .concept-num.c8 { background: linear-gradient(135deg, #EF4444, #EC4899); }
+  .concept-header h2 { margin-bottom: 8px; }
+  .concept-tagline {
+    font-size: 1.0625rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .concept-body {
+    max-width: var(--reading-max);
+    margin: 0 auto;
+  }
+  .concept-block {
+    margin-bottom: 32px;
+  }
+  .concept-block h3 {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .concept-block h3::before {
+    content: '';
+    width: 4px; height: 22px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+  .concept-block p { margin-bottom: 12px; line-height: 1.75; }
+  .concept-block ul { padding-left: 24px; margin-bottom: 12px; }
+  .concept-block li { color: var(--text-muted); margin-bottom: 8px; line-height: 1.65; }
+  .concept-block li::marker { color: var(--primary); }
+
+  /* INFO BOX */
+  .info-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  .info-box.success { border-left-color: var(--success); background: var(--success-bg); border-color: transparent; }
+  .info-box.warning { border-left-color: var(--warning); background: var(--warning-bg); border-color: transparent; }
+  .info-box.danger { border-left-color: var(--danger); background: var(--danger-bg); border-color: transparent; }
+  .info-box.info { border-left-color: var(--info); background: var(--info-bg); border-color: transparent; }
+  .info-box-title {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .info-box-body { color: var(--text-muted); font-size: 0.9375rem; line-height: 1.65; }
+  .info-box-body p { margin-bottom: 8px; }
+  .info-box-body p:last-child { margin-bottom: 0; }
+  body.dark .info-box.success .info-box-body,
+  body.dark .info-box.warning .info-box-body,
+  body.dark .info-box.danger .info-box-body,
+  body.dark .info-box.info .info-box-body { color: var(--text); }
+
+  /* ========== CODE BLOCKS ========== */
+  .code-block {
+    background: #0F172A;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 20px 0;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid #1E293B;
+  }
+  .code-head {
+    padding: 10px 16px;
+    background: #1E293B;
+    color: #94A3B8;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .code-dots { display: flex; gap: 6px; }
+  .code-dots span { width: 11px; height: 11px; border-radius: 50%; }
+  .code-dots span:nth-child(1) { background: #EF4444; }
+  .code-dots span:nth-child(2) { background: #F59E0B; }
+  .code-dots span:nth-child(3) { background: #10B981; }
+  .code-body {
+    padding: 18px 0;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+  .ln {
+    padding: 0 18px;
+    display: flex;
+    white-space: pre;
+    color: #E2E8F0;
+    cursor: pointer;
+    transition: background var(--t-fast);
+    border-left: 3px solid transparent;
+  }
+  .ln:hover { background: rgba(99, 102, 241, 0.08); }
+  .ln.hl { background: rgba(99, 102, 241, 0.15); border-left-color: var(--primary); }
+  .ln-num {
+    color: #475569;
+    margin-right: 18px;
+    user-select: none;
+    font-size: 0.75rem;
+    min-width: 24px;
+    text-align: right;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+  .ln-content { flex: 1; }
+  .k { color: #C084FC; }  /* keyword */
+  .s { color: #FCD34D; }  /* string */
+  .n { color: #F472B6; }  /* number */
+  .c { color: #64748B; font-style: italic; }  /* comment */
+  .f { color: #34D399; }  /* function */
+  .v { color: #FBBF24; }  /* self/variable */
+  .b { color: #60A5FA; }  /* built-in */
+  .o { color: #E2E8F0; }  /* operator/default */
+
+  /* ========== OUTPUT PANEL ========== */
+  .output-panel {
+    background: #0F172A;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    color: #E2E8F0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin: 16px 0;
+    border-left: 4px solid var(--success);
+    min-height: 60px;
+  }
+  .output-panel .prompt { color: #64748B; }
+  .output-panel .out-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748B;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  /* ========== SIMULATORS - GENERIC ========== */
+  .sim {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    margin: 24px 0;
+  }
+  .sim-head { margin-bottom: 24px; }
+  .sim-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-subtle);
+    margin-bottom: 6px;
+  }
+  .sim-head .sim-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .sim-grid {
+    display: grid; gap: 24px;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 720px) { .sim-grid { grid-template-columns: 1fr; } }
+
+  /* TEA */
+  .tea-controls > * + * { margin-top: 18px; }
+  .control-label {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .control-label .value {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--primary-dark);
+    background: var(--primary-light);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+  }
+  body.dark .control-label .value { color: #A5B4FC; }
+  input[type="range"] {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--surface-2);
+    border-radius: 3px;
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 3px solid var(--surface);
+    box-shadow: var(--shadow);
+    transition: transform var(--t-fast);
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  input[type="range"]::-moz-range-thumb {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 3px solid var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .checkbox-row {
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    transition: background var(--t-fast);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .checkbox-row:hover { background: var(--border); }
+  .checkbox-row input[type="checkbox"] {
+    width: 18px; height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+  .select-pill-group {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .select-pill {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--t-fast);
+    font-family: inherit;
+  }
+  .select-pill:hover { border-color: var(--primary); }
+  .select-pill.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+  }
+
+  .tea-output {
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    padding: 20px;
+    min-height: 200px;
+  }
+  .tea-output-empty {
+    color: var(--text-subtle);
+    text-align: center;
+    padding: 60px 20px;
+    font-style: italic;
+  }
+  .object-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 14px;
+    animation: slideUp 0.3s ease;
+  }
+  .object-card-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--purple));
+    color: #fff;
+    display: grid; place-items: center;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+  }
+  .object-card-body { flex: 1; min-width: 0; }
+  .object-card-name {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    margin-bottom: 2px;
+  }
+  .object-card-attrs {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-subtle);
+  }
+
+  /* PHASE TIMELINE */
+  .phase-timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .phase-item {
+    text-align: center;
+    padding: 18px 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    opacity: 0.4;
+    transition: all var(--t);
+    position: relative;
+  }
+  .phase-item.active {
+    opacity: 1;
+    background: var(--primary-light);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .phase-icon { font-size: 1.75rem; margin-bottom: 8px; }
+  .phase-text {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text);
+  }
+  .phase-step {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-subtle);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  /* ATM */
+  .atm-screen {
+    background: linear-gradient(135deg, #0F172A, #1E293B);
+    border-radius: var(--radius);
+    padding: 24px;
+    color: #E2E8F0;
+    text-align: center;
+    border: 2px solid #334155;
+    position: relative;
+    overflow: hidden;
+  }
+  .atm-screen::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--success), var(--primary));
+  }
+  .atm-bank {
+    font-size: 0.75rem;
+    color: #64748B;
+    letter-spacing: 0.15em;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .atm-balance-label {
+    font-size: 0.75rem; color: #94A3B8;
+    margin-bottom: 4px; margin-top: 12px;
+  }
+  .atm-balance-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .atm-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1.5px solid #334155;
+    background: #0F172A;
+    color: #fff;
+    font-size: 1.125rem;
+    text-align: center;
+    letter-spacing: 0.5em;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 12px;
+    transition: border-color var(--t-fast);
+  }
+  .atm-input:focus { outline: none; border-color: var(--primary); }
+  .atm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .atm-btn {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--t-fast);
+    font-family: inherit;
+  }
+  .atm-btn:hover { background: var(--primary-dark); }
+  .atm-btn.deposit { background: var(--success); }
+  .atm-btn.deposit:hover { background: #059669; }
+  .atm-msg {
+    margin-top: 14px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    min-height: 20px;
+    font-weight: 500;
+  }
+  .atm-msg.ok { background: rgba(16,185,129,0.15); color: #6EE7B7; }
+  .atm-msg.err { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+  .atm-process {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 10px;
+    background: rgba(99,102,241,0.1);
+    border: 1px dashed rgba(99,102,241,0.4);
+    font-size: 0.8125rem;
+    text-align: left;
+    color: #E2E8F0;
+    animation: slideUp 0.3s ease;
+  }
+  .atm-process strong { color: #A5B4FC; display: block; margin-bottom: 6px; }
+  .atm-process-steps { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 1.8; }
+  .atm-process-steps li { list-style: none; padding-left: 16px; position: relative; }
+  .atm-process-steps li::before {
+    content: '→'; position: absolute; left: 0; color: var(--success);
+  }
+
+  /* CAR DASHBOARD */
+  .dashboard {
+    background: linear-gradient(135deg, #1E1B4B, #312E81, #1E1B4B);
+    border-radius: var(--radius);
+    padding: 32px;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .dashboard::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent, rgba(0,0,0,0.4));
+    pointer-events: none;
+  }
+  .speedo-container { position: relative; z-index: 1; }
+  .speedo {
+    font-family: 'Fraunces', serif;
+    font-size: 4.5rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 4px;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(99,102,241,0.5);
+  }
+  .speedo-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    color: #A5B4FC;
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+  }
+  .gear-row {
+    display: flex; justify-content: center; gap: 8px;
+    margin-bottom: 24px;
+  }
+  .gear-pill {
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: #C7D2FE;
+    transition: all var(--t-fast);
+  }
+  .gear-pill.active {
+    background: var(--success);
+    color: #fff;
+    transform: scale(1.15);
+  }
+  .dash-controls {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+    position: relative; z-index: 1;
+  }
+  .dash-btn {
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--t-fast);
+    font-family: inherit;
+    color: #fff;
+  }
+  .dash-btn.accel { background: var(--success); }
+  .dash-btn.accel:hover { background: #059669; transform: translateY(-2px); }
+  .dash-btn.brake { background: var(--danger); }
+  .dash-btn.brake:hover { background: #DC2626; transform: translateY(-2px); }
+  .dash-btn.shift { background: var(--accent); }
+  .dash-btn.shift:hover { background: var(--accent-dark); transform: translateY(-2px); }
+  .dash-note {
+    margin-top: 18px;
+    font-size: 0.8125rem;
+    color: #A5B4FC;
+    font-style: italic;
+    position: relative; z-index: 1;
+  }
+
+  /* TREE */
+  .tree { padding: 8px; }
+  .tree-node {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all var(--t-fast);
+  }
+  .tree-node:hover { border-color: var(--success); transform: translateX(3px); }
+  .tree-node.root {
+    background: linear-gradient(135deg, var(--success), var(--teal));
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    padding: 10px 20px;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+  }
+  .tree-node.selected {
+    background: var(--success);
+    color: #fff;
+    border-color: var(--success);
+    transform: translateX(6px);
+  }
+  .tree-children {
+    border-left: 2px dashed var(--border-strong);
+    margin-left: 20px;
+    padding-left: 16px;
+    margin-top: 4px;
+  }
+  .tree-info {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--success-bg);
+    border-radius: var(--radius);
+    border: 1px solid rgba(16,185,129,0.2);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    min-height: 60px;
+  }
+  body.dark .tree-info { color: var(--text); }
+
+  /* UPI */
+  .upi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .upi-btn {
+    padding: 18px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: all var(--t);
+    text-align: center;
+    font-family: inherit;
+    color: var(--text);
+  }
+  .upi-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .upi-btn.active { border-color: var(--primary); background: var(--primary-light); }
+  body.dark .upi-btn.active { background: rgba(99, 102, 241, 0.15); }
+  .upi-icon {
+    width: 44px; height: 44px;
+    margin: 0 auto 10px;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    font-size: 1.25rem;
+    color: #fff;
+    font-weight: 700;
+  }
+  .upi-name { font-weight: 700; font-size: 0.9375rem; margin-bottom: 2px; }
+  .upi-sub { font-size: 0.75rem; color: var(--text-subtle); }
+  .upi-output {
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    min-height: 60px;
+    color: var(--text);
+    display: flex; align-items: center;
+    line-height: 1.6;
+  }
+  .upi-output:empty::before {
+    content: 'Click an app above to see the polymorphism in action...';
+    color: var(--text-subtle);
+    font-style: italic;
+  }
+
+  /* COMMENTATOR */
+  .comm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .comm-btn {
+    padding: 14px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--t-fast);
+    text-align: left;
+    font-family: inherit;
+    color: var(--text);
+  }
+  .comm-btn:hover { border-color: var(--pink); }
+  .comm-btn.active { background: var(--pink); color: #fff; border-color: var(--pink); }
+  .comm-name { font-weight: 700; font-size: 0.9375rem; margin-bottom: 2px; }
+  .comm-style { font-size: 0.75rem; opacity: 0.7; }
+  .comm-output {
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    padding: 20px;
+    min-height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .comm-output-empty {
+    color: var(--text-subtle);
+    font-style: italic;
+    font-size: 0.875rem;
+  }
+  .comm-quote {
+    animation: slideUp 0.3s ease;
+  }
+  .comm-quote-who {
+    font-size: 0.75rem;
+    color: var(--text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .comm-quote-text {
+    font-family: 'Fraunces', serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* COMPOSITION */
+  .parts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .part-btn {
+    padding: 16px;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all var(--t-fast);
+    text-align: left;
+    font-family: inherit;
+    color: var(--text);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .part-btn:hover { border-color: var(--success); transform: translateY(-2px); }
+  .part-btn.added {
+    background: var(--success-bg);
+    border-color: var(--success);
+    cursor: default;
+  }
+  body.dark .part-btn.added { background: rgba(16, 185, 129, 0.15); }
+  .part-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    background: var(--surface-2);
+    display: grid; place-items: center;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+  }
+  .part-btn.added .part-icon { background: var(--success); color: #fff; }
+  .part-name { font-weight: 700; font-size: 0.9375rem; }
+  .part-desc { font-size: 0.75rem; color: var(--text-subtle); }
+  .car-status {
+    padding: 20px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    text-align: center;
+    font-size: 0.9375rem;
+  }
+  .car-status.complete {
+    background: linear-gradient(135deg, var(--success), var(--teal));
+    color: #fff;
+    font-weight: 600;
+    animation: slideUp 0.3s ease;
+  }
+
+  /* ========== QUIZ ========== */
+  .quiz-wrap { max-width: 760px; margin: 0 auto; }
+  .quiz-filters {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 24px;
+    justify-content: center;
+  }
+  .quiz-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow);
+  }
+  .quiz-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .quiz-meta-left { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .quiz-counter {
+    font-size: 0.8125rem;
+    color: var(--text-subtle);
+    font-weight: 600;
+  }
+  .quiz-score {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .quiz-score-num { color: var(--success); }
+  .quiz-progress {
+    height: 6px;
+    background: var(--surface-2);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .quiz-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--purple), var(--pink));
+    transition: width var(--t);
+    border-radius: 999px;
+  }
+  .quiz-q-text {
+    font-family: 'Fraunces', serif;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+  .quiz-q-code {
+    background: #0F172A;
+    color: #E2E8F0;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin: 16px 0;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .quiz-options { display: grid; gap: 10px; }
+  .quiz-option {
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--t-fast);
+    font-family: inherit;
+    line-height: 1.5;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .quiz-option:hover:not([disabled]) {
+    border-color: var(--primary);
+    background: var(--primary-light);
+  }
+  body.dark .quiz-option:hover:not([disabled]) { background: rgba(99,102,241,0.1); }
+  .quiz-option-letter {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    color: var(--text-muted);
+    display: grid; place-items: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: all var(--t-fast);
+  }
+  .quiz-option.correct {
+    background: var(--success-bg);
+    border-color: var(--success);
+    color: var(--text);
+  }
+  .quiz-option.correct .quiz-option-letter {
+    background: var(--success); color: #fff;
+  }
+  .quiz-option.wrong {
+    background: var(--danger-bg);
+    border-color: var(--danger);
+  }
+  .quiz-option.wrong .quiz-option-letter {
+    background: var(--danger); color: #fff;
+  }
+  .quiz-explanation {
+    margin-top: 20px;
+    padding: 16px 18px;
+    background: var(--info-bg);
+    border-radius: var(--radius);
+    border-left: 4px solid var(--info);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text);
+    animation: slideUp 0.3s ease;
+  }
+  .quiz-explanation strong { color: var(--info); display: block; margin-bottom: 6px; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .quiz-nav {
+    display: flex; gap: 12px; justify-content: space-between;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .quiz-results {
+    text-align: center;
+    padding: 24px;
+  }
+  .quiz-results-emoji { font-size: 4.5rem; margin-bottom: 16px; animation: bounce 0.6s ease; }
+  .quiz-results-score {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .quiz-results-score .total { color: var(--text-subtle); }
+  .quiz-results-pct { color: var(--text-muted); font-size: 1rem; margin-bottom: 16px; }
+  .quiz-results-msg { font-size: 1rem; color: var(--text-muted); margin-bottom: 24px; max-width: 420px; margin-left: auto; margin-right: auto; }
+  .quiz-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+    text-align: left;
+  }
+  .quiz-breakdown-item {
+    padding: 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+  }
+  .quiz-breakdown-cat {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--text-subtle);
+    margin-bottom: 4px;
+  }
+  .quiz-breakdown-val {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  /* ========== QUIZ SECTION ========== */
+  .quiz-section { background: var(--surface-2); }
+  .toc-section { background: var(--surface-2); }
+
+  /* ========== CHEATSHEET ========== */
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .cheat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: all var(--t);
+    position: relative;
+    overflow: hidden;
+  }
+  .cheat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: var(--bar-color, var(--primary));
+  }
+  .cheat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .cheat-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+  .cheat-card h4 {
+    font-family: 'Fraunces', serif;
+    margin-bottom: 8px;
+  }
+  .cheat-card p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  .cheat-syntax {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    background: var(--surface-2);
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: var(--primary-dark);
+    overflow-x: auto;
+    white-space: pre;
+    line-height: 1.7;
+  }
+  body.dark .cheat-syntax { color: #A5B4FC; }
+
+  /* ========== CELEBRATE ========== */
+  .celebrate {
+    margin-top: 56px;
+    text-align: center;
+    padding: 56px 32px;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, #6366F1, #8B5CF6, #EC4899);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .celebrate::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at top, rgba(255,255,255,0.2), transparent);
+  }
+  .celebrate-content { position: relative; z-index: 1; }
+  .celebrate h2 {
+    color: #fff;
+    margin-bottom: 16px;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+  .celebrate p {
+    color: rgba(255,255,255,0.92);
+    font-size: 1.0625rem;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* ========== TOC SECTION ========== */
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+  }
+  .toc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-decoration: none;
+    color: var(--text);
+    display: flex; align-items: center; gap: 14px;
+    transition: all var(--t);
+  }
+  .toc-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .toc-num {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--text);
+    display: grid; place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .toc-card:hover .toc-num { background: var(--primary); color: #fff; }
+  .toc-title { font-weight: 700; font-size: 0.9375rem; margin-bottom: 2px; }
+  .toc-sub { font-size: 0.75rem; color: var(--text-subtle); }
+  .toc-card > div { min-width: 0; }
+  .toc-title code, .toc-sub code { font-size: 0.85em; }
+  .section-subhead {
+    text-align: center;
+    margin: 56px 0 24px;
+    font-family: 'Fraunces', Georgia, serif;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--text-subtle);
+    font-size: 0.875rem;
+  }
+  footer .heart { color: var(--pink); }
+
+  /* ========== ANIMATIONS ========== */
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* Back-to-hub link in nav */
+  .nav-home-btn {
+    display: flex; align-items: center;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: color var(--t), border-color var(--t), background var(--t);
+    white-space: nowrap;
+  }
+  .nav-home-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(99,102,241,.06); }
+  @media (max-width: 480px) { .nav-home-btn { display: none; } }
+
+  /* Skip link for keyboard / screen reader users */
+  .skip-link {
+    position: fixed; top: -100px; left: 16px; z-index: 200;
+    background: var(--primary); color: #fff;
+    padding: 8px 16px; border-radius: 8px;
+    font-weight: 700; font-size: 0.875rem;
+    text-decoration: none;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 8px; }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-subtle); }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-visual { height: 380px; max-width: 480px; margin: 0 auto; width: 100%; }
+    .nav-links { display: none; }
+    .mobile-toggle { display: grid; }
+    .nav.menu-open .nav-links {
+      display: flex;
+      position: absolute;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      flex-direction: column;
+      background: var(--surface);
+      padding: 16px;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+    }
+    .nav.menu-open .nav-link {
+      width: 100%;
+      padding: 12px 16px;
+    }
+  }
+  @media (max-width: 720px) {
+    section { padding: 64px 0; }
+    .concept-section { padding: 56px 0; }
+    .concept-header {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .concept-num { width: 56px; height: 56px; }
+    .sim { padding: 20px; }
+    .quiz-card { padding: 24px 20px; }
+    .hero-stats { gap: 24px; }
+    .stat-num { font-size: 1.5rem; }
+    .visual-card.c1 { width: 78%; left: 0; }
+    .visual-card.c2 { width: 78%; right: 0; top: 150px; }
+    .visual-card.c3 { width: 84%; left: 4%; top: 298px; }
+  }
+  @media (max-width: 480px) {
+    .container, .container-narrow { padding: 0 18px; }
+    .hero { padding-top: calc(var(--nav-h) + 24px); }
+    .hero-cta { flex-direction: column; align-items: stretch; }
+    .hero-cta .btn { justify-content: center; }
+    .parts-grid { grid-template-columns: 1fr; }
+    .dash-controls { grid-template-columns: 1fr; }
+    .grid-2, .grid-3, .grid-4, .cheat-grid { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: repeat(2, 1fr); }
+    .quiz-filters { gap: 6px; }
+    .quiz-filters .btn-sm { padding: 6px 10px; font-size: 0.75rem; }
+    .nav-brand-mark { width: 28px; height: 28px; font-size: 0.875rem; }
+    .nav-brand { font-size: 1rem; }
+    .icon-btn { width: 32px; height: 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* ========== UX / ALIGNMENT / RESPONSIVENESS FIXES ========== */
+
+  /* Concept header h2 margin — was inline on every element */
+  .concept-header h2 { margin-top: 8px; }
+
+  /* Code inside headings — size and alignment */
+  h2 code, h3 code {
+    font-size: 0.65em;
+    vertical-align: middle;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  /* Prevent grid children from overflowing their container */
+  .grid > *, .grid-2 > *, .grid-3 > *, .grid-4 > *, .toc-grid > * {
+    min-width: 0;
+  }
+
+  /* Focus styles for keyboard accessibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+  .quiz-option:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  /* Mobile menu slide-down animation */
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .nav.menu-open .nav-links { animation: slideDown 0.2s ease; }
+
+  /* Footer horizontal padding fix — let container handle sides */
+  footer { padding: 48px 0; }
+
+  /* Comparison table — responsive horizontal scroll */
+  .comparison-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-top: 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .comparison-table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    min-width: 480px;
+  }
+  .comparison-table-wrap th {
+    padding: 12px 16px;
+    text-align: left;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--text);
+  }
+  .comparison-table-wrap td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .comparison-table-wrap td:first-child {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .comparison-table-wrap tr:last-child td { border-bottom: none; }
+
+  /* Medium screen breakpoint for 3- and 4-column grids */
+  @media (max-width: 840px) {
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .cheat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Small phone tweaks */
+  @media (max-width: 400px) {
+    .sim { padding: 16px; }
+    .quiz-card { padding: 20px 14px; }
+    .concept-num { width: 48px; height: 48px; font-size: 1.5rem; border-radius: 14px; }
+    .hero-stats { gap: 16px; }
+    .hero-stats .stat-num { font-size: 1.375rem; }
+    .celebrate { padding: 40px 20px; }
+  }
+
+  /* ATM + dashboard controls vertical on very small screens */
+  @media (max-width: 420px) {
+    .atm-actions { grid-template-columns: 1fr; }
+  }
+
+  /* Code blocks — ensure scrollable on narrow screens */
+  .code-block { overflow: hidden; }
+  .code-body { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Quiz q-code block wrap on mobile */
+  @media (max-width: 540px) {
+    .quiz-q-code { font-size: 0.8125rem; }
+    .comm-grid { grid-template-columns: 1fr; }
+    .upi-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Hero visual cards — tighten on 720-960 range (single-column hero) */
+  @media (max-width: 960px) {
+    .visual-card.c1 { width: 76%; }
+    .visual-card.c2 { width: 76%; }
+    .visual-card.c3 { width: 82%; }
+  }
+
+  /* Section head paragraph: tighter on mobile */
+  @media (max-width: 480px) {
+    .section-head { margin-bottom: 36px; }
+    .section-head p { font-size: 1rem; }
+    .quiz-q-text { font-size: 1.1875rem; }
+    .quiz-nav { gap: 8px; }
+    .quiz-nav .btn { padding: 10px 14px; font-size: 0.875rem; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#intro" class="skip-link">Skip to main content</a>
+<div class="progress" id="progressBar"></div>
+
+<nav class="nav" id="topNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <span class="nav-brand-mark">O</span>
+      <span>OOP Mastery</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#intro" class="nav-link">Intro</a>
+      <a href="#why" class="nav-link">Why OOP</a>
+      <a href="#class" class="nav-link">Concepts</a>
+      <a href="#quiz" class="nav-link">Quiz</a>
+      <a href="#cheatsheet" class="nav-link">Cheatsheet</a>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html" class="nav-home-btn" aria-label="Back to all topics">← All topics</a>
+      <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle dark mode">🌙</button>
+      <button class="icon-btn mobile-toggle" id="menuBtn" title="Menu" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <span class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        Built for Python beginners
+      </span>
+      <h1>Learn <span class="gradient">Object-Oriented Programming</span> the easy way.</h1>
+      <p class="hero-lead">
+        Eight core concepts, fully interactive. Real-world examples you already know.
+        Fifty practice questions that mirror real interviews. No prior OOP experience needed —
+        just basic Python.
+      </p>
+      <div class="hero-cta">
+        <a href="#intro" class="btn btn-primary btn-lg">Start learning →</a>
+        <a href="#quiz" class="btn btn-secondary btn-lg">Jump to quiz</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">8</div>
+          <div class="stat-label">Core concepts</div>
+        </div>
+        <div>
+          <div class="stat-num">8</div>
+          <div class="stat-label">Live simulators</div>
+        </div>
+        <div>
+          <div class="stat-num">50</div>
+          <div class="stat-label">Practice questions</div>
+        </div>
+        <div>
+          <div class="stat-num">~45m</div>
+          <div class="stat-label">Read time</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="visual-card c1">
+        <div class="vc-label">CLASS</div>
+        <div class="vc-title">Tea</div>
+        <div class="vc-meta">
+          <div><b>3</b> attributes</div>
+          <div><b>2</b> methods</div>
+        </div>
+      </div>
+      <div class="visual-card c2">
+        <div class="vc-label">OBJECT · masala_chai</div>
+        <div class="vc-title">An instance</div>
+        <div class="vc-meta">
+          <div><b>2</b> tsp sugar</div>
+          <div><b>✓</b> milk</div>
+        </div>
+      </div>
+      <div class="visual-card c3">
+        <div class="vc-label" style="opacity: 0.7">CONCEPT</div>
+        <div class="vc-title" style="font-size: 1.5rem">Blueprint → Instance</div>
+        <div style="font-size: 0.875rem; opacity: 0.9; margin-top: 8px;">A class defines what something is. An object is one of those things, made real.</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT LANDMARK -->
+<main>
+
+<!-- INTRO: WHAT IS PROGRAMMING -->
+<section id="intro">
+  <div class="container-narrow">
+    <div class="section-head">
+      <span class="badge">Chapter 1 · Foundations</span>
+      <h2>Before OOP: what is programming?</h2>
+      <p>If you can give directions, you can write a program. Programming is just instructions written in a language computers understand.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card card-hover">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🍕</div>
+        <h4>Food delivery</h4>
+        <p style="font-size: 0.9375rem; margin-top: 8px;">When you order food on an app: select restaurant, pick items, confirm address, pay. Each tap is an instruction. The app strings them together into a program.</p>
+      </div>
+      <div class="card card-hover">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🏧</div>
+        <h4>ATM withdrawal</h4>
+        <p style="font-size: 0.9375rem; margin-top: 8px;">Insert card, enter PIN, choose amount, take cash. The ATM follows a written sequence of instructions every single time. That sequence is a program.</p>
+      </div>
+      <div class="card card-hover">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🚂</div>
+        <h4>Booking a ticket</h4>
+        <p style="font-size: 0.9375rem; margin-top: 8px;">Select route, pick date, choose seat, enter passenger details, pay. Behind the scenes a program checks availability, locks the seat, sends confirmation.</p>
+      </div>
+      <div class="card card-hover">
+        <div style="font-size: 2rem; margin-bottom: 12px;">☕</div>
+        <h4>Ordering coffee</h4>
+        <p style="font-size: 0.9375rem; margin-top: 8px;">"One latte, oat milk, no sugar, extra hot." That's a specification. Programming is writing specifications a computer can follow without confusion.</p>
+      </div>
+    </div>
+
+    <div class="info-box info">
+      <div class="info-box-title">💡 Key insight</div>
+      <div class="info-box-body">
+        <p><strong>Programming = giving precise, ordered instructions to a computer.</strong> The hard part isn't the syntax — it's being precise. Computers do exactly what you tell them, no more, no less. That's why we need ways to organize instructions cleanly. Which brings us to OOP.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY OOP -->
+<section id="why">
+  <div class="container-narrow">
+    <div class="section-head">
+      <span class="badge badge-warning">Chapter 2 · The problem</span>
+      <h2>Why was OOP invented?</h2>
+      <p>Imagine writing a program to manage 1,000 students. Or 10,000 hospital patients. Or every order on a food delivery app. Plain variables fall apart fast. OOP exists to bring order to that chaos.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+        <div class="badge badge-danger" style="margin-bottom: 12px;">😫 Without OOP</div>
+        <h4 style="margin-bottom: 10px;">Variables everywhere</h4>
+        <p style="font-size: 0.9375rem; margin-bottom: 16px;">For just 3 students you'd write something like this. Now imagine 1,000.</p>
+        <div class="code-block" style="margin: 0;">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>messy.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c"># 3 students, 9 variables already</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">student1_name = </span><span class="s">"Aarav"</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">student1_marks = </span><span class="n">85</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">student1_class = </span><span class="s">"10A"</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">student2_name = </span><span class="s">"Priya"</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">student2_marks = </span><span class="n">92</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">student2_class = </span><span class="s">"10A"</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="c"># ...and so on for 998 more 😱</span></span></div>
+          </div>
+        </div>
+        <ul style="margin-top: 16px; padding-left: 20px; font-size: 0.875rem;">
+          <li>Impossible to maintain</li>
+          <li>Easy to mix up data</li>
+          <li>No way to add behavior</li>
+          <li>Changes break everything</li>
+        </ul>
+      </div>
+
+      <div class="card" id="goodCard" style="opacity: 0.35; transition: opacity 0.6s ease; border-color: rgba(16, 185, 129, 0.3);">
+        <div class="badge badge-success" style="margin-bottom: 12px;">😍 With OOP</div>
+        <h4 style="margin-bottom: 10px;">One blueprint, infinite objects</h4>
+        <p style="font-size: 0.9375rem; margin-bottom: 16px;">Write the class once — then create 2, 200, or 200,000 students with zero repeated code.</p>
+        <div class="code-block" style="margin: 0;">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>clean.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">class</span> <span class="o">Student:</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, name, marks, cls):</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.name = name</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.marks = marks</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.cls = cls</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">s1 = Student(</span><span class="s">"Aarav"</span><span class="o">, </span><span class="n">85</span><span class="o">, </span><span class="s">"10A"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">s2 = Student(</span><span class="s">"Priya"</span><span class="o">, </span><span class="n">92</span><span class="o">, </span><span class="s">"10A"</span><span class="o">)</span></span></div>
+          </div>
+        </div>
+        <ul style="margin-top: 16px; padding-left: 20px; font-size: 0.875rem;">
+          <li>Define once, reuse forever</li>
+          <li>Data and behavior together</li>
+          <li>Easy to extend and modify</li>
+          <li>Mirrors how we think</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin: 32px 0;">
+      <button class="btn btn-accent btn-lg" id="revealBtn">✨ Reveal the clean version</button>
+    </div>
+
+    <h3 class="section-subhead">Real systems built on OOP</h3>
+    <div class="grid grid-4">
+      <div class="card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 2rem; margin-bottom: 8px;">🏥</div>
+        <div style="font-weight: 700; font-size: 0.9375rem;">Hospital systems</div>
+        <div style="font-size: 0.75rem; color: var(--text-subtle); margin-top: 4px;">Patient, Doctor, Appointment classes</div>
+      </div>
+      <div class="card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 2rem; margin-bottom: 8px;">🏏</div>
+        <div style="font-weight: 700; font-size: 0.9375rem;">Sports apps</div>
+        <div style="font-size: 0.75rem; color: var(--text-subtle); margin-top: 4px;">Team, Player, Match classes</div>
+      </div>
+      <div class="card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 2rem; margin-bottom: 8px;">🚖</div>
+        <div style="font-weight: 700; font-size: 0.9375rem;">Ride-sharing</div>
+        <div style="font-size: 0.75rem; color: var(--text-subtle); margin-top: 4px;">Driver, Rider, Trip classes</div>
+      </div>
+      <div class="card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 2rem; margin-bottom: 8px;">🛒</div>
+        <div style="font-weight: 700; font-size: 0.9375rem;">E-commerce</div>
+        <div style="font-size: 0.75rem; color: var(--text-subtle); margin-top: 4px;">Product, Cart, Order classes</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TABLE OF CONCEPTS -->
+<section class="compact toc-section">
+  <div class="container-narrow">
+    <div class="section-head">
+      <span class="badge badge-purple">The journey</span>
+      <h2>The 8 concepts you'll master</h2>
+      <p>Each concept builds on the last. Don't skip — they connect.</p>
+    </div>
+    <div class="toc-grid">
+      <a href="#class" class="toc-card"><div class="toc-num">1</div><div><div class="toc-title">Class &amp; Object</div><div class="toc-sub">The building blocks</div></div></a>
+      <a href="#self" class="toc-card"><div class="toc-num">2</div><div><div class="toc-title">The <code>self</code> keyword</div><div class="toc-sub">Often misunderstood</div></div></a>
+      <a href="#constructor" class="toc-card"><div class="toc-num">3</div><div><div class="toc-title">Constructor</div><div class="toc-sub">Auto-setup with <code>__init__</code></div></div></a>
+      <a href="#encapsulation" class="toc-card"><div class="toc-num">4</div><div><div class="toc-title">Encapsulation</div><div class="toc-sub">Protecting your data</div></div></a>
+      <a href="#abstraction" class="toc-card"><div class="toc-num">5</div><div><div class="toc-title">Abstraction</div><div class="toc-sub">Hiding complexity</div></div></a>
+      <a href="#inheritance" class="toc-card"><div class="toc-num">6</div><div><div class="toc-title">Inheritance</div><div class="toc-sub">Reuse and extend</div></div></a>
+      <a href="#polymorphism" class="toc-card"><div class="toc-num">7</div><div><div class="toc-title">Polymorphism</div><div class="toc-sub">One name, many forms</div></div></a>
+      <a href="#composition" class="toc-card"><div class="toc-num">8</div><div><div class="toc-title">Composition</div><div class="toc-sub">Things that contain things</div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONCEPT 1: CLASS & OBJECT ========== -->
+<section class="concept-section" id="class">
+  <div class="container-narrow">
+    <div class="concept-header">
+      <div class="concept-num c1">01</div>
+      <div>
+        <span class="badge">Core concept</span>
+        <h2>Class &amp; Object</h2>
+        <p class="concept-tagline">A class is a blueprint. An object is something built from that blueprint. Get this one right and the rest of OOP becomes much easier.</p>
+      </div>
+    </div>
+
+    <div class="concept-body">
+
+      <div class="concept-block">
+        <h3>The everyday analogy</h3>
+        <p>Think about how a tea shop works. The owner has a <strong>recipe</strong> written in their head — how much tea leaves, sugar, milk, and water to use, and how long to boil. That recipe is not a cup of tea. You can't drink it. It's just instructions.</p>
+        <p>Now when a customer orders, the owner <strong>follows the recipe</strong> and makes an actual cup. That cup is a real, drinkable thing. They can make ten cups, a hundred cups — each one a separate physical cup, but all made from the same recipe.</p>
+        <div class="info-box success">
+          <div class="info-box-title">✨ The mental model</div>
+          <div class="info-box-body">
+            <p><strong>Recipe = Class.</strong> A definition. A template. It describes what something is and what it can do, but it isn't a thing itself.</p>
+            <p><strong>Cup of tea = Object.</strong> A real, concrete instance made from the class. Each object has its own values for the attributes the class defined.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>What goes inside a class</h3>
+        <p>Every class has two kinds of things inside it:</p>
+        <ul>
+          <li><strong>Attributes</strong> — the data each object holds. For a Tea class: <code>sugar</code>, <code>milk</code>, <code>tea_type</code>. For a Student class: <code>name</code>, <code>marks</code>, <code>class_name</code>.</li>
+          <li><strong>Methods</strong> — the actions each object can perform. A Tea object might <code>serve()</code> or <code>add_sugar()</code>. A Student might <code>study()</code> or <code>take_exam()</code>.</li>
+        </ul>
+        <p>Attributes are "what an object <em>has</em>." Methods are "what an object <em>can do</em>." That's the whole picture.</p>
+      </div>
+
+      <!-- TEA SHOP SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <p class="sim-label">Interactive Simulator</p>
+          <div class="sim-title">☕ Tea Shop — create objects from a class</div>
+        </div>
+        <div class="sim-grid">
+          <div class="tea-controls">
+            <div>
+              <div class="control-label">
+                <span>Tea type</span>
+              </div>
+              <div class="select-pill-group" id="teaTypeGroup">
+                <button class="select-pill active" data-type="Masala">Masala</button>
+                <button class="select-pill" data-type="Ginger">Ginger</button>
+                <button class="select-pill" data-type="Cardamom">Cardamom</button>
+                <button class="select-pill" data-type="Lemon">Lemon</button>
+              </div>
+            </div>
+            <div>
+              <div class="control-label">
+                <span>Sugar level</span>
+                <span class="value"><span id="sugarVal">2</span> tsp</span>
+              </div>
+              <input type="range" min="0" max="5" value="2" id="sugarSlider">
+            </div>
+            <label class="checkbox-row">
+              <input type="checkbox" id="milkCheck" checked>
+              <span>Add milk</span>
+            </label>
+            <button class="btn btn-primary" id="makeTeaBtn" style="width: 100%; justify-content: center;">
+              ☕ Brew (create a new Tea object)
+            </button>
+            <button class="btn btn-secondary btn-sm" id="clearTeaBtn" style="width: 100%; justify-content: center;">
+              Clear all
+            </button>
+          </div>
+          <div class="tea-output" id="teaOutput">
+            <div class="tea-output-empty">Configure your tea on the left and click Brew. Each object will appear here with its own attributes.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>The same idea in Python</h3>
+        <p>Here's the Tea Shop in Python. Read the comments — they explain every line.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>tea_shop.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">class</span> <span class="o">Tea:</span>  <span class="c"># 'class' keyword + name. Convention: CapitalCase.</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">    </span><span class="s">"""Blueprint for any cup of tea."""</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, tea_type, sugar, milk):</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">        </span><span class="c"># Attributes — each object stores its own copy.</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.tea_type = tea_type</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.sugar = sugar</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.milk = milk</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">serve</span><span class="o">(</span><span class="v">self</span><span class="o">):</span>  <span class="c"># A method (action the object can do).</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">f"Serving </span><span class="o">{</span><span class="v">self</span><span class="o">.tea_type}</span><span class="s"> tea with </span><span class="o">{</span><span class="v">self</span><span class="o">.sugar}</span><span class="s"> tsp sugar"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="c"># Create two objects from the same class</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="o">cup1 = Tea(</span><span class="s">"Masala"</span><span class="o">, </span><span class="n">2</span><span class="o">, </span><span class="k">True</span><span class="o">)</span>     <span class="c"># object #1</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="o">cup2 = Tea(</span><span class="s">"Ginger"</span><span class="o">, </span><span class="n">1</span><span class="o">, </span><span class="k">False</span><span class="o">)</span>   <span class="c"># object #2 — independent</span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">17</span><span class="ln-content"><span class="o">cup1.</span><span class="f">serve</span><span class="o">()</span>  <span class="c"># Serving Masala tea with 2 tsp sugar</span></span></div>
+<div class="ln"><span class="ln-num">18</span><span class="ln-content"><span class="o">cup2.</span><span class="f">serve</span><span class="o">()</span>  <span class="c"># Serving Ginger tea with 1 tsp sugar</span></span></div>
+          </div>
+        </div>
+        <div class="output-panel">
+          <div class="out-label">Output</div>
+          <div><span class="prompt">›</span> Serving Masala tea with 2 tsp sugar</div>
+          <div><span class="prompt">›</span> Serving Ginger tea with 1 tsp sugar</div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>Common mistakes to avoid</h3>
+        <div class="info-box danger">
+          <div class="info-box-title">⚠️ Pitfalls</div>
+          <div class="info-box-body">
+            <p><strong>Forgetting self.</strong> Writing <code>sugar = sugar</code> inside <code>__init__</code> creates a local variable that disappears. You must write <code>self.sugar = sugar</code> to actually save it on the object.</p>
+            <p><strong>Confusing the class with the object.</strong> <code>Tea</code> is the class. <code>cup1</code> is the object. You call methods on the object: <code>cup1.serve()</code>, not <code>Tea.serve()</code> (unless passing the object explicitly).</p>
+            <p><strong>Naming the class lowercase.</strong> Python convention: classes use <code>CapitalCase</code>, functions and variables use <code>snake_case</code>. Following this makes your code instantly readable to other Python developers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Key takeaway</div>
+        <div class="info-box-body">
+          <p>A <strong>class</strong> defines a kind of thing. An <strong>object</strong> is one specific thing of that kind. You can create unlimited objects from one class, and each object holds its own data while sharing the same behavior (methods).</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONCEPT 2: SELF ========== -->
+<section class="concept-section" id="self">
+  <div class="container-narrow">
+    <div class="concept-header">
+      <div class="concept-num c2">02</div>
+      <div>
+        <span class="badge badge-purple">Core concept</span>
+        <h2>The <code>self</code> keyword</h2>
+        <p class="concept-tagline">This trips up almost every Python beginner. Once it clicks, OOP suddenly makes sense.</p>
+      </div>
+    </div>
+
+    <div class="concept-body">
+
+      <div class="concept-block">
+        <h3>What is self?</h3>
+        <p><code>self</code> is just a reference to <strong>the current object</strong>. When you call <code>cup1.serve()</code>, Python silently passes <code>cup1</code> as the first argument to <code>serve()</code>. Inside the method, that argument is called <code>self</code>.</p>
+        <p>So when you write <code>self.sugar</code>, you mean "the sugar value of <em>this specific object</em>." If <code>cup1</code> called the method, <code>self.sugar</code> reads <code>cup1.sugar</code>. If <code>cup2</code> called it, <code>self.sugar</code> reads <code>cup2.sugar</code>.</p>
+        <div class="info-box info">
+          <div class="info-box-title">💡 In other words</div>
+          <div class="info-box-body">
+            <p><code>self</code> answers the question: "<em>which object is this method working on right now?</em>"</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>See it in action</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>self_demo.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">class</span> <span class="o">Dog:</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, name):</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.name = name</span>   <span class="c"># attach 'name' to THIS dog</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">bark</span><span class="o">(</span><span class="v">self</span><span class="o">):</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">f"</span><span class="o">{</span><span class="v">self</span><span class="o">.name}</span><span class="s"> says: Woof!"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">a = Dog(</span><span class="s">"Bruno"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o">b = Dog(</span><span class="s">"Max"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o">a.</span><span class="f">bark</span><span class="o">()</span>  <span class="c"># self = a, so self.name = "Bruno"</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="o">b.</span><span class="f">bark</span><span class="o">()</span>  <span class="c"># self = b, so self.name = "Max"</span></span></div>
+          </div>
+        </div>
+        <div class="output-panel">
+          <div class="out-label">Output</div>
+          <div><span class="prompt">›</span> Bruno says: Woof!</div>
+          <div><span class="prompt">›</span> Max says: Woof!</div>
+        </div>
+        <p style="margin-top: 16px;">Same method, two different results — because <code>self</code> refers to a different object each time.</p>
+      </div>
+
+      <div class="info-box warning">
+        <div class="info-box-title">📝 Three things to remember</div>
+        <div class="info-box-body">
+          <p><strong>1.</strong> Every method inside a class must take <code>self</code> as its first parameter (unless it's a static or class method, which we'll cover later).</p>
+          <p><strong>2.</strong> You never pass <code>self</code> manually when calling a method. <code>cup1.serve()</code> — Python passes <code>cup1</code> as <code>self</code> automatically.</p>
+          <p><strong>3.</strong> The name <code>self</code> isn't reserved by Python — you could call it anything. But <strong>everyone</strong> uses <code>self</code>. Don't be the person who calls it <code>this</code> or <code>me</code>.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONCEPT 3: CONSTRUCTOR ========== -->
+<section class="concept-section" id="constructor">
+  <div class="container-narrow">
+    <div class="concept-header">
+      <div class="concept-num c3">03</div>
+      <div>
+        <span class="badge badge-purple">Core concept</span>
+        <h2>The Constructor (<code>__init__</code>)</h2>
+        <p class="concept-tagline">A special method that runs automatically every time you create an object. It sets up the object's starting state.</p>
+      </div>
+    </div>
+
+    <div class="concept-body">
+
+      <div class="concept-block">
+        <h3>The new-phone analogy</h3>
+        <p>When you buy a new phone, you don't get a blank slab. The moment you unbox and turn it on, a setup wizard appears: pick language, connect WiFi, sign in, transfer data. By the time you reach the home screen, the phone is <strong>ready to use</strong>.</p>
+        <p>The constructor does exactly this for an object. The moment you create an object, <code>__init__</code> runs automatically and sets up everything the object needs.</p>
+      </div>
+
+      <div class="concept-block">
+        <h3>Why "<code>__init__</code>"?</h3>
+        <p>The name is short for <em>initialize</em>. The double underscores on both sides (<code>__init__</code>) signal that this is a <strong>special method</strong> Python recognizes — sometimes called a "dunder" method (for "double underscore"). You don't call <code>__init__</code> yourself. Python calls it when you do <code>Tea()</code> or <code>Student()</code>.</p>
+      </div>
+
+      <!-- PHONE SETUP SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <p class="sim-label">Interactive Simulator</p>
+          <div class="sim-title">📱 New phone setup — what __init__ does</div>
+        </div>
+        <p style="margin-bottom: 20px;">Walk through the phases. This mirrors what Python does the moment you call <code>Phone(...)</code>.</p>
+        <div class="phase-timeline" id="phaseTimeline">
+          <div class="phase-item" data-phase="0">
+            <div class="phase-step">Step 1</div>
+            <div class="phase-icon">📦</div>
+            <div class="phase-text">Phone arrives in box</div>
+          </div>
+          <div class="phase-item" data-phase="1">
+            <div class="phase-step">Step 2</div>
+            <div class="phase-icon">🔌</div>
+            <div class="phase-text">Power on</div>
+          </div>
+          <div class="phase-item" data-phase="2">
+            <div class="phase-step">Step 3</div>
+            <div class="phase-icon">🌐</div>
+            <div class="phase-text">Setup wizard runs</div>
+          </div>
+          <div class="phase-item" data-phase="3">
+            <div class="phase-step">Step 4</div>
+            <div class="phase-icon">✅</div>
+            <div class="phase-text">Ready to use</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn btn-primary" id="phaseNext">Next step →</button>
+          <button class="btn btn-secondary" id="phaseReset">↺ Restart</button>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>Syntax breakdown</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>phone.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">class</span> <span class="o">Phone:</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, brand, model, storage=</span><span class="n">128</span><span class="o">):</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">        </span><span class="c"># Runs the moment Phone(...) is called.</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.brand = brand</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.model = model</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.storage = storage</span>     <span class="c"># default value if not given</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.is_locked = </span><span class="k">True</span>  <span class="c"># sensible defaults are fine too</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">f"</span><span class="o">{brand}</span><span class="s"> </span><span class="o">{model}</span><span class="s"> is ready!"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="c"># Creating an object → __init__ runs automatically</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o">p1 = Phone(</span><span class="s">"Samsung"</span><span class="o">, </span><span class="s">"Galaxy S25"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="o">p2 = Phone(</span><span class="s">"Apple"</span><span class="o">, </span><span class="s">"iPhone 16"</span><span class="o">, </span><span class="n">256</span><span class="o">)</span></span></div>
+          </div>
+        </div>
+        <div class="output-panel">
+          <div class="out-label">Output</div>
+          <div><span class="prompt">›</span> Samsung Galaxy S25 is ready!</div>
+          <div><span class="prompt">›</span> Apple iPhone 16 is ready!</div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Key takeaways</div>
+        <div class="info-box-body">
+          <p><strong>1. <code>__init__</code> runs automatically</strong> the moment you write <code>ClassName(args)</code>. You never call it yourself.</p>
+          <p><strong>2. Arguments to the class go to <code>__init__</code>.</strong> <code>Phone("Samsung", "S25")</code> passes <code>"Samsung"</code> as <code>brand</code> and <code>"S25"</code> as <code>model</code> — Python wires them up in order.</p>
+          <p><strong>3. Use it to set up state.</strong> Anything the object needs to know from the start — attributes, defaults, connections — goes here.</p>
+          <p><strong>4. Default values are allowed.</strong> Like any Python function: <code>def __init__(self, name, age=18)</code>.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== CONCEPT 4: ENCAPSULATION ========== -->
+<section class="concept-section" id="encapsulation">
+  <div class="container-narrow">
+    <div class="concept-header">
+      <div class="concept-num c4">04</div>
+      <div>
+        <span class="badge badge-teal">Pillar of OOP</span>
+        <h2>Encapsulation</h2>
+        <p class="concept-tagline">Bundle data with the code that uses it, and hide the parts that shouldn't be touched from outside. Think of it as putting your data in a protective capsule.</p>
+      </div>
+    </div>
+
+    <div class="concept-body">
+
+      <div class="concept-block">
+        <h3>The ATM analogy</h3>
+        <p>An ATM has two sides. The <strong>outside</strong>: a screen, a card slot, a keypad, a cash dispenser. That's what you, the user, interact with. Simple, safe, controlled.</p>
+        <p>The <strong>inside</strong>: PIN verification, balance lookup, ledger updates, fraud detection, encryption keys, network calls to the bank. You can't see any of it. You can't reach in and change the balance directly. You can't reset someone's PIN. The bank built walls around all that for very good reasons.</p>
+        <p>Encapsulation in code is the same idea: <strong>expose what users need, hide the internal mechanics</strong> that could break things if misused.</p>
+      </div>
+
+      <div class="concept-block">
+        <h3>Public, protected, private</h3>
+        <p>Python uses naming conventions to signal what's safe to touch from outside the class:</p>
+        <ul>
+          <li><code>self.balance</code> — <strong>public</strong>. Anyone can read or change it. Use for data that's safe to expose.</li>
+          <li><code>self._balance</code> (one underscore) — <strong>protected</strong>. A convention: "this is internal, don't touch unless you know what you're doing." Python doesn't enforce it.</li>
+          <li><code>self.__balance</code> (two underscores) — <strong>private</strong>. Python actually renames this internally (called <em>name mangling</em>) so it's hard to access from outside. Strong "stay out" signal.</li>
+        </ul>
+        <div class="info-box info">
+          <div class="info-box-title">Python's philosophy</div>
+          <div class="info-box-body">
+            <p>Unlike Java or C++, Python doesn't have true private variables. The leading underscore is a <em>polite agreement</em> between programmers: "I marked this private, please don't poke at it." Python trusts adults to behave like adults.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATM SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <p class="sim-label">Interactive Simulator</p>
+          <div class="sim-title">🏧 ATM — see encapsulation at work</div>
+        </div>
+        <p style="margin-bottom: 20px;">PIN is <strong>1234</strong>. Try withdrawing — notice how you never directly touch the balance; you go through controlled methods. That's encapsulation.</p>
+        <div style="max-width: 380px; margin: 0 auto;">
+          <div class="atm-screen">
+            <div class="atm-bank">SECURE BANK · ATM</div>
+            <div class="atm-balance-label">Account balance</div>
+            <div class="atm-balance-value">₹<span id="atmBalance">10,000</span></div>
+            <input type="password" class="atm-input" placeholder="PIN" id="atmPin" maxlength="4" inputmode="numeric">
+            <div class="atm-actions">
+              <button class="atm-btn" id="atmWithdraw">Withdraw ₹2000</button>
+              <button class="atm-btn deposit" id="atmDeposit">Deposit ₹1000</button>
+            </div>
+            <div class="atm-msg" id="atmMsg"></div>
+          </div>
+          <div id="atmInternalContainer"></div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>The Python version</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>atm.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">class</span> <span class="o">Account:</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, balance, pin):</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.__balance = balance</span>   <span class="c"># private — can't access from outside</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.__pin = pin</span>           <span class="c"># private — definitely don't expose</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">withdraw</span><span class="o">(</span><span class="v">self</span><span class="o">, pin, amount):</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">        </span><span class="k">if</span><span class="o"> pin != </span><span class="v">self</span><span class="o">.__pin:</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">            </span><span class="k">return</span> <span class="s">"Wrong PIN"</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o">        </span><span class="k">if</span><span class="o"> amount &gt; </span><span class="v">self</span><span class="o">.__balance:</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o">            </span><span class="k">return</span> <span class="s">"Insufficient funds"</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.__balance -= amount</span>      <span class="c"># controlled change</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="o">        </span><span class="k">return</span> <span class="s">f"₹</span><span class="o">{amount}</span><span class="s"> dispensed"</span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">get_balance</span><span class="o">(</span><span class="v">self</span><span class="o">, pin):</span>     <span class="c"># controlled read</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="o">        </span><span class="k">return</span> <span class="v">self</span><span class="o">.__balance </span><span class="k">if</span><span class="o"> pin == </span><span class="v">self</span><span class="o">.__pin </span><span class="k">else</span> <span class="s">"Access denied"</span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">17</span><span class="ln-content"><span class="o">acc = Account(</span><span class="n">10000</span><span class="o">, </span><span class="s">"1234"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">18</span><span class="ln-content"><span class="b">print</span><span class="o">(acc.</span><span class="f">withdraw</span><span class="o">(</span><span class="s">"1234"</span><span class="o">, </span><span class="n">2000</span><span class="o">))</span>  <span class="c"># works</span></span></div>
+<div class="ln"><span class="ln-num">19</span><span class="ln-content"><span class="o">acc.__balance = </span><span class="n">9999999</span>             <span class="c"># sneaky — but doesn't work!</span></span></div>
+<div class="ln"><span class="ln-num">20</span><span class="ln-content"><span class="b">print</span><span class="o">(acc.</span><span class="f">get_balance</span><span class="o">(</span><span class="s">"1234"</span><span class="o">))</span>      <span class="c"># still 8000, not 9999999</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Why encapsulation matters</div>
+        <div class="info-box-body">
+          <p><strong>Safety.</strong> Critical data can't be corrupted by accident or malicious code.</p>
+          <p><strong>Control.</strong> Every change goes through a method, so you can validate, log, or restrict it.</p>
+          <p><strong>Flexibility.</strong> You can change <em>how</em> data is stored internally without breaking code that uses your class.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONCEPT 5: ABSTRACTION ========== -->
+<section class="concept-section" id="abstraction">
+  <div class="container-narrow">
+    <div class="concept-header">
+      <div class="concept-num c5">05</div>
+      <div>
+        <span class="badge badge-warning">Pillar of OOP</span>
+        <h2>Abstraction</h2>
+        <p class="concept-tagline">Show only what's necessary, hide everything else. Encapsulation hides <em>data</em>. Abstraction hides <em>complexity</em>.</p>
+      </div>
+    </div>
+
+    <div class="concept-body">
+
+      <div class="concept-block">
+        <h3>The driving analogy</h3>
+        <p>When you drive a car, you press the accelerator and the car speeds up. You press the brake and it slows down. You turn the steering wheel and it changes direction. Simple.</p>
+        <p>But underneath, the engine is firing pistons, the gearbox is shifting ratios, the brakes are applying hydraulic pressure, sensors are firing dozens of times per second. None of this is exposed to you. You don't need to understand any of it to drive.</p>
+        <p>That's abstraction. The car maker built a <strong>simple interface</strong> over a complex machine. You can use it without understanding it.</p>
+      </div>
+
+      <div class="concept-block">
+        <h3>Encapsulation vs Abstraction</h3>
+        <p>These two get confused often. Here's the cleanest way to remember:</p>
+        <ul>
+          <li><strong>Encapsulation</strong> hides <em>data</em>. It's about protecting your variables from outside interference.</li>
+          <li><strong>Abstraction</strong> hides <em>implementation</em>. It's about exposing a simple interface over complex logic.</li>
+        </ul>
+        <p>They usually work together. An ATM encapsulates the balance (data) and abstracts the banking network (complexity) behind a 4-button interface.</p>
+      </div>
+
+      <!-- CAR DASHBOARD -->
+      <div class="sim">
+        <div class="sim-head">
+          <p class="sim-label">Interactive Simulator</p>
+          <div class="sim-title">🚗 Car dashboard — drive without knowing the engine</div>
+        </div>
+        <p style="margin-bottom: 20px;">You use simple controls. The complex internals stay hidden.</p>
+        <div style="max-width: 460px; margin: 0 auto;">
+          <div class="dashboard">
+            <div class="speedo-container">
+              <div class="speedo"><span id="carSpeed">0</span></div>
+              <div class="speedo-unit">KM/H</div>
+              <div class="gear-row">
+                <div class="gear-pill" data-gear="P">P</div>
+                <div class="gear-pill" data-gear="R">R</div>
+                <div class="gear-pill" data-gear="N">N</div>
+                <div class="gear-pill active" data-gear="D">D</div>
+              </div>
+            </div>
+            <div class="dash-controls">
+              <button class="dash-btn accel" id="accelBtn">↑ Accelerate</button>
+              <button class="dash-btn brake" id="brakeBtn">↓ Brake</button>
+              <button class="dash-btn shift" id="gearBtn">⇄ Shift</button>
+            </div>
+            <p class="dash-note">Three controls, infinite complexity hidden underneath.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>Abstract classes in Python</h3>
+        <p>Python has a tool called <strong>ABC</strong> (Abstract Base Classes) that lets you define a class that <em>can't be used directly</em> — it can only be a parent for other classes. It forces child classes to implement specific methods.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>vehicle.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">from</span><span class="o"> abc </span><span class="k">import</span><span class="o"> ABC, abstractmethod</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="k">class</span> <span class="o">Vehicle(ABC):</span>           <span class="c"># abstract class — can't make objects from this</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">    @abstractmethod</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">start</span><span class="o">(</span><span class="v">self</span><span class="o">):</span>           <span class="c"># child MUST implement this</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">        </span><span class="k">pass</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">    @abstractmethod</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">stop</span><span class="o">(</span><span class="v">self</span><span class="o">):</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o">        </span><span class="k">pass</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="k">class</span> <span class="o">Car(Vehicle):</span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">start</span><span class="o">(</span><span class="v">self</span><span class="o">):</span>            <span class="c"># implementation required</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">"Engine started, ready to drive"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">stop</span><span class="o">(</span><span class="v">self</span><span class="o">):</span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">"Engine off"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">17</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">18</span><span class="ln-content"><span class="o">v = Vehicle()</span>  <span class="c"># TypeError — can't instantiate abstract class</span></span></div>
+<div class="ln"><span class="ln-num">19</span><span class="ln-content"><span class="o">c = Car()</span>      <span class="c"># works fine</span></span></div>
+<div class="ln"><span class="ln-num">20</span><span class="ln-content"><span class="o">c.</span><span class="f">start</span><span class="o">()</span>      <span class="c"># Engine started, ready to drive</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Key takeaways</div>
+        <div class="info-box-body">
+          <p><strong>Abstraction is about interface design.</strong> Good abstraction means a user can do useful things with your class without reading its source code.</p>
+          <p><strong>Abstract classes force a contract.</strong> They say: "any class that inherits from me <em>must</em> provide these methods." This is great for consistency in larger systems.</p>
+          <p><strong>You can't instantiate an abstract class.</strong> They exist only to be inherited from.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== CONCEPT 6: INHERITANCE ========== -->
+<section class="concept-section" id="inheritance">
+  <div class="container-narrow">
+    <div class="concept-header">
+      <div class="concept-num c6">06</div>
+      <div>
+        <span class="badge badge-success">Pillar of OOP</span>
+        <h2>Inheritance</h2>
+        <p class="concept-tagline">Build new classes from existing ones. A child class gets everything its parent has, then adds or changes what it needs.</p>
+      </div>
+    </div>
+
+    <div class="concept-body">
+
+      <div class="concept-block">
+        <h3>The family analogy</h3>
+        <p>You inherit traits from your parents — eye color, height, surname, maybe a tendency to laugh too loudly. You didn't have to build those from scratch; they came with you. Then you add your own personality on top.</p>
+        <p>In OOP, a <strong>child class</strong> inherits all the attributes and methods of its <strong>parent class</strong>. The child can use them as-is, add new ones, or override existing ones with its own version.</p>
+      </div>
+
+      <div class="concept-block">
+        <h3>The "is-a" relationship</h3>
+        <p>Inheritance models the <strong>"is-a"</strong> relationship. A <em>Car</em> is a <em>Vehicle</em>. A <em>Dog</em> is an <em>Animal</em>. A <em>Manager</em> is an <em>Employee</em>. Whenever you can naturally say "X is a Y," inheritance might be the right tool.</p>
+        <div class="info-box warning">
+          <div class="info-box-title">⚠️ When NOT to use inheritance</div>
+          <div class="info-box-body">
+            <p>If you find yourself saying "X <em>has</em> a Y" instead of "X <em>is</em> a Y," use <strong>composition</strong> instead (we'll cover it next). A car <em>has</em> an engine — but a car <em>is not</em> an engine. So Car shouldn't inherit from Engine. Beginners often misuse inheritance for code reuse, which leads to brittle designs.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- INHERITANCE TREE -->
+      <div class="sim">
+        <div class="sim-head">
+          <p class="sim-label">Interactive Simulator</p>
+          <div class="sim-title">🌳 Vehicle family tree — click any node</div>
+        </div>
+        <p style="margin-bottom: 20px;">Each child node inherits properties from its parent. <strong>Bike</strong> inherits everything <strong>Two-Wheeler</strong> has, which inherits everything <strong>Vehicle</strong> has.</p>
+        <div class="tree">
+          <div class="tree-node root" data-name="Vehicle" data-info="The base class. Has: brand, year. Methods: start(), stop(). All vehicles share these.">Vehicle</div>
+          <div class="tree-children">
+            <div>
+              <div class="tree-node" data-name="Two-Wheeler" data-info="Inherits from Vehicle. Adds: helmet_required. Methods: kick_start(). Has everything Vehicle has, plus its own.">Two-Wheeler</div>
+              <div class="tree-children">
+                <div class="tree-node" data-name="Bike" data-info="Inherits from Two-Wheeler → Vehicle. Adds: engine_cc. So a Bike has brand, year, helmet_required, AND engine_cc.">🏍️ Bike</div>
+                <div class="tree-node" data-name="Scooter" data-info="Inherits from Two-Wheeler → Vehicle. Adds: storage_capacity. Sibling class to Bike — they share the same parent.">🛵 Scooter</div>
+              </div>
+            </div>
+            <div>
+              <div class="tree-node" data-name="Four-Wheeler" data-info="Inherits from Vehicle. Adds: num_seats, has_airbags. A different specialization than Two-Wheeler.">Four-Wheeler</div>
+              <div class="tree-children">
+                <div class="tree-node" data-name="Car" data-info="Inherits from Four-Wheeler → Vehicle. Adds: trunk_size. So a Car has brand, year, num_seats, has_airbags, AND trunk_size.">🚗 Car</div>
+                <div class="tree-node" data-name="Truck" data-info="Inherits from Four-Wheeler → Vehicle. Adds: cargo_capacity. Different from Car despite sharing a parent.">🚛 Truck</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tree-info" id="treeInfo">Click any node above to see what it inherits and what it adds.</div>
+      </div>
+
+      <div class="concept-block">
+        <h3>Inheritance in Python</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>vehicle_hierarchy.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">class</span> <span class="o">Vehicle:</span>                <span class="c"># Parent class</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, brand):</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.brand = brand</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">start</span><span class="o">(</span><span class="v">self</span><span class="o">):</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">f"</span><span class="o">{</span><span class="v">self</span><span class="o">.brand}</span><span class="s"> is starting..."</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="k">class</span> <span class="o">Car(Vehicle):</span>            <span class="c"># Car inherits from Vehicle</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, brand, seats):</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o">        </span><span class="f">super</span><span class="o">().</span><span class="f">__init__</span><span class="o">(brand)</span>   <span class="c"># call parent's __init__</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.seats = seats</span>          <span class="c"># Car-specific attribute</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">open_trunk</span><span class="o">(</span><span class="v">self</span><span class="o">):</span>           <span class="c"># Car-specific method</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">"Trunk opened"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="o">my_car = Car(</span><span class="s">"Tesla"</span><span class="o">, </span><span class="n">5</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">17</span><span class="ln-content"><span class="o">my_car.</span><span class="f">start</span><span class="o">()</span>        <span class="c"># inherited from Vehicle</span></span></div>
+<div class="ln"><span class="ln-num">18</span><span class="ln-content"><span class="o">my_car.</span><span class="f">open_trunk</span><span class="o">()</span>   <span class="c"># defined in Car</span></span></div>
+<div class="ln"><span class="ln-num">19</span><span class="ln-content"><span class="b">print</span><span class="o">(my_car.brand)</span>    <span class="c"># 'Tesla' — inherited attribute</span></span></div>
+          </div>
+        </div>
+        <div class="output-panel">
+          <div class="out-label">Output</div>
+          <div><span class="prompt">›</span> Tesla is starting...</div>
+          <div><span class="prompt">›</span> Trunk opened</div>
+          <div><span class="prompt">›</span> Tesla</div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>About <code>super()</code></h3>
+        <p>When a child overrides <code>__init__</code> (or any method), it often still needs the parent's setup to run. <code>super().__init__(brand)</code> means "call the parent's <code>__init__</code> with this argument." Skipping it means the parent's attributes never get set, and you'll hit confusing errors later.</p>
+      </div>
+
+      <div class="concept-block">
+        <h3>Types of inheritance</h3>
+        <ul>
+          <li><strong>Single inheritance</strong> — one parent, one child. Most common.</li>
+          <li><strong>Multilevel</strong> — grandparent → parent → child. Like our tree above.</li>
+          <li><strong>Hierarchical</strong> — one parent, many children. Vehicle has Car, Truck, Bike all inheriting from it.</li>
+          <li><strong>Multiple inheritance</strong> — one child has multiple parents. Powerful but can get messy (look up "diamond problem"). Use sparingly.</li>
+        </ul>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Key takeaways</div>
+        <div class="info-box-body">
+          <p><strong>Inheritance lets you reuse and extend.</strong> Define common code once in a parent, then specialize in children.</p>
+          <p><strong>Use it for "is-a" relationships only.</strong> Not for "has-a" — that's what composition is for.</p>
+          <p><strong>Call <code>super()</code> when overriding</strong> if you still need parent behavior.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONCEPT 7: POLYMORPHISM & OVERRIDING ========== -->
+<section class="concept-section" id="polymorphism">
+  <div class="container-narrow">
+    <div class="concept-header">
+      <div class="concept-num c7">07</div>
+      <div>
+        <span class="badge badge-info">Pillar of OOP</span>
+        <h2>Polymorphism &amp; Method Overriding</h2>
+        <p class="concept-tagline">One method name. Many different behaviors. Polymorphism literally means "many forms."</p>
+      </div>
+    </div>
+
+    <div class="concept-body">
+
+      <div class="concept-block">
+        <h3>The payment app analogy</h3>
+        <p>Three different payment apps — Google Pay, PhonePe, Paytm — all have a button called "Pay." From your perspective, the action is identical: tap, enter amount, confirm. But behind the scenes, each app does something completely different. Different protocols, different banking partners, different security flows.</p>
+        <p>That's polymorphism. <strong>Same method name, different implementations</strong> depending on which object you're calling it on.</p>
+      </div>
+
+      <!-- UPI SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <p class="sim-label">Interactive Simulator</p>
+          <div class="sim-title">💳 Three payment apps, one "pay" action</div>
+        </div>
+        <p style="margin-bottom: 20px;">Tap any payment app. They all respond to <code>pay()</code> — but the response is different.</p>
+        <div class="upi-grid">
+          <button class="upi-btn" data-app="GPay" data-result='GPay.pay(100) → routes through Google UPI servers...'>
+            <div class="upi-icon" style="background: #4285F4;">G</div>
+            <div class="upi-name">Google Pay</div>
+            <div class="upi-sub">Pay ₹100</div>
+          </button>
+          <button class="upi-btn" data-app="PhonePe" data-result='PhonePe.pay(100) → wallet balance debited, peer notified...'>
+            <div class="upi-icon" style="background: #5F259F;">P</div>
+            <div class="upi-name">PhonePe</div>
+            <div class="upi-sub">Pay ₹100</div>
+          </button>
+          <button class="upi-btn" data-app="Paytm" data-result='Paytm.pay(100) → Paytm wallet → bank link → settled.'>
+            <div class="upi-icon" style="background: #00BAF2;">PT</div>
+            <div class="upi-name">Paytm</div>
+            <div class="upi-sub">Pay ₹100</div>
+          </button>
+          <button class="upi-btn" data-app="Cash" data-result='Cash.pay(100) → hand over physical notes. No tech involved.'>
+            <div class="upi-icon" style="background: var(--success);">$</div>
+            <div class="upi-name">Cash</div>
+            <div class="upi-sub">Pay ₹100</div>
+          </button>
+        </div>
+        <div class="upi-output" id="upiOutput"></div>
+      </div>
+
+      <div class="concept-block">
+        <h3>Polymorphism in Python</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>payment.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">class</span> <span class="o">PaymentApp:</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">pay</span><span class="o">(</span><span class="v">self</span><span class="o">, amount):</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">f"Paying </span><span class="o">{amount}</span><span class="s"> (generic)"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="k">class</span> <span class="o">GooglePay(PaymentApp):</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">pay</span><span class="o">(</span><span class="v">self</span><span class="o">, amount):</span>    <span class="c"># override</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">f"₹</span><span class="o">{amount}</span><span class="s"> via Google UPI"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="k">class</span> <span class="o">PhonePe(PaymentApp):</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">pay</span><span class="o">(</span><span class="v">self</span><span class="o">, amount):</span>    <span class="c"># override</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">f"₹</span><span class="o">{amount}</span><span class="s"> via PhonePe wallet"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="c"># Same method call, different behavior — that's polymorphism</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="k">for</span><span class="o"> app </span><span class="k">in</span><span class="o"> [GooglePay(), PhonePe()]:</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="o">    app.</span><span class="f">pay</span><span class="o">(</span><span class="n">100</span><span class="o">)</span></span></div>
+          </div>
+        </div>
+        <div class="output-panel">
+          <div class="out-label">Output</div>
+          <div><span class="prompt">›</span> ₹100 via Google UPI</div>
+          <div><span class="prompt">›</span> ₹100 via PhonePe wallet</div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>Method Overriding — cricket commentary</h3>
+        <p>Same event, different commentary. That's overriding: a child class provides its own version of a method that already exists in the parent.</p>
+      </div>
+
+      <!-- COMMENTATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <p class="sim-label">Interactive Simulator</p>
+          <div class="sim-title">🎙️ Method overriding — same event, different reactions</div>
+        </div>
+        <p style="margin-bottom: 20px;">A six is hit. Each commentator's <code>describe_six()</code> method produces a different output.</p>
+        <div class="comm-grid">
+          <button class="comm-btn" data-name="Calm Analyst" data-quote="A textbook cover drive. Beautiful timing, exquisite placement through the gap.">
+            <div class="comm-name">🎙️ Calm Analyst</div>
+            <div class="comm-style">Measured, technical</div>
+          </button>
+          <button class="comm-btn" data-name="Excited Commentator" data-quote="OH MY WORD! THAT'S OUT OF THE STADIUM! What a strike! UNBELIEVABLE!">
+            <div class="comm-name">📣 Excited Voice</div>
+            <div class="comm-style">High energy, dramatic</div>
+          </button>
+          <button class="comm-btn" data-name="Former Player" data-quote="As a batsman, that's exactly the kind of shot you visualize. Watch the front foot stride.">
+            <div class="comm-name">🏏 Former Player</div>
+            <div class="comm-style">Insightful, technical</div>
+          </button>
+          <button class="comm-btn" data-name="Statistician" data-quote="His third six off this bowler. Strike rate now 168.5 in the death overs.">
+            <div class="comm-name">📊 Statistician</div>
+            <div class="comm-style">Numbers and data</div>
+          </button>
+        </div>
+        <div class="comm-output" id="commOutput">
+          <div class="comm-output-empty">Pick a commentator. Same method <code>describe_six()</code> — different result for each.</div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>Method Overriding vs Polymorphism</h3>
+        <p>These are closely related but not identical:</p>
+        <ul>
+          <li><strong>Method overriding</strong> is the <em>mechanism</em>: a child class redefines a method from its parent.</li>
+          <li><strong>Polymorphism</strong> is the <em>capability</em> this enables: code that calls <code>obj.pay()</code> works no matter which payment app <code>obj</code> happens to be.</li>
+        </ul>
+        <p>Overriding is how you do it. Polymorphism is why you do it.</p>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Key takeaways</div>
+        <div class="info-box-body">
+          <p><strong>Polymorphism = same name, different behavior</strong> based on the object's type.</p>
+          <p><strong>It enables flexible code.</strong> You can write a function that takes "any PaymentApp" and it'll work with GooglePay, PhonePe, or any new app you create tomorrow — as long as it has a <code>pay()</code> method.</p>
+          <p><strong>Python is loose about types.</strong> Even without inheritance, if two unrelated classes both have a <code>pay()</code> method, Python will call whichever one matches at runtime. This is called <em>duck typing</em>.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONCEPT 8: COMPOSITION ========== -->
+<section class="concept-section" id="composition">
+  <div class="container-narrow">
+    <div class="concept-header">
+      <div class="concept-num c8">08</div>
+      <div>
+        <span class="badge badge-pink">Design pattern</span>
+        <h2>Composition</h2>
+        <p class="concept-tagline">Build complex objects by combining simpler ones. A car has an engine, has wheels, has seats. Each part is a separate object inside the car.</p>
+      </div>
+    </div>
+
+    <div class="concept-body">
+
+      <div class="concept-block">
+        <h3>The "has-a" relationship</h3>
+        <p>Inheritance is "is-a." Composition is <strong>"has-a"</strong>. A car <em>has</em> an engine. A computer <em>has</em> a CPU. A human <em>has</em> a heart. The contained things are separate objects with their own properties and methods — the container just uses them.</p>
+        <div class="info-box info">
+          <div class="info-box-title">"Favor composition over inheritance"</div>
+          <div class="info-box-body">
+            <p>This is one of the most repeated pieces of advice in software design. Inheritance creates tight coupling between parent and child — if the parent changes, all children might break. Composition keeps parts independent. If your Engine class changes, your Car class might not even need to know.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAR BUILDER -->
+      <div class="sim">
+        <div class="sim-head">
+          <p class="sim-label">Interactive Simulator</p>
+          <div class="sim-title">🚗 Build a car — assemble it from parts</div>
+        </div>
+        <p style="margin-bottom: 20px;">Add each part. Each is its own object with its own attributes. The Car class composes them together.</p>
+        <div class="parts-grid">
+          <button class="part-btn" data-part="engine">
+            <div class="part-icon">⚙️</div>
+            <div><div class="part-name">Engine</div><div class="part-desc">1.5L turbo, 150hp</div></div>
+          </button>
+          <button class="part-btn" data-part="wheels">
+            <div class="part-icon">🛞</div>
+            <div><div class="part-name">Wheels</div><div class="part-desc">4× alloy, 17 inch</div></div>
+          </button>
+          <button class="part-btn" data-part="seats">
+            <div class="part-icon">💺</div>
+            <div><div class="part-name">Seats</div><div class="part-desc">5× leather</div></div>
+          </button>
+          <button class="part-btn" data-part="ac">
+            <div class="part-icon">❄️</div>
+            <div><div class="part-name">A/C system</div><div class="part-desc">Climate control</div></div>
+          </button>
+        </div>
+        <div class="car-status" id="carStatus">Add all four parts to complete the car.</div>
+      </div>
+
+      <div class="concept-block">
+        <h3>Composition in Python</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>car.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">class</span> <span class="o">Engine:</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, horsepower):</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.horsepower = horsepower</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">start</span><span class="o">(</span><span class="v">self</span><span class="o">):</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">f"</span><span class="o">{</span><span class="v">self</span><span class="o">.horsepower}</span><span class="s">hp engine roaring"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="k">class</span> <span class="o">Battery:</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, kwh):</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.kwh = kwh</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="k">class</span> <span class="o">Car:</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">__init__</span><span class="o">(</span><span class="v">self</span><span class="o">, brand, hp, kwh):</span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.brand = brand</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.engine = Engine(hp)</span>      <span class="c"># Car HAS-A Engine</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.battery = Battery(kwh)</span>   <span class="c"># Car HAS-A Battery</span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">17</span><span class="ln-content"><span class="o">    </span><span class="k">def</span> <span class="f">drive</span><span class="o">(</span><span class="v">self</span><span class="o">):</span></span></div>
+<div class="ln"><span class="ln-num">18</span><span class="ln-content"><span class="o">        </span><span class="v">self</span><span class="o">.engine.</span><span class="f">start</span><span class="o">()</span>          <span class="c"># delegate to part</span></span></div>
+<div class="ln"><span class="ln-num">19</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(</span><span class="s">f"</span><span class="o">{</span><span class="v">self</span><span class="o">.brand}</span><span class="s"> moving"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">20</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">21</span><span class="ln-content"><span class="o">tesla = Car(</span><span class="s">"Model 3"</span><span class="o">, </span><span class="n">450</span><span class="o">, </span><span class="n">75</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">22</span><span class="ln-content"><span class="o">tesla.</span><span class="f">drive</span><span class="o">()</span></span></div>
+          </div>
+        </div>
+        <div class="output-panel">
+          <div class="out-label">Output</div>
+          <div><span class="prompt">›</span> 450hp engine roaring</div>
+          <div><span class="prompt">›</span> Model 3 moving</div>
+        </div>
+      </div>
+
+      <div class="concept-block">
+        <h3>Inheritance vs Composition — when to use which</h3>
+        <div class="comparison-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Inheritance (is-a)</th>
+                <th>Composition (has-a)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Coupling</td>
+                <td>Tight (child depends on parent)</td>
+                <td>Loose (parts are independent)</td>
+              </tr>
+              <tr>
+                <td>Flexibility</td>
+                <td>Hard to change behavior at runtime</td>
+                <td>Easy to swap parts</td>
+              </tr>
+              <tr>
+                <td>Best for</td>
+                <td>Clear taxonomies (Cat is-a Animal)</td>
+                <td>Building blocks (Car has-an Engine)</td>
+              </tr>
+              <tr>
+                <td>Trap to avoid</td>
+                <td>Inheriting just for code reuse</td>
+                <td>Over-fragmenting tiny pieces</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Key takeaways</div>
+        <div class="info-box-body">
+          <p><strong>Composition models "has-a" relationships.</strong> When something is <em>part of</em> another thing, compose, don't inherit.</p>
+          <p><strong>Composition is more flexible than inheritance.</strong> You can swap parts at runtime, mix and match, and change implementations without affecting users.</p>
+          <p><strong>Most real systems use both.</strong> Inheritance for true type hierarchies, composition for building things up from parts.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== QUIZ ========== -->
+<section id="quiz" class="quiz-section">
+  <div class="container">
+    <div class="section-head">
+      <span class="badge badge-pink">Test yourself</span>
+      <h2>50 questions to lock it in</h2>
+      <p>Basic, intermediate, code-output, and interview-style. Filter by category to focus where you need practice.</p>
+    </div>
+
+    <div class="quiz-wrap">
+      <div class="quiz-filters" id="quizFilters">
+        <button class="btn btn-sm btn-primary" data-cat="all">All · <span id="countAll">50</span></button>
+        <button class="btn btn-sm btn-secondary" data-cat="basic">Basic · <span id="countBasic">15</span></button>
+        <button class="btn btn-sm btn-secondary" data-cat="intermediate">Intermediate · <span id="countIntermediate">12</span></button>
+        <button class="btn btn-sm btn-secondary" data-cat="code">Code Output · <span id="countCode">13</span></button>
+        <button class="btn btn-sm btn-secondary" data-cat="interview">Interview · <span id="countInterview">10</span></button>
+      </div>
+
+      <div class="quiz-card" id="quizCard">
+        <div class="quiz-meta">
+          <div class="quiz-meta-left">
+            <span class="badge" id="quizCatBadge">Basic</span>
+            <span class="quiz-counter">Question <span id="quizCurrent">1</span> of <span id="quizTotal">50</span></span>
+          </div>
+          <div class="quiz-score">
+            Score: <span class="quiz-score-num" id="quizScore">0</span> / <span id="quizScoreTotal">50</span>
+          </div>
+        </div>
+        <div class="quiz-progress">
+          <div class="quiz-progress-bar" id="quizProgressBar" style="width: 0%"></div>
+        </div>
+        <div id="quizContent"></div>
+        <div class="quiz-nav">
+          <button class="btn btn-secondary" id="quizPrevBtn" disabled>← Previous</button>
+          <button class="btn btn-primary" id="quizNextBtn">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== CHEATSHEET ========== -->
+<section id="cheatsheet">
+  <div class="container">
+    <div class="section-head">
+      <span class="badge badge-info">Quick reference</span>
+      <h2>OOP Cheatsheet</h2>
+      <p>Bookmark this page. Come back when you forget the syntax for something. Everything in one glance.</p>
+    </div>
+    <div class="cheat-grid">
+      <div class="cheat-card" style="--bar-color: #6366F1;">
+        <div class="cheat-icon">🏗️</div>
+        <h4>Class &amp; Object</h4>
+        <p>A class is a blueprint. An object is one instance built from it.</p>
+        <div class="cheat-syntax">class Dog: ...<br>my_dog = Dog()</div>
+      </div>
+      <div class="cheat-card" style="--bar-color: #8B5CF6;">
+        <div class="cheat-icon">🪞</div>
+        <h4>self</h4>
+        <p>Refers to the current object inside a method.</p>
+        <div class="cheat-syntax">def bark(self):<br>&nbsp;&nbsp;print(self.name)</div>
+      </div>
+      <div class="cheat-card" style="--bar-color: #14B8A6;">
+        <div class="cheat-icon">🚀</div>
+        <h4>Constructor</h4>
+        <p><code>__init__</code> runs automatically when you create an object.</p>
+        <div class="cheat-syntax">def __init__(self, name):<br>&nbsp;&nbsp;self.name = name</div>
+      </div>
+      <div class="cheat-card" style="--bar-color: #F59E0B;">
+        <div class="cheat-icon">🔒</div>
+        <h4>Encapsulation</h4>
+        <p>Hide data: _protected, __private. Use methods to access.</p>
+        <div class="cheat-syntax">self.__balance = 0</div>
+      </div>
+      <div class="cheat-card" style="--bar-color: #10B981;">
+        <div class="cheat-icon">🎭</div>
+        <h4>Abstraction</h4>
+        <p>Hide complexity behind simple methods. Use ABC for contracts.</p>
+        <div class="cheat-syntax">from abc import ABC, abstractmethod<br>class Veh(ABC):<br>&nbsp;&nbsp;@abstractmethod<br>&nbsp;&nbsp;def start(self): pass</div>
+      </div>
+      <div class="cheat-card" style="--bar-color: #0EA5E9;">
+        <div class="cheat-icon">🌳</div>
+        <h4>Inheritance</h4>
+        <p>Child class gets parent's attributes &amp; methods.</p>
+        <div class="cheat-syntax">class Car(Vehicle):<br>&nbsp;&nbsp;super().__init__()</div>
+      </div>
+      <div class="cheat-card" style="--bar-color: #EC4899;">
+        <div class="cheat-icon">🎨</div>
+        <h4>Polymorphism</h4>
+        <p>Same method name, different behavior per class.</p>
+        <div class="cheat-syntax">def pay(self): ...  # override</div>
+      </div>
+      <div class="cheat-card" style="--bar-color: #EF4444;">
+        <div class="cheat-icon">🧩</div>
+        <h4>Composition</h4>
+        <p>Build complex objects from simpler ones (has-a).</p>
+        <div class="cheat-syntax">self.engine = Engine()</div>
+      </div>
+    </div>
+
+    <div class="celebrate">
+      <div class="celebrate-content">
+        <div style="font-size: 3rem; margin-bottom: 12px;">🎉</div>
+        <h2>You made it!</h2>
+        <p>You now know the core of Object-Oriented Programming in Python. The best next step? Open a code editor and build something small — a library system, a vending machine, a contact book — using classes. That's where real understanding sticks.</p>
+        <div style="margin-top: 28px;">
+          <a href="#top" class="btn btn-secondary btn-lg" style="background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.3);">↑ Back to top</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>Built with <span class="heart">♥</span> for Python learners. Open in any browser — no installation needed.</p>
+    <p style="margin-top: 8px; font-size: 0.75rem;">A single-file interactive guide to OOP. Hosted nowhere, runs everywhere.</p>
+  </div>
+</footer>
+
+
+<script>
+// ========== NAV: scrolled state, mobile menu, theme toggle, scrollspy, progress ==========
+const nav = document.getElementById('topNav');
+const themeBtn = document.getElementById('themeBtn');
+const menuBtn = document.getElementById('menuBtn');
+const progressBar = document.getElementById('progressBar');
+const navLinks = document.querySelectorAll('.nav-link');
+
+// Theme
+const savedTheme = (() => { try { return localStorage.getItem('oop-theme'); } catch(e) { return null; } })();
+if (savedTheme === 'dark') { document.body.classList.add('dark'); themeBtn.textContent = '☀️'; }
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  themeBtn.textContent = isDark ? '☀️' : '🌙';
+  try { localStorage.setItem('oop-theme', isDark ? 'dark' : 'light'); } catch(e) {}
+});
+
+// Mobile menu
+menuBtn.addEventListener('click', () => {
+  nav.classList.toggle('menu-open');
+  const isOpen = nav.classList.contains('menu-open');
+  menuBtn.textContent = isOpen ? '✕' : '☰';
+  menuBtn.setAttribute('aria-expanded', isOpen);
+  menuBtn.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+});
+navLinks.forEach(l => l.addEventListener('click', () => {
+  nav.classList.remove('menu-open');
+  menuBtn.textContent = '☰';
+  menuBtn.setAttribute('aria-expanded', 'false');
+  menuBtn.setAttribute('aria-label', 'Open navigation menu');
+}));
+
+// Scroll: progress bar, nav scrolled, scrollspy
+const sections = ['intro','why','class','self','constructor','encapsulation','abstraction','inheritance','polymorphism','composition','quiz','cheatsheet'];
+function onScroll() {
+  const sc = window.scrollY;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min(100, (sc / h) * 100) + '%';
+  nav.classList.toggle('scrolled', sc > 8);
+
+  // scrollspy
+  let current = '';
+  const offset = 100;
+  for (const id of sections) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top - offset <= 0) current = id;
+  }
+  // map sections to nav links
+  const navMap = { intro:'intro', why:'why', class:'class', self:'class', constructor:'class', encapsulation:'class', abstraction:'class', inheritance:'class', polymorphism:'class', composition:'class', quiz:'quiz', cheatsheet:'cheatsheet' };
+  navLinks.forEach(l => l.classList.remove('active'));
+  if (current && navMap[current]) {
+    const target = document.querySelector(`.nav-link[href="#${navMap[current]}"]`);
+    if (target) target.classList.add('active');
+  }
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// Close mobile menu on outside click
+document.addEventListener('click', (e) => {
+  if (nav.classList.contains('menu-open') && !nav.contains(e.target)) {
+    nav.classList.remove('menu-open');
+    menuBtn.textContent = '☰';
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Open navigation menu');
+  }
+});
+
+// ========== WHY OOP reveal ==========
+const revealBtn = document.getElementById('revealBtn');
+const goodCard = document.getElementById('goodCard');
+if (revealBtn) {
+  revealBtn.addEventListener('click', () => {
+    goodCard.style.opacity = '1';
+    revealBtn.textContent = '✓ Both shown — see the difference?';
+    revealBtn.disabled = true;
+  });
+}
+
+// ========== TEA SHOP ==========
+const teaTypeGroup = document.getElementById('teaTypeGroup');
+const sugarSlider = document.getElementById('sugarSlider');
+const sugarVal = document.getElementById('sugarVal');
+const milkCheck = document.getElementById('milkCheck');
+const makeTeaBtn = document.getElementById('makeTeaBtn');
+const clearTeaBtn = document.getElementById('clearTeaBtn');
+const teaOutput = document.getElementById('teaOutput');
+let selectedTeaType = 'Masala';
+let teaCount = 0;
+
+teaTypeGroup.querySelectorAll('.select-pill').forEach(b => {
+  b.addEventListener('click', () => {
+    teaTypeGroup.querySelectorAll('.select-pill').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    selectedTeaType = b.dataset.type;
+  });
+});
+sugarSlider.addEventListener('input', () => sugarVal.textContent = sugarSlider.value);
+makeTeaBtn.addEventListener('click', () => {
+  teaCount++;
+  if (teaCount === 1) teaOutput.innerHTML = '';
+  const card = document.createElement('div');
+  card.className = 'object-card';
+  const sugar = sugarSlider.value;
+  const milk = milkCheck.checked;
+  card.innerHTML = `
+    <div class="object-card-icon">☕</div>
+    <div class="object-card-body">
+      <div class="object-card-name">cup_${teaCount} = Tea("${selectedTeaType}", ${sugar}, ${milk ? 'True' : 'False'})</div>
+      <div class="object-card-attrs">type: ${selectedTeaType} · sugar: ${sugar} tsp · milk: ${milk ? 'yes' : 'no'}</div>
+    </div>
+  `;
+  teaOutput.appendChild(card);
+  teaOutput.scrollTop = teaOutput.scrollHeight;
+});
+clearTeaBtn.addEventListener('click', () => {
+  teaCount = 0;
+  teaOutput.innerHTML = '<div class="tea-output-empty">Configure your tea on the left and click Brew. Each object will appear here with its own attributes.</div>';
+});
+
+// ========== PHONE PHASES ==========
+const phaseItems = document.querySelectorAll('.phase-item');
+const phaseNext = document.getElementById('phaseNext');
+const phaseReset = document.getElementById('phaseReset');
+let phaseStep = 0;
+function updatePhases() {
+  phaseItems.forEach((el, i) => el.classList.toggle('active', i <= phaseStep));
+}
+phaseNext.addEventListener('click', () => {
+  if (phaseStep < phaseItems.length - 1) phaseStep++;
+  updatePhases();
+  if (phaseStep === phaseItems.length - 1) phaseNext.textContent = '✓ Setup complete';
+});
+phaseReset.addEventListener('click', () => {
+  phaseStep = 0;
+  updatePhases();
+  phaseNext.textContent = 'Next step →';
+});
+updatePhases();
+
+// ========== ATM ==========
+const atmBalance = document.getElementById('atmBalance');
+const atmPin = document.getElementById('atmPin');
+const atmWithdraw = document.getElementById('atmWithdraw');
+const atmDeposit = document.getElementById('atmDeposit');
+const atmMsg = document.getElementById('atmMsg');
+const atmInternalContainer = document.getElementById('atmInternalContainer');
+let atmBal = 10000;
+const PIN = '1234';
+
+function fmtRupee(n) { return n.toLocaleString('en-IN'); }
+function atmShowProcess(steps) {
+  atmInternalContainer.innerHTML = `<div class="atm-process"><strong>🔒 What happened internally (encapsulated):</strong><ul class="atm-process-steps">${steps.map(s => `<li>${s}</li>`).join('')}</ul></div>`;
+}
+function atmAction(amount, isWithdraw) {
+  const pin = atmPin.value;
+  if (pin !== PIN) {
+    atmMsg.className = 'atm-msg err';
+    atmMsg.textContent = '✗ Incorrect PIN. Try 1234.';
+    atmPin.style.animation = 'shake 0.4s';
+    setTimeout(() => atmPin.style.animation = '', 400);
+    atmInternalContainer.innerHTML = '';
+    return;
+  }
+  if (isWithdraw && amount > atmBal) {
+    atmMsg.className = 'atm-msg err';
+    atmMsg.textContent = '✗ Insufficient balance.';
+    return;
+  }
+  if (isWithdraw) {
+    atmBal -= amount;
+    atmMsg.className = 'atm-msg ok';
+    atmMsg.textContent = `✓ ₹${fmtRupee(amount)} dispensed`;
+    atmShowProcess([
+      `verify_pin("${pin}") → matched`,
+      `check_balance() → ₹${fmtRupee(atmBal + amount)} available`,
+      `deduct(${amount}) → new balance ₹${fmtRupee(atmBal)}`,
+      `log_transaction() → audit trail saved`,
+      `dispense_cash() → released to user`
+    ]);
+  } else {
+    atmBal += amount;
+    atmMsg.className = 'atm-msg ok';
+    atmMsg.textContent = `✓ ₹${fmtRupee(amount)} deposited`;
+    atmShowProcess([
+      `verify_pin("${pin}") → matched`,
+      `accept_cash(${amount}) → validated notes`,
+      `update_balance() → new balance ₹${fmtRupee(atmBal)}`,
+      `log_transaction() → audit trail saved`
+    ]);
+  }
+  atmBalance.textContent = fmtRupee(atmBal);
+}
+atmWithdraw.addEventListener('click', () => atmAction(2000, true));
+atmDeposit.addEventListener('click', () => atmAction(1000, false));
+
+// ========== CAR DASHBOARD ==========
+const carSpeed = document.getElementById('carSpeed');
+const accelBtn = document.getElementById('accelBtn');
+const brakeBtn = document.getElementById('brakeBtn');
+const gearBtn = document.getElementById('gearBtn');
+const gearPills = document.querySelectorAll('.gear-pill');
+let speed = 0;
+const gears = ['P','R','N','D'];
+let gearIdx = 3;
+accelBtn.addEventListener('click', () => {
+  const gear = gears[gearIdx];
+  if (gear === 'P' || gear === 'N') {
+    accelBtn.style.animation = 'shake 0.3s';
+    setTimeout(() => accelBtn.style.animation = '', 300);
+    return;
+  }
+  if (gear === 'R') {
+    speed = Math.max(0, speed - 10); // reverse slows forward speed
+  } else {
+    speed = Math.min(180, speed + 20);
+  }
+  carSpeed.textContent = speed;
+});
+brakeBtn.addEventListener('click', () => {
+  speed = Math.max(0, speed - 20);
+  carSpeed.textContent = speed;
+});
+gearBtn.addEventListener('click', () => {
+  if (speed > 0) {
+    gearBtn.style.animation = 'shake 0.3s';
+    setTimeout(() => gearBtn.style.animation = '', 300);
+    return;
+  }
+  gearIdx = (gearIdx + 1) % gears.length;
+  gearPills.forEach(p => p.classList.toggle('active', p.dataset.gear === gears[gearIdx]));
+});
+
+// ========== INHERITANCE TREE ==========
+const treeNodes = document.querySelectorAll('.tree-node');
+const treeInfo = document.getElementById('treeInfo');
+treeNodes.forEach(n => {
+  n.addEventListener('click', () => {
+    treeNodes.forEach(x => x.classList.remove('selected'));
+    n.classList.add('selected');
+    treeInfo.innerHTML = `<strong style="color: var(--success);">${n.dataset.name}:</strong> ${n.dataset.info}`;
+  });
+});
+
+// ========== UPI ==========
+const upiBtns = document.querySelectorAll('.upi-btn');
+const upiOutput = document.getElementById('upiOutput');
+upiBtns.forEach(b => {
+  b.addEventListener('click', () => {
+    upiBtns.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    upiOutput.innerHTML = `<span style="color: var(--primary-dark);">${b.dataset.app}.pay(100)</span> → <span style="color: var(--text-muted);">${b.dataset.result}</span>`;
+  });
+});
+
+// ========== COMMENTATOR ==========
+const commBtns = document.querySelectorAll('.comm-btn');
+const commOutput = document.getElementById('commOutput');
+commBtns.forEach(b => {
+  b.addEventListener('click', () => {
+    commBtns.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    commOutput.innerHTML = `<div class="comm-quote"><div class="comm-quote-who">${b.dataset.name}</div><div class="comm-quote-text">"${b.dataset.quote}"</div></div>`;
+  });
+});
+
+// ========== COMPOSITION ==========
+const partBtns = document.querySelectorAll('.part-btn');
+const carStatus = document.getElementById('carStatus');
+let parts = new Set();
+partBtns.forEach(b => {
+  b.addEventListener('click', () => {
+    if (b.classList.contains('added')) return;
+    b.classList.add('added');
+    parts.add(b.dataset.part);
+    if (parts.size === 4) {
+      carStatus.className = 'car-status complete';
+      carStatus.innerHTML = '🚗 Car assembled! self.engine + self.wheels + self.seats + self.ac → composition complete.';
+    } else {
+      carStatus.textContent = `${parts.size}/4 parts added · ${4 - parts.size} more to go`;
+    }
+  });
+});
+
+// ========== CODE LINE HIGHLIGHT ==========
+document.querySelectorAll('.ln').forEach(ln => {
+  ln.addEventListener('click', () => ln.classList.toggle('hl'));
+});
+
+
+// ========== QUIZ DATA — 50 questions ==========
+const QUIZ_DATA = [
+  // ===== BASIC (15) =====
+  { cat: 'basic', q: 'What is a class in Python?',
+    opts: ['An instance of an object', 'A built-in Python data type like list', 'A blueprint or template for creating objects', 'A function that returns a value'],
+    correct: 2, explain: 'A class is a blueprint. It defines what attributes and methods objects of that type will have. The class itself is not an object — it\'s the recipe to make objects.' },
+
+  { cat: 'basic', q: 'What is an object?',
+    opts: ['A specific instance created from a class', 'Another name for a class', 'A type of variable used only inside classes', 'A Python module'],
+    correct: 0, explain: 'An object is one specific instance built from a class. If Dog is the class, then your_dog = Dog("Bruno") creates one object. You can create many objects from the same class.' },
+
+  { cat: 'basic', q: 'Which method runs automatically when an object is created?',
+    opts: ['__start__', '__create__', '__new_object__', '__init__'],
+    correct: 3, explain: '__init__ is the constructor. It runs the moment you call ClassName(). You use it to set up the object\'s initial attributes.' },
+
+  { cat: 'basic', q: 'What does self refer to inside a class method?',
+    opts: ['The class itself', 'A keyword that means "private"', 'The current object that called the method', 'The parent class'],
+    correct: 2, explain: 'self refers to the specific object the method is being called on. If you call cup1.serve(), then inside serve(), self IS cup1.' },
+
+  { cat: 'basic', q: 'How do you create an object from a class named Car?',
+    opts: ['my_car = Car()', 'Car.new()', 'create Car()', 'new Car()'],
+    correct: 0, explain: 'In Python, you just call the class like a function: my_car = Car(). No "new" keyword needed (unlike Java or C++).' },
+
+  { cat: 'basic', q: 'Which is the correct way to define attributes in __init__?',
+    opts: ['name = name', 'this.name = name', 'class.name = name', 'self.name = name'],
+    correct: 3, explain: 'self.name = name attaches the name to the current object. Just "name = name" creates a local variable that disappears when __init__ ends.' },
+
+  { cat: 'basic', q: 'What is encapsulation?',
+    opts: ['Inheriting from another class', 'Bundling data with the methods that operate on it, and restricting direct access', 'Creating multiple objects', 'Importing a module'],
+    correct: 1, explain: 'Encapsulation = bundling data + methods together AND controlling who can access what. It\'s about protecting internal state.' },
+
+  { cat: 'basic', q: 'What is inheritance?',
+    opts: ['When a class derives attributes and methods from another class', 'When two objects share memory', 'When a method has multiple versions', 'When you import a module'],
+    correct: 0, explain: 'Inheritance lets a child class reuse and extend a parent class. The child gets everything the parent has, automatically.' },
+
+  { cat: 'basic', q: 'What does polymorphism literally mean?',
+    opts: ['Single form', 'Hidden form', 'Many forms', 'Old form'],
+    correct: 2, explain: 'Poly = many, morph = form. Same method name, different behavior depending on the object type.' },
+
+  { cat: 'basic', q: 'What is abstraction in OOP?',
+    opts: ['Making a class abstract by adding "abstract" keyword', 'Removing all methods from a class', 'Creating very small classes', 'Hiding complex implementation details and showing only what the user needs'],
+    correct: 3, explain: 'Abstraction means: expose a simple interface, hide the messy internals. Like driving a car — you use a steering wheel and pedals, not the engine internals.' },
+
+  { cat: 'basic', q: 'Are classes and objects the same thing?',
+    opts: ['Yes, just different names', 'Yes, classes are objects of type "type"', 'No — class is the blueprint, object is built from it', 'Only in Python they are'],
+    correct: 2, explain: 'A class is a definition. An object is a real instance built from that definition. (Trivia: in Python, classes ARE technically objects too, but conceptually treat them as different.)' },
+
+  { cat: 'basic', q: 'What is a method in a class?',
+    opts: ['A function defined inside a class', 'A variable that stores data', 'A way to import a class', 'A type of attribute'],
+    correct: 0, explain: 'A method is just a function that belongs to a class. It defines what objects of that class can DO.' },
+
+  { cat: 'basic', q: 'Which of these is NOT one of the 4 pillars of OOP?',
+    opts: ['Encapsulation', 'Inheritance', 'Polymorphism', 'Iteration'],
+    correct: 3, explain: 'The 4 pillars are Encapsulation, Abstraction, Inheritance, and Polymorphism. Iteration is a programming concept but not an OOP pillar.' },
+
+  { cat: 'basic', q: 'In Python, what naming convention is used for private attributes?',
+    opts: ['Prefix with "private_"', 'Use ALL_CAPS', 'Prefix with double underscore (__name)', 'Wrap in quotes'],
+    correct: 2, explain: 'Double underscore prefix (__name) triggers Python\'s name mangling, making it harder to access from outside. Single underscore is "protected by convention."' },
+
+  { cat: 'basic', q: 'Why is OOP useful?',
+    opts: ['It organizes code in a way that mirrors real-world entities and supports reuse', 'It makes code run faster', 'It requires fewer lines', 'It eliminates all bugs'],
+    correct: 0, explain: 'OOP\'s main benefit is organization. It groups related data and behavior, makes code reusable through inheritance, and matches how we naturally think about systems.' },
+
+  // ===== INTERMEDIATE (12) =====
+  { cat: 'intermediate', q: 'What does super() do?',
+    opts: ['Creates a superclass', 'Makes a method run faster', 'Marks a method as important', 'Calls a method from the parent class'],
+    correct: 3, explain: 'super() gives you access to the parent class. You typically use super().__init__() to call the parent\'s constructor from a child class.' },
+
+  { cat: 'intermediate', q: 'What is method overriding?',
+    opts: ['Defining the same method twice in one class', 'Calling a method recursively', 'A child class redefining a method that exists in the parent', 'Renaming a method'],
+    correct: 2, explain: 'Overriding = the child class provides its own version of a method already defined in the parent. The child\'s version is used when called on a child object.' },
+
+  { cat: 'intermediate', q: 'What is the difference between an instance variable and a class variable?',
+    opts: ['Instance variables are per-object; class variables are shared by all instances', 'No difference', 'Class variables are private; instance are public', 'Instance variables are faster'],
+    correct: 0, explain: 'Instance variable (self.x = 5): each object has its own. Class variable (defined directly in class body): one copy shared by all objects of that class.' },
+
+  { cat: 'intermediate', q: 'What is duck typing?',
+    opts: ['A type checking system in Python', 'If it walks like a duck and quacks like a duck, treat it as a duck — based on behavior, not type', 'A debugging technique', 'A way to convert types'],
+    correct: 1, explain: 'Duck typing means Python cares if an object HAS the method you\'re calling, not what class it belongs to. Loose typing enables flexible polymorphism without strict inheritance.' },
+
+  { cat: 'intermediate', q: 'What does @classmethod decorator do?',
+    opts: ['Makes a method run faster', 'Hides a method from outside', 'Marks a method that takes the class itself (cls) as first argument instead of self', 'Makes the method static'],
+    correct: 2, explain: '@classmethod methods receive the class (cls) as first arg, not an instance (self). Useful for alternative constructors and class-level operations.' },
+
+  { cat: 'intermediate', q: 'What does @staticmethod do?',
+    opts: ['Defines a method that doesn\'t receive self or cls — just a regular function inside a class', 'Makes a method unchangeable', 'Makes the method run only once', 'Caches the method\'s result'],
+    correct: 0, explain: '@staticmethod methods don\'t get self or cls. They\'re just functions namespaced inside the class. Use when the method doesn\'t need instance or class state.' },
+
+  { cat: 'intermediate', q: 'Difference between encapsulation and abstraction?',
+    opts: ['They\'re the same thing', 'Abstraction is faster', 'Encapsulation is only for child classes', 'Encapsulation hides data; abstraction hides implementation complexity'],
+    correct: 3, explain: 'Encapsulation = bundling/hiding DATA. Abstraction = hiding IMPLEMENTATION behind a simple interface. Often used together but conceptually different.' },
+
+  { cat: 'intermediate', q: 'What is the diamond problem in multiple inheritance?',
+    opts: ['When a class inherits from too many parents', 'Ambiguity when a class inherits from two classes that share a common ancestor', 'A bug in Python 2', 'When a class has only diamond-shaped attributes'],
+    correct: 1, explain: 'If B and C both inherit from A, and D inherits from B and C, which version of A\'s methods does D use? Python solves this with MRO (Method Resolution Order).' },
+
+  { cat: 'intermediate', q: 'What is MRO (Method Resolution Order)?',
+    opts: ['The speed at which methods run', 'A way to rank methods by importance', 'The order Python searches parent classes when looking for a method', 'A debugging tool'],
+    correct: 2, explain: 'MRO defines the order Python checks classes when resolving method calls. Use ClassName.__mro__ or .mro() to see it. Python uses the C3 linearization algorithm.' },
+
+  { cat: 'intermediate', q: 'What does the @property decorator allow?',
+    opts: ['Lets a method be accessed like an attribute (without parentheses)', 'Marks an attribute as read-only', 'Makes an attribute private', 'Creates a class variable'],
+    correct: 0, explain: '@property turns a method into a "computed attribute." You can access obj.full_name instead of obj.full_name(). Useful for derived values and controlled access.' },
+
+  { cat: 'intermediate', q: 'What\'s the difference between __str__ and __repr__?',
+    opts: ['No difference', '__str__ is private', '__repr__ is faster', '__str__ is for users (readable); __repr__ is for developers (unambiguous, ideally code-like)'],
+    correct: 3, explain: '__str__ → user-friendly string (used by print()). __repr__ → developer-friendly, ideally something you could eval back into an object. If only one is defined, prefer __repr__.' },
+
+  { cat: 'intermediate', q: 'Can you instantiate an abstract class in Python?',
+    opts: ['Yes, always', 'Only in Python 2', 'No — it raises TypeError if it has any abstract methods', 'Only if it has __init__'],
+    correct: 2, explain: 'Abstract classes (from abc.ABC) cannot be instantiated if they contain unimplemented abstract methods. They exist to be subclassed.' },
+
+  // ===== CODE OUTPUT (13) =====
+  { cat: 'code', q: 'What does this code print?',
+    code: 'class A:\n    def __init__(self, x):\n        self.x = x\n\na = A(10)\nprint(a.x)',
+    opts: ['10', 'A', 'x', 'Error'],
+    correct: 0, explain: 'a.x accesses the x attribute on the object a, which was set to 10 in __init__.' },
+
+  { cat: 'code', q: 'What does this code print?',
+    code: 'class Dog:\n    species = "Canine"\n    def __init__(self, name):\n        self.name = name\n\nd1 = Dog("Bruno")\nd2 = Dog("Max")\nprint(d1.species, d2.species)',
+    opts: ['Bruno Max', 'None None', 'Error', 'Canine Canine'],
+    correct: 3, explain: '"species" is a class variable shared by all instances. Both d1 and d2 see "Canine".' },
+
+  { cat: 'code', q: 'What does this print?',
+    code: 'class A:\n    def show(self):\n        print("A")\n\nclass B(A):\n    def show(self):\n        print("B")\n\nb = B()\nb.show()',
+    opts: ['A', 'A B', 'B', 'Error'],
+    correct: 2, explain: 'B.show() overrides A.show(). When called on a B object, the child\'s version runs.' },
+
+  { cat: 'code', q: 'What does this print?',
+    code: 'class A:\n    def __init__(self):\n        print("A init")\n\nclass B(A):\n    def __init__(self):\n        super().__init__()\n        print("B init")\n\nB()',
+    opts: ['A init\\nB init', 'A init', 'B init', 'B init\\nA init'],
+    correct: 0, explain: 'super().__init__() runs the parent\'s __init__ first ("A init"), then continues with B\'s init ("B init").' },
+
+  { cat: 'code', q: 'What does this print?',
+    code: 'class Counter:\n    count = 0\n    def __init__(self):\n        Counter.count += 1\n\nc1 = Counter()\nc2 = Counter()\nc3 = Counter()\nprint(Counter.count)',
+    opts: ['0', '1', 'Error', '3'],
+    correct: 3, explain: 'count is a class variable. Each __init__ increments the shared counter. After 3 instances, count = 3.' },
+
+  { cat: 'code', q: 'What is the output?',
+    code: 'class Person:\n    def __init__(self, name):\n        self.__name = name\n\np = Person("Aarav")\nprint(p.__name)',
+    opts: ['AttributeError', 'Aarav', 'None', 'Empty string'],
+    correct: 0, explain: 'Double underscore triggers name mangling. The attribute is actually stored as _Person__name. Accessing p.__name from outside raises AttributeError.' },
+
+  { cat: 'code', q: 'What does this print?',
+    code: 'class A:\n    def greet(self):\n        return "Hello"\n\nclass B:\n    def greet(self):\n        return "Hi"\n\nfor obj in [A(), B()]:\n    print(obj.greet())',
+    opts: ['Hello Hello', 'Hello\\nHi', 'Hi Hi', 'Error — B doesn\'t inherit from A'],
+    correct: 1, explain: 'This is duck typing in action. Even without inheritance, both classes have greet(), so Python calls each one at runtime.' },
+
+  { cat: 'code', q: 'What is printed?',
+    code: 'class Box:\n    def __init__(self, items=[]):\n        self.items = items\n\nb1 = Box()\nb1.items.append("a")\nb2 = Box()\nprint(b2.items)',
+    opts: ['[]', 'None', 'Error', '["a"]'],
+    correct: 3, explain: 'CLASSIC PYTHON GOTCHA! Mutable default arguments are shared across all calls. b1 and b2 share the same list. Always use None as default and create a new list inside __init__.' },
+
+  { cat: 'code', q: 'What is the output?',
+    code: 'class A:\n    x = 1\n\na = A()\nb = A()\nA.x = 99\nprint(a.x, b.x)',
+    opts: ['1 1', '1 99', '99 99', 'Error'],
+    correct: 2, explain: 'Changing the class variable A.x affects all instances that haven\'t overridden it. Both a.x and b.x now read from A.x = 99.' },
+
+  { cat: 'code', q: 'What does this print?',
+    code: 'class Animal:\n    def speak(self):\n        return "..."\n\nclass Dog(Animal):\n    def speak(self):\n        return "Woof"\n\nclass Puppy(Dog):\n    pass\n\nprint(Puppy().speak())',
+    opts: ['Woof', '...', 'None', 'AttributeError'],
+    correct: 0, explain: 'Puppy inherits from Dog, which overrides speak(). MRO finds Dog.speak() before Animal.speak(). Output: Woof.' },
+
+  { cat: 'code', q: 'What is printed?',
+    code: 'class A:\n    def __init__(self):\n        self.val = 10\n    def show(self):\n        print(self.val)\n\na = A()\na.val = 50\na.show()',
+    opts: ['10', 'Error', 'None', '50'],
+    correct: 3, explain: 'After a.val = 50 directly sets the instance attribute, show() reads self.val which is now 50.' },
+
+  { cat: 'code', q: 'What does this output?',
+    code: 'class A:\n    def __init__(self, x):\n        self.x = x\n    def __str__(self):\n        return f"A({self.x})"\n\nprint(A(42))',
+    opts: ['A(42)', '<A object>', '42', 'Error'],
+    correct: 0, explain: 'When you print an object, Python calls __str__. Since we defined it to return "A({self.x})", we get A(42).' },
+
+  { cat: 'code', q: 'What is the output?',
+    code: 'class A:\n    def __init__(self):\n        self.x = 1\n\nclass B(A):\n    def __init__(self):\n        self.y = 2\n\nb = B()\nprint(b.x)',
+    opts: ['1', '2', 'AttributeError', 'None'],
+    correct: 2, explain: 'B\'s __init__ overrides A\'s and never calls super().__init__(). So self.x is never set. Accessing b.x raises AttributeError.' },
+
+  // ===== INTERVIEW (10) =====
+  { cat: 'interview', q: 'What are the 4 pillars of OOP?',
+    opts: ['Class, Object, Method, Attribute', 'Variable, Function, Loop, Condition', 'Encapsulation, Abstraction, Inheritance, Polymorphism', 'Public, Private, Protected, Static'],
+    correct: 2, explain: 'The four foundational pillars are Encapsulation, Abstraction, Inheritance, and Polymorphism. Every OOP concept builds on these.' },
+
+  { cat: 'interview', q: 'When should you favor composition over inheritance?',
+    opts: ['When the relationship is "has-a" rather than "is-a", or when you need flexibility to change behavior at runtime', 'Always', 'Never — inheritance is always better', 'Only for small classes'],
+    correct: 0, explain: 'The principle "favor composition over inheritance" applies when you want loose coupling, flexibility, and when "has-a" describes the relationship better than "is-a".' },
+
+  { cat: 'interview', q: 'What\'s the difference between a deep copy and a shallow copy?',
+    opts: ['No difference', 'Deep copy is faster', 'Shallow copy works only with strings', 'Shallow copies references; deep recursively copies nested objects'],
+    correct: 3, explain: 'Shallow copy (copy.copy) duplicates the top object but inner objects are still shared. Deep copy (copy.deepcopy) recursively copies everything — fully independent.' },
+
+  { cat: 'interview', q: 'What\'s the difference between __new__ and __init__?',
+    opts: ['They\'re the same', '__new__ is for static methods', '__new__ creates the object; __init__ initializes it after creation', '__init__ runs only once per class'],
+    correct: 2, explain: '__new__ is called first — it allocates and returns a new instance. __init__ is called next on that instance to set it up. Most of the time you only override __init__.' },
+
+  { cat: 'interview', q: 'Explain the Liskov Substitution Principle (LSP).',
+    opts: ['Classes should be as small as possible', 'Objects should be replaceable with their subclasses without breaking the program', 'Don\'t use multiple inheritance', 'All methods must be public'],
+    correct: 1, explain: 'LSP (the "L" in SOLID) states that subclass objects must be usable wherever the parent type is expected — without surprising behavior. Violating this breaks polymorphism.' },
+
+  { cat: 'interview', q: 'What is a mixin?',
+    opts: ['A class that mixes two languages', 'A way to combine variables', 'A type of decorator', 'A class designed to provide methods to other classes through inheritance, but not to be instantiated on its own'],
+    correct: 3, explain: 'Mixins are small classes that add reusable functionality through multiple inheritance. They\'re not meant to be instantiated — they "mix in" capabilities to other classes.' },
+
+  { cat: 'interview', q: 'What is the Singleton pattern?',
+    opts: ['A design pattern ensuring a class has only one instance globally', 'A class with one method', 'A class without any methods', 'A class with private constructor'],
+    correct: 0, explain: 'Singleton restricts a class to one instance. Useful for configuration, logging, database connections — anywhere you want guaranteed uniqueness. Often implemented by overriding __new__.' },
+
+  { cat: 'interview', q: 'Difference between is and == when comparing objects?',
+    opts: ['No difference', 'is is faster', '== checks values are equal; is checks they\'re the same object in memory', '== works only with numbers'],
+    correct: 2, explain: '== uses __eq__ to compare values. "is" checks identity — whether two variables point to the same memory location. [1,2] == [1,2] is True, but [1,2] is [1,2] is False.' },
+
+  { cat: 'interview', q: 'What is operator overloading?',
+    opts: ['Overusing operators in code', 'Defining how operators (+, -, ==, etc.) behave for your custom objects using dunder methods', 'Loading operators from a library', 'Making operators run faster'],
+    correct: 1, explain: 'By implementing __add__, __eq__, __lt__, etc., you control how operators work on your objects. So Vector(1,2) + Vector(3,4) can return Vector(4,6).' },
+
+  { cat: 'interview', q: 'What\'s the difference between class composition and aggregation?',
+    opts: ['No difference', 'Aggregation uses inheritance', 'Composition is for primitive types only', 'Composition: contained objects can\'t exist without the container. Aggregation: they can exist independently'],
+    correct: 3, explain: 'Composition = strong "has-a" (a Heart belongs to a Body — destroy Body, Heart goes too). Aggregation = weak "has-a" (a Department has Employees — close Department, Employees still exist).' },
+];
+
+// ========== QUIZ ENGINE ==========
+// Update filter counts dynamically from data
+document.getElementById('countAll').textContent = QUIZ_DATA.length;
+['basic','intermediate','code','interview'].forEach(cat => {
+  const el = document.getElementById('count' + cat.charAt(0).toUpperCase() + cat.slice(1));
+  if (el) el.textContent = QUIZ_DATA.filter(q => q.cat === cat).length;
+});
+
+const quizContent = document.getElementById('quizContent');
+const quizCurrent = document.getElementById('quizCurrent');
+const quizTotal = document.getElementById('quizTotal');
+const quizScore = document.getElementById('quizScore');
+const quizScoreTotal = document.getElementById('quizScoreTotal');
+const quizProgressBar = document.getElementById('quizProgressBar');
+const quizCatBadge = document.getElementById('quizCatBadge');
+const quizPrevBtn = document.getElementById('quizPrevBtn');
+const quizNextBtn = document.getElementById('quizNextBtn');
+const quizFilters = document.getElementById('quizFilters');
+
+const CAT_INFO = {
+  basic: { label: 'Basic', cls: 'badge' },
+  intermediate: { label: 'Intermediate', cls: 'badge badge-info' },
+  code: { label: 'Code Output', cls: 'badge badge-warning' },
+  interview: { label: 'Interview', cls: 'badge badge-pink' },
+};
+
+let quizFiltered = QUIZ_DATA.slice();
+let quizIdx = 0;
+let quizAnswers = new Map(); // questionIndex -> selectedOption
+let quizCorrect = new Set();
+
+function renderQuiz() {
+  if (quizFiltered.length === 0) {
+    quizContent.innerHTML = '<p style="text-align:center;color:var(--text-muted);">No questions in this filter.</p>';
+    return;
+  }
+  if (quizIdx >= quizFiltered.length) {
+    renderResults();
+    return;
+  }
+  const q = quizFiltered[quizIdx];
+  const realIdx = QUIZ_DATA.indexOf(q);
+
+  quizCurrent.textContent = quizIdx + 1;
+  quizTotal.textContent = quizFiltered.length;
+  // Show only correct answers within current filter
+  const correctInFilter = Array.from(quizCorrect).filter(k => quizFiltered.includes(QUIZ_DATA[k])).length;
+  quizScore.textContent = correctInFilter;
+  quizScoreTotal.textContent = quizFiltered.length;
+  const pct = ((quizIdx) / quizFiltered.length) * 100;
+  quizProgressBar.style.width = pct + '%';
+
+  const ci = CAT_INFO[q.cat];
+  quizCatBadge.className = ci.cls;
+  quizCatBadge.textContent = ci.label;
+
+  const letters = ['A','B','C','D'];
+  const previouslyAnswered = quizAnswers.has(realIdx);
+  const selectedOpt = quizAnswers.get(realIdx);
+
+  quizContent.innerHTML = `
+    <div class="quiz-q-text">${q.q}</div>
+    ${q.code ? `<div class="quiz-q-code">${escapeHtml(q.code)}</div>` : ''}
+    <div class="quiz-options" id="quizOpts">
+      ${q.opts.map((opt, i) => {
+        let cls = 'quiz-option';
+        if (previouslyAnswered) {
+          if (i === q.correct) cls += ' correct';
+          else if (i === selectedOpt) cls += ' wrong';
+        }
+        return `<button class="${cls}" data-i="${i}" ${previouslyAnswered ? 'disabled' : ''}>
+          <span class="quiz-option-letter">${letters[i]}</span>
+          <span>${escapeHtml(opt)}</span>
+        </button>`;
+      }).join('')}
+    </div>
+    ${previouslyAnswered ? `<div class="quiz-explanation"><strong>${selectedOpt === q.correct ? '✓ Correct' : '✗ Explanation'}</strong>${q.explain}</div>` : ''}
+  `;
+
+  document.querySelectorAll('#quizOpts .quiz-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const i = parseInt(btn.dataset.i, 10);
+      quizAnswers.set(realIdx, i);
+      if (i === q.correct) quizCorrect.add(realIdx);
+      else quizCorrect.delete(realIdx);
+      renderQuiz();
+    });
+  });
+
+  quizPrevBtn.disabled = quizIdx === 0;
+  quizNextBtn.textContent = (quizIdx === quizFiltered.length - 1) ? 'Finish →' : 'Next →';
+}
+
+function renderResults() {
+  const totalAnswered = Array.from(quizAnswers.keys()).filter(k => quizFiltered.includes(QUIZ_DATA[k])).length;
+  const correctInFilter = Array.from(quizCorrect).filter(k => quizFiltered.includes(QUIZ_DATA[k])).length;
+  const total = quizFiltered.length;
+  const pct = total > 0 ? Math.round((correctInFilter / total) * 100) : 0;
+
+  let emoji, msg;
+  if (pct >= 90) { emoji = '🏆'; msg = 'Outstanding! You really know your OOP.'; }
+  else if (pct >= 75) { emoji = '🎉'; msg = 'Excellent! You\'ve got strong fundamentals.'; }
+  else if (pct >= 60) { emoji = '👍'; msg = 'Good work! Review the tricky bits and try again.'; }
+  else if (pct >= 40) { emoji = '📚'; msg = 'You\'re getting there. Go back through the concepts.'; }
+  else { emoji = '💪'; msg = 'Don\'t give up! Re-read the concepts and try again.'; }
+
+  // breakdown by category in the current filter
+  const breakdown = {};
+  quizFiltered.forEach(q => {
+    if (!breakdown[q.cat]) breakdown[q.cat] = { correct: 0, total: 0 };
+    breakdown[q.cat].total++;
+    const realIdx = QUIZ_DATA.indexOf(q);
+    if (quizCorrect.has(realIdx)) breakdown[q.cat].correct++;
+  });
+
+  quizContent.innerHTML = `
+    <div class="quiz-results">
+      <div class="quiz-results-emoji">${emoji}</div>
+      <div class="quiz-results-score"><span>${correctInFilter}</span><span class="total"> / ${total}</span></div>
+      <div class="quiz-results-pct">${pct}% correct</div>
+      <div class="quiz-results-msg">${msg}</div>
+      <div class="quiz-breakdown">
+        ${Object.entries(breakdown).map(([cat, b]) => `
+          <div class="quiz-breakdown-item">
+            <div class="quiz-breakdown-cat">${CAT_INFO[cat].label}</div>
+            <div class="quiz-breakdown-val">${b.correct}/${b.total}</div>
+          </div>
+        `).join('')}
+      </div>
+      <button class="btn btn-primary btn-lg" id="quizRestartBtn">↺ Restart quiz</button>
+    </div>
+  `;
+  quizProgressBar.style.width = '100%';
+  quizPrevBtn.disabled = true;
+  quizNextBtn.disabled = true;
+  document.getElementById('quizRestartBtn').addEventListener('click', () => {
+    quizIdx = 0;
+    quizAnswers.clear();
+    quizCorrect.clear();
+    quizPrevBtn.disabled = true;
+    quizNextBtn.disabled = false;
+    renderQuiz();
+  });
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+quizNextBtn.addEventListener('click', () => {
+  if (quizIdx < quizFiltered.length) {
+    quizIdx++;
+    renderQuiz();
+  }
+});
+quizPrevBtn.addEventListener('click', () => {
+  if (quizIdx > 0) {
+    quizIdx--;
+    renderQuiz();
+  }
+});
+
+quizFilters.querySelectorAll('button[data-cat]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    quizFilters.querySelectorAll('button').forEach(b => {
+      b.classList.remove('btn-primary');
+      b.classList.add('btn-secondary');
+    });
+    btn.classList.remove('btn-secondary');
+    btn.classList.add('btn-primary');
+    const cat = btn.dataset.cat;
+    quizFiltered = cat === 'all' ? QUIZ_DATA.slice() : QUIZ_DATA.filter(q => q.cat === cat);
+    quizIdx = 0;
+    quizPrevBtn.disabled = true;
+    quizNextBtn.disabled = false;
+    renderQuiz();
+  });
+});
+
+renderQuiz();
+
+</script>
+</body>
+</html>
