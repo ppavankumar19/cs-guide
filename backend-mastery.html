@@ -2473,17 +2473,18 @@ function updateRoute() {
   const params = (path.match(/\{(\w+)\}/g) || []).map(s => s.slice(1, -1));
   const paramStr = params.map(p => `${p}: int`).join(', ');
   let body = '';
-  if (ret === 'dict') body = `    return {"path": "${path}"${params.length ? ', ' + params.map(p => `"${p}": ${p}`).join(', ') : ''}}`;
+  const safePath = escHtml(path);
+  const safeFn = escHtml(fn);
+  if (ret === 'dict') body = `    return {"path": "${safePath}"${params.length ? ', ' + params.map(p => `"${p}": ${p}`).join(', ') : ''}}`;
   else if (ret === 'list') body = `    return [{"id": 1}, {"id": 2}]`;
   else body = `    return Item(name="example", price=10.0)`;
-  document.getElementById('routeOutput').innerHTML = `<span style="color: #C084FC;">@app.${m}</span>(<span style="color: #FCD34D;">"${path}"</span>)\n<span style="color: #C084FC;">def</span> <span style="color: #34D399;">${fn}</span>(${paramStr}):\n${body}`;
+  document.getElementById('routeOutput').innerHTML = `<span style="color: #C084FC;">@app.${m}</span>(<span style="color: #FCD34D;">"${safePath}"</span>)\n<span style="color: #C084FC;">def</span> <span style="color: #34D399;">${safeFn}</span>(${paramStr}):\n${body}`;
 }
 ['rbPath', 'rbFunc'].forEach(id => document.getElementById(id).addEventListener('input', updateRoute));
-['rbMethod', 'rbRet'].forEach(id => {
-  document.querySelectorAll(`#${id} .select-pill`).forEach(p => p.addEventListener('click', updateRoute));
-});
-setupPillGroup('rbMethod');
-setupPillGroup('rbRet');
+const rbMethodGrp = setupPillGroup('rbMethod');
+const rbRetGrp = setupPillGroup('rbRet');
+rbMethodGrp._onChange = updateRoute;
+rbRetGrp._onChange = updateRoute;
 updateRoute();
 
 // ========== FASTAPI SIM 2: Pydantic Validator ==========
