@@ -51,8 +51,9 @@ Every guide follows the same structure:
 
 ## Backend Mastery Guide — What's Covered (`backend-mastery.html`)
 
-5 core topics, 9 live simulators, 50 quiz questions, ~90 min read time:
+6 topics, 8 live simulators, 50 quiz questions, ~90 min read time:
 
+0. **What is an API?** — Intro & foundation: what APIs are, why they exist, how a request/response cycle works
 1. **CORS** — Same-origin policy, preflight requests, `Access-Control-Allow-Origin`, browser vs server perspective
 2. **Middleware** — Request/response pipeline, logging, auth, rate limiting, error handlers in Express & FastAPI
 3. **REST API** — HTTP methods, status codes, resource design, statelessness, REST constraints
@@ -62,11 +63,11 @@ Every guide follows the same structure:
 ### Quiz categories
 | Category | Count |
 |---|---|
-| CORS | 7 |
+| CORS | 10 |
 | Middleware | 10 |
 | REST | 10 |
 | FastAPI | 10 |
-| SOAP | 13 |
+| SOAP | 10 |
 | **Total** | **50** |
 
 ---
