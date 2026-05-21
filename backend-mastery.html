@@ -830,6 +830,7 @@
       <span>Backend Mastery</span>
     </a>
     <div class="nav-links" id="navLinks">
+      <a href="#what-is-api" class="nav-link">What is API?</a>
       <a href="#cors" class="nav-link">CORS</a>
       <a href="#middleware" class="nav-link">Middleware</a>
       <a href="#rest" class="nav-link">REST</a>
@@ -891,6 +892,11 @@
       <p>Read top to bottom for the full picture, or jump straight to the topic you came for. Each one stands on its own.</p>
     </div>
     <div class="topic-grid">
+      <a href="#what-is-api" class="topic-card" style="--bar: #8B5CF6;">
+        <div class="topic-card-num">00</div>
+        <div class="topic-card-title">What is an API?</div>
+        <div class="topic-card-desc">Start here — understand what APIs are and why they exist</div>
+      </a>
       <a href="#cors" class="topic-card" style="--bar: #6366F1;">
         <div class="topic-card-num">01</div>
         <div class="topic-card-title">CORS</div>
@@ -916,6 +922,211 @@
         <div class="topic-card-title">SOAP API</div>
         <div class="topic-card-desc">The strict, XML-based ancestor of REST</div>
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TOPIC 00: WHAT IS AN API ========== -->
+<section class="topic-section" id="what-is-api" style="--accent-color: #8B5CF6; --mark-bg: #F5F3FF; --mark-color: #7C3AED; background: var(--surface-2);">
+  <div class="container-narrow">
+    <div class="topic-hero">
+      <div class="topic-mark">
+        <span class="topic-mark-num">00</span>
+        Start here · Foundation
+      </div>
+      <h2>What is an API?</h2>
+      <p>Before you learn CORS, Middleware, REST, or SOAP — you need to understand what an API actually is. Everything on this page builds on this one idea.</p>
+    </div>
+
+    <div class="topic-body">
+
+      <div class="topic-block">
+        <h3>The simplest explanation</h3>
+        <p><strong>API = Application Programming Interface.</strong> That's the full form. But the words don't tell you much. Here's the plain version:</p>
+        <p>An API is a way for two programs to talk to each other. One program asks for something. The other program responds. That's it.</p>
+        <div class="info-box info" style="border-left-color: #8B5CF6; background: #F5F3FF;">
+          <div class="info-box-title">🔌 The power socket analogy</div>
+          <div class="info-box-body">
+            <p>Think of an electrical socket in your wall. You don't need to know how the power station works, how the wires run through your building, or how electricity is generated. You just plug in your phone charger and it works.</p>
+            <p>The <strong>socket is the interface</strong>. It's the agreed-upon point of connection. Your charger knows what shape the plug is, what voltage to expect — and that's all it needs.</p>
+            <p>An API works the same way. One side offers a socket (the API). The other side plugs in (makes a request). Neither side needs to know how the other works internally.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>A real everyday example</h3>
+        <p>You open Swiggy on your phone and search for "pizza near me." Here's what actually happens:</p>
+        <ol style="padding-left: 24px; margin-bottom: 12px;">
+          <li style="color: var(--text-muted); margin-bottom: 10px;">Your Swiggy app sends a request to Swiggy's <strong>API</strong>: "Give me pizza restaurants near location 17.4N, 78.4E"</li>
+          <li style="color: var(--text-muted); margin-bottom: 10px;">Swiggy's servers receive that request, search their database, and prepare a response</li>
+          <li style="color: var(--text-muted); margin-bottom: 10px;">The <strong>API sends back</strong> a list of restaurants with names, ratings, prices, and delivery times</li>
+          <li style="color: var(--text-muted); margin-bottom: 10px;">Your app displays that data as cards on your screen</li>
+        </ol>
+        <p>The Swiggy app doesn't store restaurant data. It asks for it via an API every time you search. The app and the server are two separate programs communicating through a well-defined interface.</p>
+      </div>
+
+      <div class="topic-block">
+        <h3>Why do APIs exist?</h3>
+        <p>Three fundamental reasons:</p>
+        <div style="display: grid; gap: 14px; margin-top: 16px;">
+          <div style="padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); border-left: 4px solid #8B5CF6;">
+            <div style="font-weight: 700; font-size: 1rem; margin-bottom: 6px; color: var(--text);">1. Separation of concerns</div>
+            <p style="font-size: 0.9rem; margin: 0;">Your frontend (what users see) and your backend (where data lives) can be built by different teams, in different languages, deployed independently — because they talk through an agreed API. Change the backend completely without touching the frontend.</p>
+          </div>
+          <div style="padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); border-left: 4px solid #8B5CF6;">
+            <div style="font-weight: 700; font-size: 1rem; margin-bottom: 6px; color: var(--text);">2. Reusability</div>
+            <p style="font-size: 0.9rem; margin: 0;">One API, many consumers. Swiggy's API is used by the Android app, the iOS app, the website, and third-party partners — all at the same time. Write the logic once, expose it via an API, and anyone can use it.</p>
+          </div>
+          <div style="padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); border-left: 4px solid #8B5CF6;">
+            <div style="font-weight: 700; font-size: 1rem; margin-bottom: 6px; color: var(--text);">3. Security and control</div>
+            <p style="font-size: 0.9rem; margin: 0;">You never expose your database directly to the internet. Instead, you expose an API that sits in front of it. The API decides who can access what, validates every request, and logs everything. Your actual data stays protected.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>How an API call works — the basic flow</h3>
+        <div style="display: flex; flex-direction: column; gap: 0; margin: 16px 0; position: relative;">
+          <div style="display: flex; align-items: flex-start; gap: 16px; padding: 16px 0;">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: #8B5CF6; color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 0.875rem; flex-shrink: 0;">1</div>
+            <div style="padding-top: 6px;">
+              <div style="font-weight: 700; color: var(--text); margin-bottom: 4px;">Client makes a request</div>
+              <p style="font-size: 0.875rem; margin: 0;">Your app (the client) sends a message to a URL — called an <strong>endpoint</strong>. The message includes what you want and any data needed to get it.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-top: 1px dashed var(--border);">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: #8B5CF6; color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 0.875rem; flex-shrink: 0;">2</div>
+            <div style="padding-top: 6px;">
+              <div style="font-weight: 700; color: var(--text); margin-bottom: 4px;">Server processes it</div>
+              <p style="font-size: 0.875rem; margin: 0;">The server receives the request, runs the logic (queries the database, calculates something, calls another API), and prepares a response.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-top: 1px dashed var(--border);">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: #8B5CF6; color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 0.875rem; flex-shrink: 0;">3</div>
+            <div style="padding-top: 6px;">
+              <div style="font-weight: 700; color: var(--text); margin-bottom: 4px;">Server sends a response</div>
+              <p style="font-size: 0.875rem; margin: 0;">The server replies with data (usually JSON) and a status code that tells the client whether it worked or not.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-top: 1px dashed var(--border);">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--success); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 0.875rem; flex-shrink: 0;">✓</div>
+            <div style="padding-top: 6px;">
+              <div style="font-weight: 700; color: var(--text); margin-bottom: 4px;">Client uses the data</div>
+              <p style="font-size: 0.875rem; margin: 0;">Your app reads the response and displays the results, updates the UI, or acts on the data.</p>
+            </div>
+          </div>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>A real API call — fetch in JavaScript</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c">// Step 1: Client sends a request to the API</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">const</span><span class="o"> response = </span><span class="k">await</span><span class="o"> </span><span class="f">fetch</span><span class="o">(</span><span class="s">'https://api.swiggy.com/restaurants?city=hyderabad'</span><span class="o">);</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="c">// Step 2 &amp; 3: Server processes and responds (happens on the server)</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="c">// Step 4: Client reads and uses the response</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="k">const</span><span class="o"> data = </span><span class="k">await</span><span class="o"> response.</span><span class="f">json</span><span class="o">();</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="b">console</span><span class="o">.</span><span class="f">log</span><span class="o">(data.restaurants);  </span><span class="c">// array of restaurant objects</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Types of APIs you'll encounter</h3>
+        <p>Not all APIs are built the same way. Different styles exist for different needs. Here are the four main types:</p>
+        <div style="display: grid; gap: 14px; margin-top: 16px;">
+
+          <div style="padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(245,158,11,.12); display: grid; place-items: center; font-size: 1.25rem; flex-shrink: 0;">🌐</div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+                <span style="font-weight: 700; font-size: 1rem; color: var(--text);">REST API</span>
+                <span style="background: rgba(245,158,11,.12); color: #D97706; border: 1px solid rgba(245,158,11,.2); padding: 2px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Most common · Covered in this guide</span>
+              </div>
+              <p style="font-size: 0.875rem; margin: 0; line-height: 1.6;">Uses standard HTTP methods (GET, POST, PUT, DELETE) and JSON. This is what 90% of modern web and mobile apps use. Instagram, GitHub, Swiggy, YouTube — all REST.</p>
+            </div>
+          </div>
+
+          <div style="padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(14,165,233,.12); display: grid; place-items: center; font-size: 1.25rem; flex-shrink: 0;">📄</div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+                <span style="font-weight: 700; font-size: 1rem; color: var(--text);">SOAP API</span>
+                <span style="background: rgba(14,165,233,.12); color: #0284C7; border: 1px solid rgba(14,165,233,.2); padding: 2px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Enterprise · Covered in this guide</span>
+              </div>
+              <p style="font-size: 0.875rem; margin: 0; line-height: 1.6;">Uses XML and strict contracts (WSDL). Older but still dominant in banking, government, and healthcare. Heavier than REST but built-in security standards.</p>
+            </div>
+          </div>
+
+          <div style="padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; gap: 16px; align-items: flex-start; opacity: 0.75;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(236,72,153,.12); display: grid; place-items: center; font-size: 1.25rem; flex-shrink: 0;">⚡</div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+                <span style="font-weight: 700; font-size: 1rem; color: var(--text);">GraphQL</span>
+                <span style="background: var(--surface-2); color: var(--text-subtle); border: 1px solid var(--border); padding: 2px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Not covered here</span>
+              </div>
+              <p style="font-size: 0.875rem; margin: 0; line-height: 1.6;">Created by Facebook. You write a query that describes exactly what data you want — no more, no less. Used by GitHub, Shopify, Twitter. Great for complex data relationships.</p>
+            </div>
+          </div>
+
+          <div style="padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); display: flex; gap: 16px; align-items: flex-start; opacity: 0.75;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(16,185,129,.12); display: grid; place-items: center; font-size: 1.25rem; flex-shrink: 0;">🚀</div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+                <span style="font-weight: 700; font-size: 1rem; color: var(--text);">gRPC</span>
+                <span style="background: var(--surface-2); color: var(--text-subtle); border: 1px solid var(--border); padding: 2px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Not covered here</span>
+              </div>
+              <p style="font-size: 0.875rem; margin: 0; line-height: 1.6;">Created by Google. Uses binary format (Protocol Buffers) instead of JSON — much faster and smaller. Popular for internal microservice communication where speed is critical.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>APIs are everywhere — you use them every day</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 12px;">
+          <div style="padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-align: center;">
+            <div style="font-size: 1.75rem; margin-bottom: 6px;">📱</div>
+            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text); margin-bottom: 4px;">UPI Payment</div>
+            <div style="font-size: 0.8rem; color: var(--text-subtle);">Your bank's API processes the transaction</div>
+          </div>
+          <div style="padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-align: center;">
+            <div style="font-size: 1.75rem; margin-bottom: 6px;">🗺️</div>
+            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text); margin-bottom: 4px;">Google Maps</div>
+            <div style="font-size: 0.8rem; color: var(--text-subtle);">Ola uses Google Maps API for routing</div>
+          </div>
+          <div style="padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-align: center;">
+            <div style="font-size: 1.75rem; margin-bottom: 6px;">🌤️</div>
+            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text); margin-bottom: 4px;">Weather</div>
+            <div style="font-size: 0.8rem; color: var(--text-subtle);">Every weather app calls a weather API</div>
+          </div>
+          <div style="padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-align: center;">
+            <div style="font-size: 1.75rem; margin-bottom: 6px;">🔐</div>
+            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text); margin-bottom: 4px;">Login with Google</div>
+            <div style="font-size: 0.8rem; color: var(--text-subtle);">OAuth API handles authentication</div>
+          </div>
+          <div style="padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-align: center;">
+            <div style="font-size: 1.75rem; margin-bottom: 6px;">📦</div>
+            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text); margin-bottom: 4px;">Tracking</div>
+            <div style="font-size: 0.8rem; color: var(--text-subtle);">Flipkart shows courier updates via API</div>
+          </div>
+          <div style="padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-align: center;">
+            <div style="font-size: 1.75rem; margin-bottom: 6px;">🤖</div>
+            <div style="font-weight: 700; font-size: 0.875rem; color: var(--text); margin-bottom: 4px;">ChatGPT / Claude</div>
+            <div style="font-size: 0.8rem; color: var(--text-subtle);">AI apps talk to AI models through APIs</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 API in one sentence</div>
+        <div class="info-box-body">
+          <p>An API is a well-defined way for two programs to communicate — one asks, the other answers. Everything else on this page (CORS, Middleware, REST, FastAPI, SOAP) is about <em>how</em> that communication is structured, protected, and built.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -2024,7 +2235,7 @@ navLinks.forEach(l => l.addEventListener('click', () => {
   menuBtn.textContent = '☰';
 }));
 
-const navIds = ['cors','middleware','rest','fastapi','soap','quiz','cheatsheet'];
+const navIds = ['what-is-api','cors','middleware','rest','fastapi','soap','quiz','cheatsheet'];
 function onScroll() {
   const sc = window.scrollY;
   const h = document.documentElement.scrollHeight - window.innerHeight;
