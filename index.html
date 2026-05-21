@@ -495,6 +495,38 @@ a:focus-visible, button:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
+
+/* ========== BACK TO TOP ========== */
+.back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s ease;
+  z-index: 90;
+  pointer-events: none;
+}
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-to-top:hover { background: var(--primary-dark, #4F46E5); }
+@media (max-width: 640px) {
+  .back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
+}
 </style>
 </head>
 <body>
@@ -528,7 +560,7 @@ a:focus-visible, button:focus-visible {
     </p>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="stat-num">2</div>
+        <div class="stat-num">3</div>
         <div class="stat-label">Guides available</div>
       </div>
       <div class="hero-stat">
@@ -628,6 +660,28 @@ a:focus-visible, button:focus-visible {
         </div>
       </a>
 
+      <!-- Backend Mastery — AVAILABLE -->
+      <a href="backend-mastery.html" class="topic-card available" style="--card-color: #F59E0B; --icon-bg: rgba(245,158,11,.12);">
+        <div class="tc-top">
+          <div class="tc-icon">⚙️</div>
+          <div class="tc-status"><span class="badge badge-success">Available</span></div>
+        </div>
+        <div>
+          <div class="tc-title">Backend Mastery</div>
+        </div>
+        <div class="tc-desc">
+          CORS, Middleware, REST APIs, FastAPI, and SOAP — all five essential backend concepts with interactive simulators and a 50-question quiz.
+        </div>
+        <div class="tc-meta">
+          <div class="tc-pills">
+            <span class="tc-pill">Python</span>
+            <span class="tc-pill">5 concepts</span>
+            <span class="tc-pill">~90 min</span>
+          </div>
+          <span class="tc-arrow">→</span>
+        </div>
+      </a>
+
     </div>
   </div>
 </section>
@@ -657,13 +711,21 @@ themeBtn.addEventListener('click', () => {
 });
 
 // Nav scroll + progress bar
+const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   const sc = window.scrollY;
   const h = document.documentElement.scrollHeight - window.innerHeight;
   progressBar.style.width = Math.min(100, (sc / h) * 100) + '%';
   nav.classList.toggle('scrolled', sc > 8);
+  backToTop.classList.toggle('visible', sc > 400);
 }, { passive: true });
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 </script>
+
+<button class="back-to-top" id="backToTop" title="Back to top" aria-label="Back to top">↑</button>
 
 </body>
 </html>
