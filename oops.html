@@ -1702,6 +1702,38 @@
     .quiz-nav { gap: 8px; }
     .quiz-nav .btn { padding: 10px 14px; font-size: 0.875rem; }
   }
+
+  /* ========== BACK TO TOP ========== */
+  .back-to-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity var(--t), transform var(--t), background var(--t-fast);
+    z-index: 90;
+    pointer-events: none;
+  }
+  .back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .back-to-top:hover { background: var(--primary-dark); }
+  @media (max-width: 640px) {
+    .back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
+  }
 </style>
 </head>
 <body>
@@ -3675,6 +3707,18 @@ quizFilters.querySelectorAll('button[data-cat]').forEach(btn => {
 
 renderQuiz();
 
+// ========== BACK TO TOP ==========
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 </script>
+
+<button class="back-to-top" id="backToTop" title="Back to top" aria-label="Back to top">↑</button>
+
 </body>
 </html>
