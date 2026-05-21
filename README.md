@@ -10,9 +10,10 @@ A collection of interactive guides to core Computer Science concepts. No framewo
 
 ```
 cs-guide/
-├── index.html      ← Hub page — topic selection
-├── oops.html       ← Object-Oriented Programming guide (complete)
-└── README.md       ← You are here
+├── index.html            ← Hub page — topic selection
+├── oops.html             ← Object-Oriented Programming guide (complete)
+├── backend-mastery.html  ← Backend Mastery guide (complete)
+└── README.md             ← You are here
 ```
 
 ---
@@ -23,6 +24,7 @@ cs-guide/
 |---|---|---|
 | Object-Oriented Programming | `oops.html` | ✅ Available |
 | Data Structures & Algorithms | [aikaryashala.com/gvpcew](https://aikaryashala.com/gvpcew/index.html) | ✅ Available (external) |
+| Backend Mastery | `backend-mastery.html` | ✅ Available |
 | Computer Networks | — | 🔜 Coming soon |
 | Operating Systems | — | 🔜 Coming soon |
 | Database Management | — | 🔜 Coming soon |
@@ -42,6 +44,30 @@ Every guide follows the same structure:
 - **Cheatsheet** — quick reference card for the whole topic
 - **Dark mode** — persisted via localStorage
 - **Fully responsive** — works on mobile, tablet, desktop
+- **Back to top button** — floating scroll-to-top on all pages
+- **Home button** — nav link back to `index.html` on all topic pages
+
+---
+
+## Backend Mastery Guide — What's Covered (`backend-mastery.html`)
+
+5 core topics, 9 live simulators, 50 quiz questions, ~90 min read time:
+
+1. **CORS** — Same-origin policy, preflight requests, `Access-Control-Allow-Origin`, browser vs server perspective
+2. **Middleware** — Request/response pipeline, logging, auth, rate limiting, error handlers in Express & FastAPI
+3. **REST API** — HTTP methods, status codes, resource design, statelessness, REST constraints
+4. **FastAPI** — Route builder, Pydantic validation, dependency injection, async endpoints
+5. **SOAP API** — XML envelope structure, WSDL, fault handling, REST vs SOAP comparison
+
+### Quiz categories
+| Category | Count |
+|---|---|
+| CORS | 7 |
+| Middleware | 10 |
+| REST | 10 |
+| FastAPI | 10 |
+| SOAP | 13 |
+| **Total** | **50** |
 
 ---
 
