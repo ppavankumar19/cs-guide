@@ -766,6 +766,9 @@
     .sim { padding: 20px; }
     .hero-stats { gap: 24px; }
     .stat-num { font-size: 1.5rem; }
+    .cors-sim-grid, .route-sim-grid, .soap-sim-grid {
+      grid-template-columns: 1fr !important;
+    }
   }
   @media (max-width: 480px) {
     .container, .container-narrow { padding: 0 18px; }
@@ -773,6 +776,8 @@
     .hero-cta { flex-direction: column; align-items: stretch; }
     .hero-cta .btn { justify-content: center; }
     .topic-grid { grid-template-columns: 1fr; }
+    .select-pill-group { gap: 4px; }
+    .select-pill { padding: 6px 10px; font-size: 0.75rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -862,7 +867,7 @@
         <div class="stat-label">Topics</div>
       </div>
       <div>
-        <div class="stat-num">9</div>
+        <div class="stat-num">8</div>
         <div class="stat-label">Simulators</div>
       </div>
       <div>
@@ -1876,8 +1881,8 @@
         <div class="topic-card-num">01 · CORS</div>
         <div class="topic-card-title">Allow cross-origin</div>
         <div class="topic-card-desc" style="margin-bottom: 12px;">Set headers on the server, not the browser.</div>
-        <pre style="background: var(--surface-2); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow-x: auto; margin: 0;">Access-Control-Allow-Origin: *
-Access-Control-Allow-Methods: GET, POST
+        <pre style="background: var(--surface-2); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow-x: auto; margin: 0;">Access-Control-Allow-Origin: https://shop.com
+Access-Control-Allow-Methods: GET, POST, PUT
 Access-Control-Allow-Credentials: true</pre>
       </div>
       <div class="topic-card" style="--bar: #14B8A6; cursor: default;">
@@ -2280,12 +2285,12 @@ document.getElementById('pydBtn').addEventListener('click', () => {
     return;
   }
   const errors = [];
-  if (typeof data.name !== 'string') errors.push(`name: expected string, got ${typeof data.name}`);
-  if (typeof data.price !== 'number') errors.push(`price: expected number, got ${typeof data.price}`);
-  if (typeof data.quantity !== 'number' || !Number.isInteger(data.quantity)) errors.push(`quantity: expected integer, got ${typeof data.quantity === 'number' ? 'float' : typeof data.quantity}`);
   if (data.name === undefined) errors.push(`name: field required`);
+  else if (typeof data.name !== 'string') errors.push(`name: expected str, got ${typeof data.name}`);
   if (data.price === undefined) errors.push(`price: field required`);
+  else if (typeof data.price !== 'number') errors.push(`price: expected float, got ${typeof data.price}`);
   if (data.quantity === undefined) errors.push(`quantity: field required`);
+  else if (typeof data.quantity !== 'number' || !Number.isInteger(data.quantity)) errors.push(`quantity: expected int, got ${typeof data.quantity === 'number' ? 'float' : typeof data.quantity}`);
   if (errors.length === 0) {
     out.innerHTML = `<div class="verdict allow"><div class="verdict-head"><div class="verdict-icon">✓</div>Validation passed</div>FastAPI would accept this request and call your handler with a fully-typed Item object.<pre>Item(\n  name="${data.name}",\n  price=${data.price},\n  quantity=${data.quantity}\n)</pre></div>`;
   } else {
