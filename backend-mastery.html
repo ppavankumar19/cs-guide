@@ -182,7 +182,19 @@
   .nav-link:hover { color: var(--text); background: var(--surface-2); }
   .nav-link.active { color: var(--primary-dark); background: var(--primary-light); }
   body.dark .nav-link.active { color: #A5B4FC; }
-  .nav-actions { display: flex; gap: 6px; align-items: center; }
+  .nav-actions { display: flex; gap: 8px; align-items: center; }
+  .nav-home-btn {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.8125rem; font-weight: 600;
+    color: var(--text-muted); text-decoration: none;
+    padding: 6px 12px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface);
+    transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+    white-space: nowrap; line-height: 1;
+  }
+  .nav-home-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(99,102,241,.06); }
+  body.dark .nav-home-btn:hover { background: rgba(99,102,241,.12); }
+  @media (max-width: 480px) { .nav-home-btn { display: none; } }
   .icon-btn {
     width: 36px; height: 36px; border-radius: 999px;
     border: 1px solid var(--border);
@@ -822,7 +834,7 @@
       <a href="#cheatsheet" class="nav-link">Cheatsheet</a>
     </div>
     <div class="nav-actions">
-      <a href="index.html" class="icon-btn" title="Back to Home" style="text-decoration: none; font-size: 0.875rem; font-weight: 700; font-family: inherit; letter-spacing: -0.01em;">🏠 Home</a>
+      <a href="index.html" class="nav-home-btn" title="Back to Home">← Home</a>
       <button class="icon-btn" id="themeBtn" title="Toggle theme">🌙</button>
       <button class="icon-btn mobile-toggle" id="menuBtn" title="Menu">☰</button>
     </div>
@@ -1979,6 +1991,7 @@ def read(id: int):
   </div>
 </footer>
 
+<button class="back-to-top" id="backToTop" title="Back to top" aria-label="Back to top">↑</button>
 
 <script>
 // ========== NAV: scrolled state, mobile menu, theme toggle, scrollspy, progress ==========
@@ -2715,8 +2728,5 @@ backToTop.addEventListener('click', () => {
 });
 
 </script>
-
-<button class="back-to-top" id="backToTop" title="Back to top" aria-label="Back to top">↑</button>
-
 </body>
 </html>
