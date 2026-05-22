@@ -10,10 +10,11 @@ A collection of interactive guides to core Computer Science concepts. No framewo
 
 ```
 cs-guide/
-├── index.html            ← Hub page — topic selection
-├── oops.html             ← Object-Oriented Programming guide (complete)
-├── backend-mastery.html  ← Backend Mastery guide (complete)
-└── README.md             ← You are here
+├── index.html                  ← Hub page — topic selection
+├── oops.html                   ← Object-Oriented Programming guide (complete)
+├── backend-mastery.html        ← Backend Mastery guide (complete)
+├── fundamentals-mastery.html   ← Fundamentals Mastery guide (complete)
+└── README.md                   ← You are here
 ```
 
 ---
@@ -25,6 +26,7 @@ cs-guide/
 | Object-Oriented Programming | `oops.html` | ✅ Available |
 | Data Structures & Algorithms | [aikaryashala.com/gvpcew](https://aikaryashala.com/gvpcew/index.html) | ✅ Available (external) |
 | Backend Mastery | `backend-mastery.html` | ✅ Available |
+| Fundamentals Mastery | `fundamentals-mastery.html` | ✅ Available |
 | Computer Networks | — | 🔜 Coming soon |
 | Operating Systems | — | 🔜 Coming soon |
 | Database Management | — | 🔜 Coming soon |
@@ -46,6 +48,40 @@ Every guide follows the same structure:
 - **Fully responsive** — works on mobile, tablet, desktop
 - **Back to top button** — floating scroll-to-top on all pages
 - **Home button** — nav link back to `index.html` on all topic pages
+
+---
+
+## Fundamentals Mastery Guide — What's Covered (`fundamentals-mastery.html`)
+
+5 topics, 8 live simulators, 50 quiz questions, ~90 min read time:
+
+1. **Route vs Routing** — what a route is, static vs dynamic routes, path params vs query params, client-side vs server-side routing, file-based routing
+2. **File Handling (C & Python)** — open/read/write/append/close, C vs Python side-by-side, file cursor visualizer, context managers vs manual fclose
+3. **Variable Scope** — LEGB rule, local vs global vs enclosing, `global` and `nonlocal` keywords, interactive scope explorer
+4. **Database Indexing** — full table scan vs B-Tree lookup, index types, composite indexes, when to/not to index, Index Race simulator
+5. **Pick a Database** — SQLite vs MySQL vs PostgreSQL: embedded vs client-server, concurrency, features, when to use each, DB Recommender simulator
+
+### Simulators
+| Simulator | Topic |
+|---|---|
+| URL Navigator — live route matching | Routing |
+| Client vs Server routing visualizer | Routing |
+| C vs Python language switcher | File Handling |
+| File Operations Playground (read/write/append) | File Handling |
+| File Cursor Visualizer (seek/readline) | File Handling |
+| Scope Explorer — click any line | Variable Scope |
+| Index Race — full scan vs B-Tree | Database Indexing |
+| DB Recommender — 4-question picker | Pick a Database |
+
+### Quiz categories
+| Category | Count |
+|---|---|
+| Routing | 10 |
+| Files | 10 |
+| Scope | 10 |
+| Indexing | 10 |
+| Databases | 10 |
+| **Total** | **50** |
 
 ---
 
