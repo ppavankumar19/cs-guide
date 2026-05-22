@@ -2581,7 +2581,12 @@ document.getElementById('fileRunBtn').addEventListener('click', () => {
   const mode = getPillValue(document.getElementById('fileMode'));
   const content = document.getElementById('fileContent').value;
   if (mode === 'r') {
-    logFile(`✓ read() → returned ${currentFile.length} characters`);
+    if (!currentFile) {
+      logFile(`✓ read() → returned "" (empty file — 0 characters)`);
+    } else {
+      const preview = currentFile.length > 60 ? currentFile.slice(0, 60) + '…' : currentFile;
+      logFile(`✓ read() → returned ${currentFile.length} chars: "${preview.replace(/\n/g, '\\n')}"`);
+    }
   } else if (mode === 'w') {
     currentFile = content + '\n';
     logFile(`⚠ write() → file was OVERWRITTEN (previous content erased)`, 'err');
