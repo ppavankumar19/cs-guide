@@ -1,0 +1,2821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fundamentals Mastery — Routing · Files · Scope · Indexing · Databases</title>
+<meta name="description" content="Learn 5 essential programming and database fundamentals in one place. Interactive simulators, real-world analogies, and 50 practice questions.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ========== RESET & TOKENS ========== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #6366F1;
+    --primary-dark: #4F46E5;
+    --primary-light: #EEF2FF;
+    --accent: #F59E0B;
+    --accent-dark: #D97706;
+    --success: #10B981;
+    --success-bg: #ECFDF5;
+    --danger: #EF4444;
+    --danger-bg: #FEF2F2;
+    --warning: #F59E0B;
+    --warning-bg: #FFFBEB;
+    --info: #0EA5E9;
+    --info-bg: #F0F9FF;
+    --purple: #8B5CF6;
+    --pink: #EC4899;
+    --teal: #14B8A6;
+
+    /* Topic accents */
+    --route: #8B5CF6;
+    --route-light: #F5F3FF;
+    --file: #F59E0B;
+    --file-light: #FFFBEB;
+    --scope: #14B8A6;
+    --scope-light: #F0FDFA;
+    --idx: #EC4899;
+    --idx-light: #FDF2F8;
+    --db: #0EA5E9;
+    --db-light: #F0F9FF;
+
+    --bg: #FAFAF9;
+    --surface: #FFFFFF;
+    --surface-2: #F5F5F4;
+    --text: #18181B;
+    --text-muted: #52525B;
+    --text-subtle: #71717A;
+    --border: #E4E4E7;
+    --border-strong: #D4D4D8;
+
+    --radius-sm: 8px;
+    --radius: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+    --shadow-xl: 0 24px 60px rgba(0,0,0,0.12);
+
+    --nav-h: 64px;
+    --content-max: 1100px;
+    --reading-max: 760px;
+
+    --t-fast: 0.15s ease;
+    --t: 0.25s ease;
+    --t-slow: 0.4s ease;
+  }
+  body.dark {
+    --bg: #09090B;
+    --surface: #18181B;
+    --surface-2: #27272A;
+    --text: #FAFAFA;
+    --text-muted: #A1A1AA;
+    --text-subtle: #71717A;
+    --border: #27272A;
+    --border-strong: #3F3F46;
+    --primary-light: rgba(99, 102, 241, 0.12);
+    --route-light: rgba(139, 92, 246, 0.12);
+    --file-light: rgba(245, 158, 11, 0.12);
+    --scope-light: rgba(20, 184, 166, 0.12);
+    --idx-light: rgba(236, 72, 153, 0.12);
+    --db-light: rgba(14, 165, 233, 0.12);
+    --success-bg: rgba(16, 185, 129, 0.12);
+    --danger-bg: rgba(239, 68, 68, 0.12);
+    --warning-bg: rgba(245, 158, 11, 0.12);
+    --info-bg: rgba(14, 165, 233, 0.12);
+  }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background var(--t), color var(--t);
+  }
+  ::selection { background: var(--primary); color: #fff; }
+
+  /* ========== TYPOGRAPHY ========== */
+  h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, serif; line-height: 1.15; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; }
+  h2 { font-size: clamp(1.875rem, 4.5vw, 2.75rem); font-weight: 700; }
+  h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); font-weight: 700; }
+  h4 { font-size: 1.125rem; font-weight: 700; }
+  p { color: var(--text-muted); }
+  strong { color: var(--text); font-weight: 700; }
+  code:not(.code-block code) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875em;
+    background: var(--surface-2);
+    padding: 2px 6px;
+    border-radius: 6px;
+    color: var(--primary-dark);
+    border: 1px solid var(--border);
+  }
+  body.dark code:not(.code-block code) { color: #A5B4FC; }
+
+  /* ========== LAYOUT ========== */
+  .container { max-width: var(--content-max); margin: 0 auto; padding: 0 24px; }
+  .container-narrow { max-width: var(--reading-max); margin: 0 auto; padding: 0 24px; }
+  section { padding: 80px 0; }
+  section.compact { padding: 56px 0; }
+
+  /* ========== NAV ========== */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(250, 250, 249, 0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid transparent;
+    transition: all var(--t);
+  }
+  body.dark .nav { background: rgba(9, 9, 11, 0.85); }
+  .nav.scrolled { border-bottom-color: var(--border); }
+  .nav-inner {
+    height: 100%; max-width: var(--content-max);
+    margin: 0 auto; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-weight: 800; font-size: 1.125rem;
+    color: var(--text); text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-brand-mark {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--route), var(--file), var(--scope), var(--idx), var(--db));
+    color: #fff;
+    display: grid; place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 800; font-size: 1rem;
+  }
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+  .nav-link {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all var(--t-fast);
+    white-space: nowrap;
+  }
+  .nav-link:hover { color: var(--text); background: var(--surface-2); }
+  .nav-link.active { color: var(--primary-dark); background: var(--primary-light); }
+  body.dark .nav-link.active { color: #A5B4FC; }
+  .nav-actions { display: flex; gap: 6px; align-items: center; }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 1rem;
+    transition: all var(--t-fast);
+  }
+  .icon-btn:hover { background: var(--surface-2); transform: scale(1.05); }
+  .mobile-toggle { display: none; }
+
+  /* ========== PROGRESS BAR ========== */
+  .progress {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 3px; z-index: 101;
+    background: linear-gradient(90deg, var(--route), var(--file), var(--scope), var(--idx), var(--db));
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    min-height: 90vh;
+    padding: calc(var(--nav-h) + 60px) 0 60px;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 800px 600px at 15% 20%, rgba(139,92,246,0.10), transparent),
+      radial-gradient(ellipse 600px 500px at 85% 30%, rgba(236,72,153,0.08), transparent),
+      radial-gradient(ellipse 700px 500px at 50% 90%, rgba(14,165,233,0.08), transparent);
+    pointer-events: none;
+  }
+  body.dark .hero::before {
+    background:
+      radial-gradient(ellipse 800px 600px at 15% 20%, rgba(139,92,246,0.18), transparent),
+      radial-gradient(ellipse 600px 500px at 85% 30%, rgba(236,72,153,0.14), transparent);
+  }
+  .hero-content { position: relative; text-align: center; max-width: 820px; margin: 0 auto; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .hero-eyebrow-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 0 4px rgba(16,185,129,0.2);
+    animation: pulse 2s infinite;
+  }
+  .hero h1 { margin-bottom: 24px; }
+  .hero h1 .gradient {
+    background: linear-gradient(135deg, var(--route), var(--file), var(--scope), var(--idx), var(--db));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: shine 5s ease infinite;
+  }
+  @keyframes shine {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+  }
+  .hero-lead {
+    font-size: 1.1875rem;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+    line-height: 1.6;
+    max-width: 640px;
+    margin-left: auto; margin-right: auto;
+  }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .hero-stats {
+    display: flex; gap: 40px;
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap; justify-content: center;
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.75rem; font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-subtle);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+
+  /* ========== BUTTONS ========== */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all var(--t);
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border-strong);
+  }
+  .btn-secondary:hover { background: var(--surface-2); }
+  .btn-accent {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-accent:hover { background: var(--accent-dark); transform: translateY(-2px); }
+  .btn-sm { padding: 8px 14px; font-size: 0.8125rem; }
+  .btn-lg { padding: 14px 28px; font-size: 1rem; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* ========== BADGES ========== */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+  }
+  body.dark .badge { color: #A5B4FC; }
+  .badge-success { background: var(--success-bg); color: var(--success); }
+  .badge-warning { background: var(--warning-bg); color: var(--warning); }
+  .badge-danger { background: var(--danger-bg); color: var(--danger); }
+  .badge-info { background: var(--info-bg); color: var(--info); }
+  .badge-purple { background: rgba(139, 92, 246, 0.1); color: var(--purple); }
+  .badge-pink { background: rgba(236, 72, 153, 0.1); color: var(--pink); }
+  .badge-teal { background: rgba(20, 184, 166, 0.1); color: var(--teal); }
+
+  /* ========== SECTION HEADS ========== */
+  .section-head {
+    max-width: var(--reading-max);
+    margin: 0 auto 56px;
+    text-align: center;
+  }
+  .section-head .badge { margin-bottom: 16px; }
+  .section-head h2 { margin-bottom: 16px; }
+  .section-head p {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* ========== TOPIC INDEX ========== */
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .topic-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all var(--t);
+    position: relative;
+    overflow: hidden;
+  }
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: var(--bar, var(--primary));
+  }
+  .topic-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--bar, var(--primary));
+  }
+  .topic-card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-subtle);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .topic-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .topic-card-desc { font-size: 0.8125rem; color: var(--text-subtle); line-height: 1.5; }
+
+  /* ========== TOPIC SECTIONS ========== */
+  .topic-section {
+    padding: 96px 0;
+    position: relative;
+    border-top: 1px solid var(--border);
+  }
+  .topic-hero {
+    text-align: center;
+    margin-bottom: 56px;
+    max-width: 720px;
+    margin-left: auto; margin-right: auto;
+  }
+  .topic-mark {
+    display: inline-flex; align-items: center;
+    gap: 10px;
+    padding: 6px 16px 6px 8px;
+    border-radius: 999px;
+    background: var(--mark-bg, var(--primary-light));
+    color: var(--mark-color, var(--primary-dark));
+    font-size: 0.8125rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  body.dark .topic-mark { color: var(--text); }
+  .topic-mark-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--mark-color, var(--primary));
+    color: #fff;
+    display: grid; place-items: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+  .topic-hero h2 { margin-bottom: 16px; }
+  .topic-hero p {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .topic-body { max-width: var(--reading-max); margin: 0 auto; }
+  .topic-block { margin-bottom: 36px; }
+  .topic-block h3 {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .topic-block h3::before {
+    content: '';
+    width: 4px; height: 22px;
+    background: var(--accent-color, var(--primary));
+    border-radius: 2px;
+  }
+  .topic-block p { margin-bottom: 12px; line-height: 1.75; }
+  .topic-block ul, .topic-block ol { padding-left: 24px; margin-bottom: 12px; }
+  .topic-block li { color: var(--text-muted); margin-bottom: 8px; line-height: 1.65; }
+  .topic-block li::marker { color: var(--accent-color, var(--primary)); }
+
+  /* INFO BOX */
+  .info-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  .info-box.success { border-left-color: var(--success); background: var(--success-bg); border-color: transparent; }
+  .info-box.warning { border-left-color: var(--warning); background: var(--warning-bg); border-color: transparent; }
+  .info-box.danger { border-left-color: var(--danger); background: var(--danger-bg); border-color: transparent; }
+  .info-box.info { border-left-color: var(--info); background: var(--info-bg); border-color: transparent; }
+  .info-box-title {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .info-box-body { color: var(--text-muted); font-size: 0.9375rem; line-height: 1.65; }
+  .info-box-body p { margin-bottom: 8px; }
+  .info-box-body p:last-child { margin-bottom: 0; }
+  body.dark .info-box.success .info-box-body,
+  body.dark .info-box.warning .info-box-body,
+  body.dark .info-box.danger .info-box-body,
+  body.dark .info-box.info .info-box-body { color: var(--text); }
+
+  /* ========== CODE BLOCKS ========== */
+  .code-block {
+    background: #0F172A;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 20px 0;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid #1E293B;
+  }
+  .code-head {
+    padding: 10px 16px;
+    background: #1E293B;
+    color: #94A3B8;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .code-dots { display: flex; gap: 6px; }
+  .code-dots span { width: 11px; height: 11px; border-radius: 50%; }
+  .code-dots span:nth-child(1) { background: #EF4444; }
+  .code-dots span:nth-child(2) { background: #F59E0B; }
+  .code-dots span:nth-child(3) { background: #10B981; }
+  .code-body {
+    padding: 18px 0;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.8125rem;
+    line-height: 1.65;
+  }
+  .ln {
+    padding: 0 18px;
+    display: flex;
+    white-space: pre;
+    color: #E2E8F0;
+  }
+  .ln-num {
+    color: #475569;
+    margin-right: 18px;
+    user-select: none;
+    font-size: 0.75rem;
+    min-width: 22px;
+    text-align: right;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+  .ln-content { flex: 1; }
+  .k { color: #C084FC; }
+  .s { color: #FCD34D; }
+  .n { color: #F472B6; }
+  .c { color: #64748B; font-style: italic; }
+  .f { color: #34D399; }
+  .v { color: #FBBF24; }
+  .b { color: #60A5FA; }
+  .o { color: #E2E8F0; }
+  .t { color: #5EEAD4; }
+
+  /* ========== SIMULATORS - GENERIC ========== */
+  .sim {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin: 24px 0;
+  }
+  .sim-head { margin-bottom: 24px; }
+  .sim-head h4 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-subtle);
+    margin-bottom: 6px;
+  }
+  .sim-head .sim-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .input-row {
+    display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 14px;
+  }
+  .input-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .input-label-sub {
+    font-size: 0.6875rem;
+    color: var(--text-subtle);
+    font-weight: 500;
+  }
+  .text-input, .select-input {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.875rem;
+    font-family: 'JetBrains Mono', monospace;
+    transition: border-color var(--t-fast);
+    width: 100%;
+  }
+  .text-input:focus, .select-input:focus { outline: none; border-color: var(--accent-color, var(--primary)); }
+  .select-pill-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .select-pill {
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--t-fast);
+    font-family: inherit;
+  }
+  .select-pill:hover { border-color: var(--accent-color, var(--primary)); }
+  .select-pill.active {
+    background: var(--accent-color, var(--primary));
+    border-color: var(--accent-color, var(--primary));
+    color: #fff;
+  }
+  .toggle-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    user-select: none;
+  }
+  .toggle-row input { accent-color: var(--accent-color, var(--primary)); width: 16px; height: 16px; }
+  .toggle-row .toggle-sub { color: var(--text-subtle); font-weight: 500; font-size: 0.75rem; margin-left: auto; }
+
+  .verdict {
+    margin-top: 16px;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    animation: slideUp 0.3s ease;
+  }
+  .verdict.allow {
+    background: var(--success-bg);
+    border-left: 4px solid var(--success);
+    color: var(--text);
+  }
+  .verdict.block {
+    background: var(--danger-bg);
+    border-left: 4px solid var(--danger);
+    color: var(--text);
+  }
+  .verdict-head {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .verdict-icon {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 800;
+  }
+  .verdict.allow .verdict-icon { background: var(--success); }
+  .verdict.block .verdict-icon { background: var(--danger); }
+  .verdict pre {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    background: rgba(0,0,0,0.04);
+    padding: 10px 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    color: var(--text);
+  }
+  body.dark .verdict pre { background: rgba(255,255,255,0.05); }
+
+  /* ========== ANIMATIONS ========== */
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+  }
+  @keyframes flash {
+    0% { background: var(--success); transform: scale(1); }
+    50% { background: var(--success); transform: scale(1.05); }
+    100% { background: transparent; transform: scale(1); }
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-subtle); }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 960px) {
+    .nav-links { display: none; }
+    .mobile-toggle { display: grid; }
+    .nav.menu-open .nav-links {
+      display: flex;
+      position: absolute;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      flex-direction: column;
+      background: var(--surface);
+      padding: 16px;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+    }
+    .nav.menu-open .nav-link { width: 100%; padding: 12px 16px; }
+  }
+  @media (max-width: 720px) {
+    section { padding: 56px 0; }
+    .topic-section { padding: 64px 0; }
+    .sim { padding: 20px; }
+    .hero-stats { gap: 24px; }
+    .stat-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .container, .container-narrow { padding: 0 18px; }
+    .hero { padding-top: calc(var(--nav-h) + 24px); }
+    .hero-cta { flex-direction: column; align-items: stretch; }
+    .hero-cta .btn { justify-content: center; }
+    .topic-grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* ========== RESPONSIVE SIMULATORS ========== */
+  @media (max-width: 600px) {
+    .routing-grid, .idx-grid { grid-template-columns: 1fr !important; }
+  }
+
+  /* ========== HOME BUTTON ========== */
+  .nav-home-btn {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.8125rem; font-weight: 600;
+    color: var(--text-muted); text-decoration: none;
+    padding: 6px 12px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface);
+    transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+    white-space: nowrap; line-height: 1;
+  }
+  .nav-home-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(99,102,241,.06); }
+  body.dark .nav-home-btn:hover { background: rgba(99,102,241,.12); }
+  @media (max-width: 480px) { .nav-home-btn { display: none; } }
+
+  /* ========== BACK TO TOP ========== */
+  .back-to-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity var(--t), transform var(--t), background var(--t-fast);
+    z-index: 90;
+    pointer-events: none;
+  }
+  .back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .back-to-top:hover { background: var(--primary-dark); }
+  @media (max-width: 640px) {
+    .back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progressBar"></div>
+
+<nav class="nav" id="topNav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand">
+      <span class="nav-brand-mark">F</span>
+      <span>Fundamentals</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#routing" class="nav-link">Routing</a>
+      <a href="#files" class="nav-link">Files</a>
+      <a href="#scope" class="nav-link">Scope</a>
+      <a href="#indexing" class="nav-link">Indexing</a>
+      <a href="#db" class="nav-link">Databases</a>
+      <a href="#quiz" class="nav-link">Quiz</a>
+      <a href="#cheatsheet" class="nav-link">Cheatsheet</a>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html" class="nav-home-btn" title="Back to Home">← Home</a>
+      <button class="icon-btn" id="themeBtn" title="Toggle theme">🌙</button>
+      <button class="icon-btn mobile-toggle" id="menuBtn" title="Menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="container hero-content">
+    <span class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Five core fundamentals — one page
+    </span>
+    <h1>The fundamentals, <span class="gradient">visually explained.</span></h1>
+    <p class="hero-lead">
+      Routing, file handling, variable scope, database indexing, and choosing the right database — all five taught from scratch with interactive simulators and a 50-question practice quiz. Built for learners who want the full picture, not five scattered tutorials.
+    </p>
+    <div class="hero-cta">
+      <a href="#topics" class="btn btn-primary btn-lg">Pick a topic →</a>
+      <a href="#quiz" class="btn btn-secondary btn-lg">Skip to quiz</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">5</div>
+        <div class="stat-label">Topics</div>
+      </div>
+      <div>
+        <div class="stat-num">11</div>
+        <div class="stat-label">Simulators</div>
+      </div>
+      <div>
+        <div class="stat-num">50</div>
+        <div class="stat-label">Quiz questions</div>
+      </div>
+      <div>
+        <div class="stat-num">~90m</div>
+        <div class="stat-label">Read time</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TOPICS INDEX -->
+<section class="compact" id="topics" style="background: var(--surface-2);">
+  <div class="container">
+    <div class="section-head">
+      <span class="badge">Pick your starting point</span>
+      <h2>Five topics, one journey</h2>
+      <p>Read top to bottom for the full picture, or jump straight to the topic you came for. Each one stands on its own.</p>
+    </div>
+    <div class="topic-grid">
+      <a href="#routing" class="topic-card" style="--bar: #8B5CF6;">
+        <div class="topic-card-num">01</div>
+        <div class="topic-card-title">Route vs Routing</div>
+        <div class="topic-card-desc">URLs, navigation, and how browsers find pages</div>
+      </a>
+      <a href="#files" class="topic-card" style="--bar: #F59E0B;">
+        <div class="topic-card-num">02</div>
+        <div class="topic-card-title">File Handling</div>
+        <div class="topic-card-desc">Read, write, and append data — in C and Python compared</div>
+      </a>
+      <a href="#scope" class="topic-card" style="--bar: #14B8A6;">
+        <div class="topic-card-num">03</div>
+        <div class="topic-card-title">Variable Scope</div>
+        <div class="topic-card-desc">Where your variables live and who can see them</div>
+      </a>
+      <a href="#indexing" class="topic-card" style="--bar: #EC4899;">
+        <div class="topic-card-num">04</div>
+        <div class="topic-card-title">Database Indexing</div>
+        <div class="topic-card-desc">Make queries 1000× faster with one command</div>
+      </a>
+      <a href="#db" class="topic-card" style="--bar: #0EA5E9;">
+        <div class="topic-card-num">05</div>
+        <div class="topic-card-title">Pick a Database</div>
+        <div class="topic-card-desc">PostgreSQL vs MySQL vs SQLite — which fits when</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TOPIC 01: ROUTING ========== -->
+<section class="topic-section" id="routing" style="--accent-color: #8B5CF6; --mark-bg: #F5F3FF; --mark-color: #7C3AED;">
+  <div class="container-narrow">
+    <div class="topic-hero">
+      <div class="topic-mark">
+        <span class="topic-mark-num">01</span>
+        Topic · Route vs Routing
+      </div>
+      <h2>Route vs Routing</h2>
+      <p>Most beginners use these words interchangeably. They're not the same. Get the distinction right and everything about web navigation suddenly makes sense.</p>
+    </div>
+
+    <div class="topic-body">
+
+      <div class="topic-block">
+        <h3>The Google Maps analogy</h3>
+        <p>You open Google Maps and search "Charminar." It draws a path from where you are to Charminar — a specific sequence of roads to follow. That single path is <strong>a route</strong>.</p>
+        <p>Now think about Google Maps itself. It can find a path from any location to any other location, accounting for traffic, road closures, and your preferred mode of travel. That overall system — the engine that produces routes on demand — is <strong>routing</strong>.</p>
+        <div class="info-box info" style="border-left-color: #8B5CF6; background: #F5F3FF;">
+          <div class="info-box-title">🗺️ The mental model</div>
+          <div class="info-box-body">
+            <p><strong>Route</strong> = a single, specific path. One URL → one handler.</p>
+            <p><strong>Routing</strong> = the whole system that matches incoming URLs to the right handler.</p>
+            <p>You define many routes. The routing system decides which one applies to each request.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Anatomy of a route</h3>
+        <p>A route is made of three things:</p>
+        <ul>
+          <li><strong>HTTP method</strong> — what action to perform (GET, POST, etc.)</li>
+          <li><strong>Path pattern</strong> — what URL to match (<code>/users/{id}</code>)</li>
+          <li><strong>Handler</strong> — the function that runs when this route matches</li>
+        </ul>
+        <p>When a request arrives, the routing system looks at all your defined routes and finds the one whose method + path pattern matches. Then it calls that handler.</p>
+      </div>
+
+      <!-- URL NAVIGATION SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <h4>Simulator</h4>
+          <div class="sim-title">🌐 URL navigator — see route matching in action</div>
+        </div>
+        <p style="margin-bottom: 20px;">Type any URL below. The router will scan its routes and tell you which one matches, what handler runs, and what parameters get extracted.</p>
+        <div class="input-row">
+          <label class="input-label">Enter a URL</label>
+          <input type="text" class="text-input" id="navUrl" value="/users/42/orders/8" placeholder="/path/here">
+        </div>
+        <button class="btn btn-primary" id="navBtn">Match route →</button>
+        <div style="margin-top: 16px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-subtle); letter-spacing: 0.06em;">Available routes</div>
+        <pre style="background: #0F172A; color: #E2E8F0; padding: 14px 18px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; line-height: 1.8; margin-top: 8px; overflow-x: auto;" id="navRoutes">GET  /
+GET  /users
+GET  /users/{id}
+GET  /users/{id}/orders
+GET  /users/{id}/orders/{order_id}
+GET  /products/{slug}</pre>
+        <div id="navVerdict"></div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Static vs dynamic routes</h3>
+        <p>Some routes match exactly one URL: <code>/about</code>, <code>/contact</code>. These are <strong>static</strong>.</p>
+        <p>Others have placeholders that match any value: <code>/users/{id}</code> matches <code>/users/1</code>, <code>/users/42</code>, <code>/users/anything</code>. These are <strong>dynamic</strong> routes, and the placeholders are called <strong>route parameters</strong> (or path params).</p>
+        <p>There are also <strong>query parameters</strong> — the stuff after the <code>?</code> in a URL. <code>/search?q=chai&amp;limit=10</code> has two query params. They're optional filters, not part of the route itself.</p>
+      </div>
+
+      <div class="topic-block">
+        <h3>Client-side vs server-side routing</h3>
+        <p>The same word — "routing" — refers to two completely different things depending on which side you're on:</p>
+        <ul>
+          <li><strong>Server-side routing</strong> — every URL change makes a new request to the server. The server matches the URL to a route handler and returns HTML. Traditional websites work this way. Express, FastAPI, Django all do server-side routing.</li>
+          <li><strong>Client-side routing</strong> — the browser loads the app once, then JavaScript intercepts URL changes and swaps content without a server round-trip. React Router, Vue Router, Next.js (mostly) use this. This is how Single Page Apps (SPAs) work.</li>
+        </ul>
+        <p>Modern frameworks like Next.js mix both: server-side for the first page load, client-side for subsequent navigation.</p>
+      </div>
+
+      <!-- CLIENT VS SERVER ROUTING VISUALIZER -->
+      <div class="sim">
+        <div class="sim-head">
+          <h4>Simulator</h4>
+          <div class="sim-title">⚡ Client vs Server routing — watch the difference</div>
+        </div>
+        <p style="margin-bottom: 20px;">Click "Visit page" three times in each mode. Notice how server-side reloads everything; client-side only changes content.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;" class="routing-grid">
+          <div style="border: 1.5px solid var(--border); border-radius: 12px; padding: 18px;">
+            <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; color: var(--text-subtle); letter-spacing: 0.08em; margin-bottom: 8px;">Server-side</div>
+            <div style="font-weight: 700; margin-bottom: 12px;">Full page reload</div>
+            <div id="ssrBrowser" style="background: var(--surface-2); border-radius: 8px; padding: 14px; min-height: 140px; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem;">
+              <div style="color: var(--text-subtle); font-size: 0.75rem; margin-bottom: 8px;">📄 page reloads each time</div>
+              <div id="ssrPage" style="color: var(--text);">Home page</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="ssrBtn" style="width: 100%; justify-content: center; margin-top: 12px;">Visit /about</button>
+          </div>
+          <div style="border: 1.5px solid var(--border); border-radius: 12px; padding: 18px;">
+            <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; color: var(--text-subtle); letter-spacing: 0.08em; margin-bottom: 8px;">Client-side (SPA)</div>
+            <div style="font-weight: 700; margin-bottom: 12px;">Instant swap</div>
+            <div id="csrBrowser" style="background: var(--surface-2); border-radius: 8px; padding: 14px; min-height: 140px; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem;">
+              <div style="color: var(--text-subtle); font-size: 0.75rem; margin-bottom: 8px;">⚡ no reload, just content swap</div>
+              <div id="csrPage" style="color: var(--text);">Home page</div>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="csrBtn" style="width: 100%; justify-content: center; margin-top: 12px;">Visit /about</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Routes in different frameworks</h3>
+        <p>The concept is identical everywhere — only the syntax changes.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>Express.js</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="o">app.</span><span class="f">get</span><span class="o">(</span><span class="s">'/users/:id'</span><span class="o">, (req, res) =&gt; {</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">  </span><span class="k">const</span><span class="o"> userId = req.params.id;</span>  <span class="c">// :id captured here</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">  res.</span><span class="f">json</span><span class="o">({ id: userId });</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">});</span></span></div>
+          </div>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>FastAPI</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="o">@app.</span><span class="f">get</span><span class="o">(</span><span class="s">"/users/{id}"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">def</span> <span class="f">get_user</span><span class="o">(id: </span><span class="t">int</span><span class="o">):</span>  <span class="c"># {id} → param, typed as int</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">    </span><span class="k">return</span><span class="o"> {</span><span class="s">"id"</span><span class="o">: id}</span></span></div>
+          </div>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>React Router</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="o">&lt;</span><span class="t">Routes</span><span class="o">&gt;</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">  &lt;</span><span class="t">Route</span><span class="o"> path=</span><span class="s">"/users/:id"</span><span class="o"> element={&lt;</span><span class="t">UserPage</span><span class="o"> /&gt;} /&gt;</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">  &lt;</span><span class="t">Route</span><span class="o"> path=</span><span class="s">"/about"</span><span class="o"> element={&lt;</span><span class="t">About</span><span class="o"> /&gt;} /&gt;</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">&lt;/</span><span class="t">Routes</span><span class="o">&gt;</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="c">// Inside UserPage component:</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="k">const</span><span class="o"> { id } = </span><span class="f">useParams</span><span class="o">();</span></span></div>
+          </div>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>Next.js (file-based)</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c"># Folder structure IS the routing:</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">app/</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">├── page.tsx                    </span><span class="c"># GET /</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">├── about/page.tsx              </span><span class="c"># GET /about</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">└── users/</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">    └── [id]/page.tsx           </span><span class="c"># GET /users/anything</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Routing in one sentence</div>
+        <div class="info-box-body">
+          <p>A <strong>route</strong> is one URL pattern mapped to one handler. <strong>Routing</strong> is the system that picks the right route for each incoming request. Static routes match one exact URL; dynamic routes use placeholders to capture values from the URL.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== TOPIC 02: FILE HANDLING ========== -->
+<section class="topic-section" id="files" style="--accent-color: #F59E0B; --mark-bg: #FFFBEB; --mark-color: #D97706; background: var(--surface-2);">
+  <div class="container-narrow">
+    <div class="topic-hero">
+      <div class="topic-mark">
+        <span class="topic-mark-num">02</span>
+        Topic · File Handling
+      </div>
+      <h2>File Handling in C &amp; Python</h2>
+      <p>Programs that can't save data are like notebooks that disappear at midnight. File handling is how you make data survive. We'll learn it in both C and Python — and you'll see why most people prefer Python for this.</p>
+    </div>
+
+    <div class="topic-body">
+
+      <div class="topic-block">
+        <h3>The notebook analogy</h3>
+        <p>Imagine you have a notebook on your desk. To use it, you have to:</p>
+        <ol>
+          <li><strong>Open it</strong> — find the page you want to work on</li>
+          <li><strong>Read or write</strong> — either look at what's there or scribble something new</li>
+          <li><strong>Close it</strong> — put it back when done so the pages don't get dirty</li>
+        </ol>
+        <p>That's exactly how both C and Python treat files. The steps are identical. What differs is how much hand-holding the language gives you and how much it forces you to clean up yourself.</p>
+      </div>
+
+      <div class="topic-block">
+        <h3>The file modes you'll actually use</h3>
+        <p>The modes are <strong>the same in C and Python</strong>. This is the one place these languages agree completely:</p>
+        <ul>
+          <li><code>"r"</code> — <strong>read</strong>. File must exist. Cursor starts at the beginning.</li>
+          <li><code>"w"</code> — <strong>write</strong>. Creates a new file or <em>erases</em> the existing one. Cursor at start.</li>
+          <li><code>"a"</code> — <strong>append</strong>. Adds to the end of an existing file. Won't erase what's already there.</li>
+          <li><code>"r+"</code> — <strong>read and write</strong>. File must exist.</li>
+          <li><code>"rb"</code> / <code>"wb"</code> — <strong>binary</strong> read/write. For images, audio, anything non-text.</li>
+        </ul>
+        <div class="info-box danger">
+          <div class="info-box-title">⚠️ The "w" trap (applies to both languages)</div>
+          <div class="info-box-body">
+            <p>Opening a file in <code>"w"</code> mode <strong>erases everything in it instantly</strong> — even before you write anything. If you wanted to add to an existing file, you wanted <code>"a"</code>, not <code>"w"</code>. Beginners lose data to this constantly, in every language.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LANGUAGE SWITCHER SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <h4>Compare side-by-side</h4>
+          <div class="sim-title">📑 Same operation, two languages</div>
+        </div>
+        <p style="margin-bottom: 16px;">Click any operation to see how it's written in C vs Python. Notice the difference in verbosity.</p>
+        <div class="select-pill-group" id="langOp" style="margin-bottom: 16px;">
+          <button class="select-pill active" data-v="open">Open a file</button>
+          <button class="select-pill" data-v="write">Write text</button>
+          <button class="select-pill" data-v="read">Read all text</button>
+          <button class="select-pill" data-v="readline">Read line by line</button>
+          <button class="select-pill" data-v="append">Append</button>
+          <button class="select-pill" data-v="close">Close (and errors)</button>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;" class="lang-compare-grid">
+          <div>
+            <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; color: #60A5FA;">🔧 C</div>
+            <pre id="cCode" style="background: #0F172A; color: #E2E8F0; padding: 16px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; line-height: 1.7; overflow-x: auto; min-height: 200px; margin: 0; white-space: pre;"></pre>
+          </div>
+          <div>
+            <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; color: #34D399;">🐍 Python</div>
+            <pre id="pyCode" style="background: #0F172A; color: #E2E8F0; padding: 16px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; line-height: 1.7; overflow-x: auto; min-height: 200px; margin: 0; white-space: pre;"></pre>
+          </div>
+        </div>
+        <div id="langExplain" style="margin-top: 14px; padding: 12px 16px; background: var(--surface-2); border-radius: 10px; font-size: 0.875rem; line-height: 1.55;"></div>
+      </div>
+
+      <div class="topic-block">
+        <h3>File handling in C — the manual approach</h3>
+        <p>C was designed in the 1970s, and it shows. You manage everything: opening, reading, writing, error checking, and — most importantly — <strong>closing</strong>. C doesn't clean up after you. If you forget <code>fclose()</code>, you leak a file handle. If your program crashes before reaching <code>fclose()</code>, your buffered writes may never make it to disk.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>file_demo.c</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c">#include &lt;stdio.h&gt;</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="c">#include &lt;stdlib.h&gt;</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="t">int</span> <span class="f">main</span><span class="o">() {</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">    </span><span class="t">FILE</span><span class="o"> *fp = </span><span class="f">fopen</span><span class="o">(</span><span class="s">"notes.txt"</span><span class="o">, </span><span class="s">"w"</span><span class="o">);</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">    </span><span class="k">if</span><span class="o"> (fp == </span><span class="k">NULL</span><span class="o">) {</span>            <span class="c">// always check!</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">        </span><span class="f">perror</span><span class="o">(</span><span class="s">"Failed to open"</span><span class="o">);</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">        </span><span class="k">return</span><span class="o"> </span><span class="n">1</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o">    }</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o">    </span><span class="f">fprintf</span><span class="o">(fp, </span><span class="s">"Hello world\n"</span><span class="o">);</span>     <span class="c">// formatted write</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="o">    </span><span class="f">fputs</span><span class="o">(</span><span class="s">"Second line\n"</span><span class="o">, fp);</span>     <span class="c">// plain write</span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="o">    </span><span class="f">fclose</span><span class="o">(fp);</span>                       <span class="c">// YOU MUST DO THIS</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="o">    </span><span class="k">return</span><span class="o"> </span><span class="n">0</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="o">}</span></span></div>
+          </div>
+        </div>
+        <p>Reading is even more involved — you allocate a buffer, you tell C how big it is, you check for end-of-file yourself:</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>read_demo.c</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="t">FILE</span><span class="o"> *fp = </span><span class="f">fopen</span><span class="o">(</span><span class="s">"notes.txt"</span><span class="o">, </span><span class="s">"r"</span><span class="o">);</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">if</span><span class="o"> (fp == </span><span class="k">NULL</span><span class="o">) { </span><span class="f">perror</span><span class="o">(</span><span class="s">"open"</span><span class="o">); </span><span class="k">return</span><span class="o"> </span><span class="n">1</span><span class="o">; }</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="t">char</span><span class="o"> buffer[</span><span class="n">256</span><span class="o">];</span>                       <span class="c">// allocate buffer</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="k">while</span><span class="o"> (</span><span class="f">fgets</span><span class="o">(buffer, </span><span class="k">sizeof</span><span class="o">(buffer), fp) != </span><span class="k">NULL</span><span class="o">) {</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">    </span><span class="f">printf</span><span class="o">(</span><span class="s">"%s"</span><span class="o">, buffer);</span>             <span class="c">// echo each line</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">}</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="f">fclose</span><span class="o">(fp);</span></span></div>
+          </div>
+        </div>
+        <div class="info-box warning">
+          <div class="info-box-title">⚠️ C's responsibilities are YOUR responsibilities</div>
+          <div class="info-box-body">
+            <p><strong>NULL check after fopen.</strong> Skip this and you get a segfault when the file doesn't exist.</p>
+            <p><strong>Buffer size.</strong> If a line is longer than your buffer, <code>fgets</code> reads only part of it. You decide the size; you live with the consequences.</p>
+            <p><strong>fclose every time.</strong> Including on error paths. Including before <code>return</code>. Including when an exception... oh wait, C doesn't have exceptions, so this part is at least simpler.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>File handling in Python — the clean approach</h3>
+        <p>Python was designed 20 years after C, with the explicit goal of being easier to read and write. The Python convention is the <code>with</code> statement (a context manager). It opens the file, gives it to you, and <strong>closes it automatically</strong> when the block exits — even if an exception happens.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>file_demo.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c"># WRITE — creates or overwrites notes.txt</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">with</span><span class="o"> </span><span class="b">open</span><span class="o">(</span><span class="s">"notes.txt"</span><span class="o">, </span><span class="s">"w"</span><span class="o">) </span><span class="k">as</span><span class="o"> f:</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">    f.</span><span class="f">write</span><span class="o">(</span><span class="s">"Hello world\n"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">    f.</span><span class="f">write</span><span class="o">(</span><span class="s">"Second line\n"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="c"># file is automatically closed here — even on error</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="c"># READ — entire file as one string</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="k">with</span><span class="o"> </span><span class="b">open</span><span class="o">(</span><span class="s">"notes.txt"</span><span class="o">, </span><span class="s">"r"</span><span class="o">) </span><span class="k">as</span><span class="o"> f:</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o">    text = f.</span><span class="f">read</span><span class="o">()</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="b">print</span><span class="o">(text)</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="c"># READ — line by line (better for big files, no buffer size!)</span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="k">with</span><span class="o"> </span><span class="b">open</span><span class="o">(</span><span class="s">"notes.txt"</span><span class="o">) </span><span class="k">as</span><span class="o"> f:</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="o">    </span><span class="k">for</span><span class="o"> line </span><span class="k">in</span><span class="o"> f:</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="o">        </span><span class="b">print</span><span class="o">(line.</span><span class="f">strip</span><span class="o">())</span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">17</span><span class="ln-content"><span class="c"># APPEND — adds to the end without erasing</span></span></div>
+<div class="ln"><span class="ln-num">18</span><span class="ln-content"><span class="k">with</span><span class="o"> </span><span class="b">open</span><span class="o">(</span><span class="s">"notes.txt"</span><span class="o">, </span><span class="s">"a"</span><span class="o">) </span><span class="k">as</span><span class="o"> f:</span></span></div>
+<div class="ln"><span class="ln-num">19</span><span class="ln-content"><span class="o">    f.</span><span class="f">write</span><span class="o">(</span><span class="s">"Added later\n"</span><span class="o">)</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>The differences that actually matter</h3>
+        <div style="overflow-x: auto;">
+        <table style="width: 100%; min-width: 420px; border-collapse: collapse; margin-top: 12px; font-size: 0.875rem;">
+          <thead>
+            <tr style="background: var(--surface-2);">
+              <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--border);"></th>
+              <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--border); color: #60A5FA;">C</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--border); color: #34D399;">Python</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Open</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);"><code>fopen()</code> → returns <code>FILE*</code> or <code>NULL</code></td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);"><code>open()</code> → returns file object or raises</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Error handling</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Manual NULL checks, return codes</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Exceptions (try/except)</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Close</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Manual <code>fclose()</code> always</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Automatic with <code>with</code> block</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Read line</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);"><code>fgets(buf, size, fp)</code> — need buffer + size</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);"><code>f.readline()</code> or <code>for line in f:</code></td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Write text</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);"><code>fprintf()</code>, <code>fputs()</code>, <code>fwrite()</code></td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);"><code>f.write()</code></td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Memory management</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">You allocate buffers, you free them</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Automatic — garbage collector handles it</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Cursor / seek</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);"><code>fseek(fp, offset, SEEK_SET)</code></td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);"><code>f.seek(offset)</code></td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Lines of code (simple write)</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">~10 lines (with safety)</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">2 lines</td></tr>
+            <tr><td style="padding: 10px; font-weight: 600;">Speed</td><td style="padding: 10px; color: var(--text-muted);">Fastest possible</td><td style="padding: 10px; color: var(--text-muted);">Slower, but rarely the bottleneck</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- FILE MODE SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <h4>Simulator</h4>
+          <div class="sim-title">📝 File operations playground (works the same in both languages)</div>
+        </div>
+        <p style="margin-bottom: 20px;">Pick a mode, type something, then click the operation. Watch what happens to <code>notes.txt</code>.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="file-sim-grid">
+          <div>
+            <div class="input-row">
+              <label class="input-label">File mode</label>
+              <div class="select-pill-group" id="fileMode">
+                <button class="select-pill active" data-v="r">"r" read</button>
+                <button class="select-pill" data-v="w">"w" write</button>
+                <button class="select-pill" data-v="a">"a" append</button>
+              </div>
+            </div>
+            <div class="input-row">
+              <label class="input-label">Content to write/append</label>
+              <input type="text" class="text-input" id="fileContent" value="New line of data" placeholder="Type something...">
+            </div>
+            <button class="btn btn-primary" id="fileRunBtn" style="margin-top: 8px;">▶ Run operation</button>
+            <button class="btn btn-secondary btn-sm" id="fileResetBtn" style="margin-top: 8px; margin-left: 8px;">↺ Reset file</button>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 8px; letter-spacing: 0.06em;">📄 notes.txt</div>
+            <pre id="fileContents" style="background: #0F172A; color: #E2E8F0; padding: 16px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; line-height: 1.6; min-height: 160px; overflow-x: auto; margin: 0; white-space: pre-wrap; word-break: break-word;">Hello world
+This is a notebook
+Three lines of text</pre>
+            <div id="fileLog" style="margin-top: 12px; font-size: 0.8125rem; min-height: 24px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>The file pointer (cursor)</h3>
+        <p>Every open file in both C and Python has an invisible <strong>cursor</strong> that marks where the next read or write will happen. When you open a file in read mode, the cursor starts at byte 0. As you read, it moves forward. You can move it manually with <code>seek()</code> in Python or <code>fseek()</code> in C.</p>
+      </div>
+
+      <!-- FILE POINTER VISUALIZER -->
+      <div class="sim">
+        <div class="sim-head">
+          <h4>Simulator</h4>
+          <div class="sim-title">📍 File cursor — see where you are in the file</div>
+        </div>
+        <p style="margin-bottom: 20px;">Click the buttons to move the cursor or read. Watch its position update in real time.</p>
+        <div style="background: #0F172A; color: #E2E8F0; padding: 18px 20px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.9375rem; line-height: 2; margin-bottom: 16px; overflow-x: auto;">
+          <div id="cursorDisplay"></div>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn btn-secondary btn-sm" id="curReadChar">Read 1 char</button>
+          <button class="btn btn-secondary btn-sm" id="curReadLine">Read 1 line</button>
+          <button class="btn btn-secondary btn-sm" id="curSeek0">seek(0)</button>
+          <button class="btn btn-secondary btn-sm" id="curSeekEnd">seek to end</button>
+          <button class="btn btn-secondary btn-sm" id="curReset">↺ Reset</button>
+        </div>
+        <div id="cursorOutput" style="margin-top: 16px; background: var(--surface-2); padding: 14px 16px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; min-height: 60px; line-height: 1.7;"></div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Handling errors</h3>
+        <p>Files cause errors all the time: file doesn't exist, no permission to read, disk is full. Each language handles this differently.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>error_handling.c</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="t">FILE</span><span class="o"> *fp = </span><span class="f">fopen</span><span class="o">(</span><span class="s">"settings.txt"</span><span class="o">, </span><span class="s">"r"</span><span class="o">);</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">if</span><span class="o"> (fp == </span><span class="k">NULL</span><span class="o">) {</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">    </span><span class="f">perror</span><span class="o">(</span><span class="s">"Cannot open"</span><span class="o">);</span>     <span class="c">// prints reason</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">    </span><span class="k">return</span><span class="o"> </span><span class="n">1</span><span class="o">;</span>                    <span class="c">// or fall back</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">}</span></span></div>
+          </div>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>error_handling.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">try</span><span class="o">:</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o">    </span><span class="k">with</span><span class="o"> </span><span class="b">open</span><span class="o">(</span><span class="s">"settings.txt"</span><span class="o">) </span><span class="k">as</span><span class="o"> f:</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">        config = f.</span><span class="f">read</span><span class="o">()</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="k">except</span><span class="o"> </span><span class="b">FileNotFoundError</span><span class="o">:</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">    </span><span class="b">print</span><span class="o">(</span><span class="s">"No settings — using defaults"</span><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o">    config = </span><span class="s">""</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="k">except</span><span class="o"> </span><span class="b">PermissionError</span><span class="o">:</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">    </span><span class="b">print</span><span class="o">(</span><span class="s">"Can't read this — check permissions"</span><span class="o">)</span></span></div>
+          </div>
+        </div>
+        <p>Python's exception-based approach lets you catch specific failure types separately. C forces you to inspect <code>errno</code> or just use <code>perror()</code> to print whatever went wrong.</p>
+      </div>
+
+      <div class="topic-block">
+        <h3>Text vs binary files</h3>
+        <p>Both languages distinguish text and binary modes. If you're storing words, numbers, or human-readable content, use text mode (the default: <code>"r"</code>/<code>"w"</code>/<code>"a"</code>). If you're storing images, audio, PDFs, or non-text data, use binary mode (<code>"rb"</code>/<code>"wb"</code>). Trying to read a JPEG in text mode either crashes or gives you garbled output.</p>
+      </div>
+
+      <div class="topic-block">
+        <h3>Which one should you learn first?</h3>
+        <p><strong>If you're a beginner</strong>: start with Python. The syntax is shorter, errors are clear, and you can focus on what file handling <em>does</em> instead of fighting the language.</p>
+        <p><strong>If you're learning systems programming or embedded</strong>: learn C's file handling. It's universal in those worlds, and you'll see <code>fopen</code>/<code>fread</code>/<code>fwrite</code> in every codebase from the Linux kernel to firmware.</p>
+        <p><strong>If you're a working developer</strong>: know both. You'll mostly write Python (or similar high-level languages), but the day you need to read a binary log file at maximum speed, or interop with a C library, you'll be grateful.</p>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 File handling in one sentence</div>
+        <div class="info-box-body">
+          <p>The concepts (open, read/write, close, modes, cursor) are <strong>identical in C and Python</strong>. Python wraps them in a friendly safety net (<code>with</code> blocks, exceptions, no buffer sizes). C makes you manage everything yourself but rewards you with speed and control. Same destination, different journey.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== TOPIC 03: VARIABLE SCOPE ========== -->
+<section class="topic-section" id="scope" style="--accent-color: #14B8A6; --mark-bg: #F0FDFA; --mark-color: #0D9488;">
+  <div class="container-narrow">
+    <div class="topic-hero">
+      <div class="topic-mark">
+        <span class="topic-mark-num">03</span>
+        Topic · Variable Scope
+      </div>
+      <h2>Variable Scope</h2>
+      <p>"Why isn't my variable working here? It worked two lines ago!" Welcome to scope — the rules that decide where each variable is visible and where it isn't.</p>
+    </div>
+
+    <div class="topic-body">
+
+      <div class="topic-block">
+        <h3>The house analogy</h3>
+        <p>Think of a house with multiple rooms.</p>
+        <ul>
+          <li>The <strong>water tank on the roof</strong> serves every room. Anyone in the house can use it. That's a <strong>global</strong> variable — accessible from anywhere.</li>
+          <li>Your <strong>personal water bottle in your room</strong> is only accessible to you, when you're inside that room. That's a <strong>local</strong> variable — only exists inside the function (or block) where you defined it.</li>
+          <li>The <strong>shared filter in the family kitchen</strong> is accessible to family members in the kitchen but not to neighbors. That's an <strong>enclosing</strong> scope — outer function shares with inner.</li>
+        </ul>
+        <div class="info-box info" style="border-left-color: #14B8A6; background: #F0FDFA;">
+          <div class="info-box-title">🏠 The mental model</div>
+          <div class="info-box-body">
+            <p><strong>Scope</strong> = "from where in my code can I see this variable?"</p>
+            <p>Variables defined inside a function exist only while that function runs, and only that function can see them. Variables defined outside all functions live for the entire program and everyone can see them — but modifying them requires special syntax.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Python's LEGB rule</h3>
+        <p>When you use a variable, Python looks for it in four places, in this exact order:</p>
+        <ol>
+          <li><strong>L — Local</strong>: inside the current function</li>
+          <li><strong>E — Enclosing</strong>: in the function that wrapped this one (if nested)</li>
+          <li><strong>G — Global</strong>: at the top level of the file</li>
+          <li><strong>B — Built-in</strong>: Python's own names like <code>print</code>, <code>len</code>, <code>range</code></li>
+        </ol>
+        <p>The first match wins. If Python can't find the variable in any of these, it raises a <code>NameError</code>.</p>
+      </div>
+
+      <!-- SCOPE EXPLORER SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <h4>Simulator</h4>
+          <div class="sim-title">🔍 Scope explorer — what can each level see?</div>
+        </div>
+        <p style="margin-bottom: 20px;">Click any line to see what variables are visible from that point — and which ones aren't.</p>
+        <div style="background: #0F172A; border-radius: 12px; overflow: hidden;">
+          <div style="padding: 18px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; line-height: 1.8;" id="scopeCode"></div>
+        </div>
+        <div style="margin-top: 16px;">
+          <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; color: var(--text-subtle); letter-spacing: 0.06em; margin-bottom: 8px;">Visible from selected line</div>
+          <div id="scopeVisibility" style="background: var(--surface-2); padding: 16px; border-radius: 10px; min-height: 80px; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; line-height: 1.7;">Click a line above to inspect scope</div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>The <code>global</code> and <code>nonlocal</code> keywords</h3>
+        <p>By default, if you <em>assign</em> to a variable inside a function, Python creates a new local variable — even if a global with the same name exists. This is the most confusing thing about Python scope.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>scope_confusion.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="o">count = </span><span class="n">0</span>  <span class="c"># global</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="k">def</span> <span class="f">add_one</span><span class="o">():</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">    count = count + </span><span class="n">1</span>  <span class="c"># UnboundLocalError!</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="c"># Why? The assignment makes Python think 'count' is local,</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="c"># but it tries to read it before assigning. Error.</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="k">def</span> <span class="f">add_one_fixed</span><span class="o">():</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o">    </span><span class="k">global</span><span class="o"> count</span>     <span class="c"># declare we mean the global one</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o">    count = count + </span><span class="n">1</span>  <span class="c"># now works</span></span></div>
+          </div>
+        </div>
+        <p>For nested functions, use <code>nonlocal</code> instead of <code>global</code> when you want to modify a variable from the enclosing function (not the global one).</p>
+      </div>
+
+      <div class="topic-block">
+        <h3>Shadowing</h3>
+        <p>If you define a local variable with the same name as a global one, the local one "shadows" the global. Inside the function, only the local exists. The global is untouched.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>shadowing.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="o">name = </span><span class="s">"Aarav"</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="k">def</span> <span class="f">greet</span><span class="o">():</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o">    name = </span><span class="s">"Priya"</span>  <span class="c"># shadows global; new local var</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o">    </span><span class="b">print</span><span class="o">(name)</span>     <span class="c"># "Priya"</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="f">greet</span><span class="o">()</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="b">print</span><span class="o">(name)</span>         <span class="c"># still "Aarav" — global untouched</span></span></div>
+          </div>
+        </div>
+        <div class="info-box warning">
+          <div class="info-box-title">⚠️ Avoid shadowing built-ins</div>
+          <div class="info-box-body">
+            <p>Don't name variables <code>list</code>, <code>dict</code>, <code>str</code>, <code>type</code>, <code>id</code>, or <code>input</code>. These are Python built-ins. Shadowing them in your function will break things in confusing ways.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Variable lifetime</h3>
+        <p>Local variables exist only while their function is running. The moment the function returns, they're gone — Python's garbage collector reclaims their memory. Globals live as long as the program runs.</p>
+        <p>This is why you can't "return a variable" without actually returning its value. The variable name dies with the function.</p>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Scope in one sentence</div>
+        <div class="info-box-body">
+          <p>Python looks up variables using LEGB (Local → Enclosing → Global → Built-in). Assignment inside a function creates a local variable, even if a global with the same name exists. Use <code>global</code> or <code>nonlocal</code> only when you actually need to modify an outer variable — usually a sign you should refactor.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== TOPIC 04: DATABASE INDEXING ========== -->
+<section class="topic-section" id="indexing" style="--accent-color: #EC4899; --mark-bg: #FDF2F8; --mark-color: #BE185D; background: var(--surface-2);">
+  <div class="container-narrow">
+    <div class="topic-hero">
+      <div class="topic-mark">
+        <span class="topic-mark-num">04</span>
+        Topic · Database Indexing
+      </div>
+      <h2>Database Indexing</h2>
+      <p>The difference between a query that takes 30 milliseconds and one that takes 30 seconds is usually one missing index. Learn this and you'll save real production systems.</p>
+    </div>
+
+    <div class="topic-body">
+
+      <div class="topic-block">
+        <h3>The phone book analogy</h3>
+        <p>Imagine you have a 500-page phone book and need to find "Sharma, Rohit." Two approaches:</p>
+        <ul>
+          <li><strong>No index</strong>: open page 1. Not there. Page 2. Not there. Keep flipping until you hit Sharma. If they're on page 410, that's 410 pages of work.</li>
+          <li><strong>With index</strong>: the phone book is sorted alphabetically. Open to roughly the middle (M). Sharma comes after M, so jump to roughly three-quarters in. Refine. You find Sharma in maybe 6 jumps instead of 410.</li>
+        </ul>
+        <p>That's database indexing in one image. Without an index, the database scans <strong>every single row</strong> looking for matches. With an index, it uses a sorted lookup structure and gets there in a fraction of the time.</p>
+      </div>
+
+      <div class="topic-block">
+        <h3>What an index actually is</h3>
+        <p>An index is a <strong>separate data structure</strong> that the database maintains alongside your table. It contains the column values you indexed, kept sorted, along with pointers back to the original rows.</p>
+        <p>Most databases use a structure called a <strong>B-Tree</strong> (balanced tree). Think of it like a tree where each node has many children. To find a value, the database walks the tree from the root, making maybe 3–4 comparisons total — even in a table with millions of rows.</p>
+        <div class="info-box info" style="border-left-color: #EC4899; background: #FDF2F8;">
+          <div class="info-box-title">📚 The mental model</div>
+          <div class="info-box-body">
+            <p><strong>Full table scan</strong> = read every row. O(N) — gets linearly slower as your table grows.</p>
+            <p><strong>Index lookup</strong> = walk a sorted tree. O(log N) — barely slows down even at huge sizes.</p>
+            <p>For 1 million rows, full scan = 1,000,000 checks. Index = ~20 checks.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- INDEX RACE SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <h4>Simulator</h4>
+          <div class="sim-title">⚡ Index vs No-Index — race them</div>
+        </div>
+        <p style="margin-bottom: 20px;">Set a table size and run the search. Watch the speed difference. Larger tables make the gap dramatic.</p>
+        <div class="input-row">
+          <label class="input-label">Table size</label>
+          <div class="select-pill-group" id="idxSize">
+            <button class="select-pill" data-v="1000">1,000 rows</button>
+            <button class="select-pill active" data-v="100000">100,000 rows</button>
+            <button class="select-pill" data-v="10000000">10,000,000 rows</button>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="idxRunBtn" style="margin-top: 8px;">🏁 Run search on both</button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px;" class="idx-grid">
+          <div style="border: 1.5px solid var(--border); border-radius: 12px; padding: 18px; background: var(--surface);">
+            <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; color: var(--danger); letter-spacing: 0.08em; margin-bottom: 6px;">Without index</div>
+            <div style="font-weight: 700; margin-bottom: 8px;">Full table scan</div>
+            <div id="idxScanBar" style="height: 10px; background: var(--surface-2); border-radius: 5px; overflow: hidden; margin-bottom: 8px;">
+              <div id="idxScanFill" style="height: 100%; background: var(--danger); width: 0%; transition: width 1.5s ease;"></div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem;">
+              Rows checked: <span id="idxScanCount" style="color: var(--danger); font-weight: 700;">0</span><br>
+              Time taken: <span id="idxScanTime" style="color: var(--danger); font-weight: 700;">—</span>
+            </div>
+          </div>
+          <div style="border: 1.5px solid var(--border); border-radius: 12px; padding: 18px; background: var(--surface);">
+            <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; color: var(--success); letter-spacing: 0.08em; margin-bottom: 6px;">With B-Tree index</div>
+            <div style="font-weight: 700; margin-bottom: 8px;">Tree lookup</div>
+            <div style="height: 10px; background: var(--surface-2); border-radius: 5px; overflow: hidden; margin-bottom: 8px;">
+              <div id="idxTreeFill" style="height: 100%; background: var(--success); width: 0%; transition: width 0.3s ease;"></div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem;">
+              Nodes checked: <span id="idxTreeCount" style="color: var(--success); font-weight: 700;">0</span><br>
+              Time taken: <span id="idxTreeTime" style="color: var(--success); font-weight: 700;">—</span>
+            </div>
+          </div>
+        </div>
+        <div id="idxVerdict" style="margin-top: 12px; min-height: 24px; font-size: 0.875rem; text-align: center;"></div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Types of indexes</h3>
+        <ul>
+          <li><strong>Primary index</strong> — built automatically on the primary key. Every table has one.</li>
+          <li><strong>Secondary index</strong> — any extra index you add on other columns. Optional, but where the magic happens.</li>
+          <li><strong>Unique index</strong> — like a secondary index, but also enforces that no two rows can have the same value (e.g., email addresses).</li>
+          <li><strong>Composite index</strong> — covers multiple columns together. Useful when you search by <code>(last_name, first_name)</code> as one unit.</li>
+          <li><strong>Partial index</strong> — only indexes rows matching a condition. Saves space when you only query a subset.</li>
+        </ul>
+      </div>
+
+      <div class="topic-block">
+        <h3>Creating indexes</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>SQL · indexes</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c">-- Basic index on one column</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">CREATE INDEX</span><span class="o"> idx_email </span><span class="k">ON</span><span class="o"> users(email);</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="c">-- Unique index — also prevents duplicates</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="k">CREATE UNIQUE INDEX</span><span class="o"> idx_email_unique </span><span class="k">ON</span><span class="o"> users(email);</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="c">-- Composite index — for queries that filter on both columns</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="k">CREATE INDEX</span><span class="o"> idx_name </span><span class="k">ON</span><span class="o"> users(last_name, first_name);</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="c">-- See what the database does for a query</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="k">EXPLAIN SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> users </span><span class="k">WHERE</span><span class="o"> email = </span><span class="s">'a@b.com'</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="c">-- Should say "Index Scan" not "Seq Scan"</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>When to add an index — and when not to</h3>
+        <div class="info-box success">
+          <div class="info-box-title">✓ Add an index when</div>
+          <div class="info-box-body">
+            <p>You frequently search, filter, or join on a column. The column has high <em>cardinality</em> (many distinct values, like email or user_id). The table is large enough that scanning it is slow.</p>
+          </div>
+        </div>
+        <div class="info-box danger">
+          <div class="info-box-title">✗ Don't add an index when</div>
+          <div class="info-box-body">
+            <p>The table is small (under a few thousand rows — scanning is already fast). The column has very low cardinality (only 2–3 distinct values, like a "status" column). The table is write-heavy and read-light — every INSERT and UPDATE has to update all indexes too, which costs time.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>The hidden cost of indexes</h3>
+        <p>Indexes aren't free. Three trade-offs:</p>
+        <ul>
+          <li><strong>Disk space</strong> — each index is a separate structure stored on disk. Large tables with many indexes can have indexes that take more space than the data itself.</li>
+          <li><strong>Slower writes</strong> — every INSERT, UPDATE, or DELETE on the table also has to update every index. More indexes = slower writes.</li>
+          <li><strong>Maintenance</strong> — indexes can become fragmented over time and need occasional rebuilding.</li>
+        </ul>
+        <p>The rule: index what you query. Don't index what you don't.</p>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Indexing in one sentence</div>
+        <div class="info-box-body">
+          <p>An index is a sorted lookup structure that lets the database find rows by value in milliseconds instead of seconds. Add indexes on columns you search frequently. Don't index everything — each index costs space and slows writes.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== TOPIC 05: DATABASES ========== -->
+<section class="topic-section" id="db" style="--accent-color: #0EA5E9; --mark-bg: #F0F9FF; --mark-color: #0284C7;">
+  <div class="container-narrow">
+    <div class="topic-hero">
+      <div class="topic-mark">
+        <span class="topic-mark-num">05</span>
+        Topic · Picking a Database
+      </div>
+      <h2>SQLite vs MySQL vs PostgreSQL</h2>
+      <p>Three databases. Three completely different tools. Picking the right one upfront saves you migration pain later. Here's how they actually differ.</p>
+    </div>
+
+    <div class="topic-body">
+
+      <div class="topic-block">
+        <h3>The vehicle analogy</h3>
+        <p>Think of these databases as vehicles:</p>
+        <ul>
+          <li><strong>SQLite</strong> = a <strong>bicycle</strong>. Tiny, simple, no setup. You don't need a license, fuel, or a parking spot. But you can't carry a family or drive on the highway.</li>
+          <li><strong>MySQL</strong> = a <strong>car</strong>. Practical, popular, gets the job done. Most small-to-medium businesses run on this. Comfortable for daily use. Limits show only at very large scale.</li>
+          <li><strong>PostgreSQL</strong> = a <strong>heavy-duty truck</strong>. Built for serious cargo. More moving parts, more maintenance, but it can handle anything you throw at it — and keeps doing so as you grow.</li>
+        </ul>
+        <p>All three are SQL databases. All three speak roughly the same query language. But what they're built for is very different.</p>
+      </div>
+
+      <div class="topic-block">
+        <h3>SQLite — the embedded database</h3>
+        <p>SQLite is unusual because it's not a server. It's a <strong>library</strong>. Your entire database lives as a single file (like <code>app.db</code>) and your application reads/writes that file directly.</p>
+        <ul>
+          <li><strong>Zero configuration.</strong> No install, no daemon, no port. Just <code>import sqlite3</code> and go.</li>
+          <li><strong>Single file.</strong> The whole database is one file. Easy to back up — just copy the file.</li>
+          <li><strong>Bundled into everything.</strong> Every iPhone, Android phone, every browser, every Mac, almost every device ships with SQLite. It's the most deployed database in the world.</li>
+          <li><strong>Limit</strong>: only one writer at a time. Two users editing simultaneously? Second one waits.</li>
+        </ul>
+        <div class="info-box info">
+          <div class="info-box-title">📱 Best for</div>
+          <div class="info-box-body">
+            <p>Mobile apps, desktop apps, browser extensions, IoT devices, prototypes, small websites with low concurrent traffic, embedded systems, local caches, single-user tools.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>MySQL — the popular workhorse</h3>
+        <p>MySQL is a full client-server database. It runs as a separate process; your app connects to it over a network. It's been the default choice for web applications for two decades.</p>
+        <ul>
+          <li><strong>Battle-tested at scale.</strong> Powers Facebook, YouTube, Twitter (early days), countless WordPress sites.</li>
+          <li><strong>Fast reads.</strong> Highly optimized for the typical pattern of "many reads, few writes."</li>
+          <li><strong>Big ecosystem.</strong> Tools, hosting, tutorials, plugins — everything exists for MySQL.</li>
+          <li><strong>Multiple storage engines.</strong> InnoDB (default, transactional) vs MyISAM (older, faster reads but no transactions).</li>
+          <li><strong>Limit</strong>: weaker on advanced features compared to PostgreSQL (no complex JSON queries until recently, simpler types).</li>
+        </ul>
+        <div class="info-box info">
+          <div class="info-box-title">🌐 Best for</div>
+          <div class="info-box-body">
+            <p>Web applications, content sites, e-commerce, SaaS products, anywhere with high read traffic. Particularly strong if you're building on PHP/WordPress, but works with everything.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>PostgreSQL — the powerhouse</h3>
+        <p>PostgreSQL (often called "Postgres") is the most feature-rich open-source SQL database. If MySQL is "good enough," Postgres is "best in class."</p>
+        <ul>
+          <li><strong>Strict and standard-compliant.</strong> Follows SQL standards more closely than MySQL.</li>
+          <li><strong>Advanced types.</strong> Native JSON/JSONB, arrays, geographic data (PostGIS), full-text search, custom types — all built in.</li>
+          <li><strong>True ACID transactions</strong> with sophisticated isolation levels.</li>
+          <li><strong>Extensible.</strong> Add your own data types, operators, even programming languages.</li>
+          <li><strong>Limit</strong>: slightly more complex to set up and tune than MySQL. Slightly higher resource usage at small scale.</li>
+        </ul>
+        <div class="info-box info">
+          <div class="info-box-title">🏛️ Best for</div>
+          <div class="info-box-body">
+            <p>Anything serious. Fintech, healthcare, analytics, geospatial apps, anywhere data integrity is critical, anywhere you need advanced features. Modern startups in 2026 increasingly default to Postgres over MySQL.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATABASE RECOMMENDER SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <h4>Simulator</h4>
+          <div class="sim-title">🎯 Which database should I use?</div>
+        </div>
+        <p style="margin-bottom: 20px;">Answer four questions about your project. The recommender will suggest the best fit.</p>
+        <div class="input-row">
+          <label class="input-label">Expected concurrent users</label>
+          <div class="select-pill-group" id="recUsers">
+            <button class="select-pill active" data-v="1">Just me</button>
+            <button class="select-pill" data-v="10">Under 100</button>
+            <button class="select-pill" data-v="1000">Hundreds to thousands</button>
+            <button class="select-pill" data-v="100000">Tens of thousands+</button>
+          </div>
+        </div>
+        <div class="input-row">
+          <label class="input-label">Project type</label>
+          <div class="select-pill-group" id="recType">
+            <button class="select-pill active" data-v="mobile">Mobile/desktop app</button>
+            <button class="select-pill" data-v="web">Web app</button>
+            <button class="select-pill" data-v="analytics">Analytics/fintech</button>
+          </div>
+        </div>
+        <div class="input-row">
+          <label class="input-label">Do you need advanced features (JSON queries, geo data, full-text search)?</label>
+          <div class="select-pill-group" id="recFeatures">
+            <button class="select-pill active" data-v="no">No, basic CRUD is fine</button>
+            <button class="select-pill" data-v="yes">Yes, definitely</button>
+          </div>
+        </div>
+        <div class="input-row">
+          <label class="input-label">DevOps comfort</label>
+          <div class="select-pill-group" id="recDevops">
+            <button class="select-pill active" data-v="zero">None — want minimal setup</button>
+            <button class="select-pill" data-v="some">Some — can manage a server</button>
+            <button class="select-pill" data-v="lots">Lots — can tune anything</button>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="recBtn" style="margin-top: 8px;">Get recommendation →</button>
+        <div id="recOutput" style="margin-top: 16px;"></div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Side-by-side comparison</h3>
+        <div style="overflow-x: auto;">
+        <table style="width: 100%; min-width: 480px; border-collapse: collapse; margin-top: 12px; font-size: 0.875rem;">
+          <thead>
+            <tr style="background: var(--surface-2);">
+              <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--border);"></th>
+              <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--border); color: #14B8A6;">SQLite</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--border); color: #F59E0B;">MySQL</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 1px solid var(--border); color: #0EA5E9;">PostgreSQL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Type</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Embedded library</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Client-server</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Client-server</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Setup</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">None</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Moderate</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Moderate</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Concurrency</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">One writer</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">High</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Very high</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">JSON support</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Basic</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Good</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Excellent (JSONB)</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Transactions</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Yes</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Yes (InnoDB)</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Yes (best-in-class)</td></tr>
+            <tr><td style="padding: 10px; border-bottom: 1px solid var(--border); font-weight: 600;">Best deployment</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Single file in app</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Managed (RDS, etc.)</td><td style="padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Managed (RDS, Supabase)</td></tr>
+            <tr><td style="padding: 10px; font-weight: 600;">Scales to</td><td style="padding: 10px; color: var(--text-muted);">~Few GB, ~100 users</td><td style="padding: 10px; color: var(--text-muted);">Many TB, millions of users</td><td style="padding: 10px; color: var(--text-muted);">Many TB, millions of users</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Connecting from Python</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>db_connections.py</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c"># SQLite — built into Python, no install needed</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">import</span><span class="o"> sqlite3</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o">conn = sqlite3.</span><span class="f">connect</span><span class="o">(</span><span class="s">"app.db"</span><span class="o">)</span>  <span class="c"># a file path</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="c"># MySQL — pip install mysql-connector-python</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="k">import</span><span class="o"> mysql.connector</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">conn = mysql.connector.</span><span class="f">connect</span><span class="o">(</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">    host=</span><span class="s">"localhost"</span><span class="o">, user=</span><span class="s">"root"</span><span class="o">,</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o">    password=</span><span class="s">"pwd"</span><span class="o">, database=</span><span class="s">"shop"</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="c"># PostgreSQL — pip install psycopg2-binary</span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="k">import</span><span class="o"> psycopg2</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="o">conn = psycopg2.</span><span class="f">connect</span><span class="o">(</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="o">    host=</span><span class="s">"localhost"</span><span class="o">, user=</span><span class="s">"postgres"</span><span class="o">,</span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="o">    password=</span><span class="s">"pwd"</span><span class="o">, dbname=</span><span class="s">"shop"</span></span></div>
+<div class="ln"><span class="ln-num">17</span><span class="ln-content"><span class="o">)</span></span></div>
+<div class="ln"><span class="ln-num">18</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">19</span><span class="ln-content"><span class="c"># Same SQL works in all three</span></span></div>
+<div class="ln"><span class="ln-num">20</span><span class="ln-content"><span class="o">cur = conn.</span><span class="f">cursor</span><span class="o">()</span></span></div>
+<div class="ln"><span class="ln-num">21</span><span class="ln-content"><span class="o">cur.</span><span class="f">execute</span><span class="o">(</span><span class="s">"SELECT * FROM users WHERE id = %s"</span><span class="o">, (</span><span class="n">42</span><span class="o">,))</span></span></div>
+<div class="ln"><span class="ln-num">22</span><span class="ln-content"><span class="o">user = cur.</span><span class="f">fetchone</span><span class="o">()</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 Picking a database in one sentence</div>
+        <div class="info-box-body">
+          <p><strong>SQLite</strong> for single-user or embedded apps. <strong>MySQL</strong> when you want the well-trodden path and proven scale for typical web traffic. <strong>PostgreSQL</strong> when you want the best features and don't mind a bit more complexity. For most new web projects in 2026, the modern default is PostgreSQL.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== QUIZ ========== -->
+<section id="quiz" style="background: var(--surface-2);">
+  <div class="container">
+    <div class="section-head">
+      <span class="badge badge-pink">Test yourself</span>
+      <h2>50 questions across all 5 topics</h2>
+      <p>10 questions per topic — basic, intermediate, and code-output mixed. Filter by topic to focus.</p>
+    </div>
+
+    <div style="max-width: 760px; margin: 0 auto;">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; justify-content: center;" id="quizFilters">
+        <button class="btn btn-sm btn-primary" data-cat="all">All · 50</button>
+        <button class="btn btn-sm btn-secondary" data-cat="routing">Routing · 10</button>
+        <button class="btn btn-sm btn-secondary" data-cat="files">Files · 10</button>
+        <button class="btn btn-sm btn-secondary" data-cat="scope">Scope · 10</button>
+        <button class="btn btn-sm btn-secondary" data-cat="indexing">Indexing · 10</button>
+        <button class="btn btn-sm btn-secondary" data-cat="db">Databases · 10</button>
+      </div>
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow);" id="quizCard">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <span class="badge" id="quizCatBadge">Routing</span>
+            <span style="font-size: 0.8125rem; color: var(--text-subtle); font-weight: 600;">Question <span id="quizCurrent">1</span> of <span id="quizTotal">50</span></span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 0.875rem; font-weight: 700;">
+            Score: <span style="color: var(--success);" id="quizScore">0</span> / <span id="quizScoreTotal">50</span>
+          </div>
+        </div>
+        <div style="height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin-bottom: 28px;">
+          <div style="height: 100%; background: linear-gradient(90deg, var(--route), var(--file), var(--scope), var(--idx), var(--db)); width: 0%; transition: width 0.25s ease;" id="quizProgressBar"></div>
+        </div>
+        <div id="quizContent"></div>
+        <div style="display: flex; gap: 12px; justify-content: space-between; margin-top: 24px;">
+          <button class="btn btn-secondary" id="quizPrevBtn" disabled>← Previous</button>
+          <button class="btn btn-primary" id="quizNextBtn">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CHEATSHEET ========== -->
+<section id="cheatsheet">
+  <div class="container">
+    <div class="section-head">
+      <span class="badge badge-info">Quick reference</span>
+      <h2>Cheatsheet — all 5 topics</h2>
+      <p>Bookmark this page. Come back when you forget a syntax. Everything here in one glance.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+      <div class="topic-card" style="--bar: #8B5CF6; cursor: default;">
+        <div class="topic-card-num">01 · Routing</div>
+        <div class="topic-card-title">Match URLs to handlers</div>
+        <div class="topic-card-desc" style="margin-bottom: 12px;">Routes have method + path + handler.</div>
+        <pre style="background: var(--surface-2); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow-x: auto; margin: 0;">@app.get("/users/{id}")
+def handler(id: int):
+    return {...}</pre>
+      </div>
+      <div class="topic-card" style="--bar: #F59E0B; cursor: default;">
+        <div class="topic-card-num">02 · Files</div>
+        <div class="topic-card-title">C vs Python</div>
+        <div class="topic-card-desc" style="margin-bottom: 12px;">Modes are identical. Python auto-closes; C makes you do it.</div>
+        <pre style="background: var(--surface-2); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow-x: auto; margin: 0;">// C
+FILE *fp = fopen("f","a");
+fputs("hi", fp); fclose(fp);
+
+# Python
+with open("f","a") as f:
+    f.write("hi")</pre>
+      </div>
+      <div class="topic-card" style="--bar: #14B8A6; cursor: default;">
+        <div class="topic-card-num">03 · Scope</div>
+        <div class="topic-card-title">LEGB lookup order</div>
+        <div class="topic-card-desc" style="margin-bottom: 12px;">Local → Enclosing → Global → Built-in.</div>
+        <pre style="background: var(--surface-2); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow-x: auto; margin: 0;">def f():
+    global x  # modify outer
+    x = 5</pre>
+      </div>
+      <div class="topic-card" style="--bar: #EC4899; cursor: default;">
+        <div class="topic-card-num">04 · Indexing</div>
+        <div class="topic-card-title">Speed up queries</div>
+        <div class="topic-card-desc" style="margin-bottom: 12px;">Index columns you search/filter on.</div>
+        <pre style="background: var(--surface-2); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow-x: auto; margin: 0;">CREATE INDEX idx_email
+  ON users(email);
+EXPLAIN SELECT ...;</pre>
+      </div>
+      <div class="topic-card" style="--bar: #0EA5E9; cursor: default;">
+        <div class="topic-card-num">05 · Databases</div>
+        <div class="topic-card-title">Pick by scale</div>
+        <div class="topic-card-desc" style="margin-bottom: 12px;">SQLite = embedded · MySQL = web · Postgres = serious.</div>
+        <pre style="background: var(--surface-2); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow-x: auto; margin: 0;">sqlite3.connect("app.db")
+psycopg2.connect(host=...)
+mysql.connector.connect(...)</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== WHAT YOU CAN BUILD ========== -->
+<section id="build" style="background: var(--surface-2);">
+  <div class="container">
+    <div class="section-head">
+      <span class="badge badge-warning">Apply what you learned</span>
+      <h2>What you can build with this</h2>
+      <p>You now have the foundations. Here are real projects that exercise everything on this page.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">📓</div>
+        <h4 style="margin-bottom: 8px;">Personal Journal CLI</h4>
+        <p style="font-size: 0.875rem; line-height: 1.6;">Build a command-line app that lets users add daily entries to a text file, search past entries, and tag them. Uses file handling, scope (per-user state), and SQLite for indexed search.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">📚</div>
+        <h4 style="margin-bottom: 8px;">Library Management System</h4>
+        <p style="font-size: 0.875rem; line-height: 1.6;">Book inventory, member records, borrow/return history. PostgreSQL with proper indexing on ISBN and member ID. REST routes for each operation.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🎓</div>
+        <h4 style="margin-bottom: 8px;">Student Record System</h4>
+        <p style="font-size: 0.875rem; line-height: 1.6;">CSV import via file handling, store in MySQL with composite indexes on (class, section), routes for admin/teacher/student views. Different scopes for different roles.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🍽️</div>
+        <h4 style="margin-bottom: 8px;">Food Delivery Tracker</h4>
+        <p style="font-size: 0.875rem; line-height: 1.6;">Dynamic routes for /orders/{order_id}, indexed lookups on customer_id and restaurant_id, log every order to a file for audit trail.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">📝</div>
+        <h4 style="margin-bottom: 8px;">Note-Taking SPA</h4>
+        <p style="font-size: 0.875rem; line-height: 1.6;">Single-page app with client-side routing, SQLite backend, full-text search via Postgres later. Practice both routing styles.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">📊</div>
+        <h4 style="margin-bottom: 8px;">Log Analyzer</h4>
+        <p style="font-size: 0.875rem; line-height: 1.6;">Read large log files line-by-line (file handling done right), parse, store in PostgreSQL with indexes on timestamp and level. Query for slow requests.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🛒</div>
+        <h4 style="margin-bottom: 8px;">Mini E-commerce</h4>
+        <p style="font-size: 0.875rem; line-height: 1.6;">Products, cart, orders. Nested routes (/users/{id}/orders/{oid}), indexed product search, choose PostgreSQL for transactions on checkout.</p>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">📅</div>
+        <h4 style="margin-bottom: 8px;">Attendance Tracker</h4>
+        <p style="font-size: 0.875rem; line-height: 1.6;">Save daily attendance to a file or database. Indexed lookups by date and student. Per-class routing (/class/{id}/attendance).</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 56px; text-align: center; padding: 56px 32px; border-radius: var(--radius-xl); background: linear-gradient(135deg, #8B5CF6, #F59E0B, #14B8A6, #EC4899, #0EA5E9); color: #fff; position: relative; overflow: hidden;">
+      <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at top, rgba(255,255,255,0.25), transparent);"></div>
+      <div style="position: relative; z-index: 1;">
+        <div style="font-size: 3rem; margin-bottom: 12px;">🚀</div>
+        <h2 style="color: #fff; margin-bottom: 16px;">You've got the foundations.</h2>
+        <p style="color: rgba(255,255,255,0.92); font-size: 1.0625rem; max-width: 560px; margin: 0 auto; line-height: 1.65;">Routing, file handling, scope, indexing, picking a database — these five touch every real project. Pick one above and start building. That's where understanding becomes skill.</p>
+        <div style="margin-top: 28px;">
+          <a href="#top" class="btn btn-secondary btn-lg" style="background: rgba(255,255,255,0.18); color: #fff; border-color: rgba(255,255,255,0.35);">↑ Back to top</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="border-top: 1px solid var(--border); padding: 48px 24px; text-align: center; color: var(--text-subtle); font-size: 0.875rem;">
+  <div class="container">
+    <p>Built with <span style="color: var(--pink);">♥</span> for learners. Open in any browser — no installation needed.</p>
+    <p style="margin-top: 8px; font-size: 0.75rem;">A single-file interactive guide. Hosted nowhere, runs everywhere.</p>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" title="Back to top" aria-label="Back to top">↑</button>
+
+
+<script>
+// ========== NAV ==========
+const nav = document.getElementById('topNav');
+const themeBtn = document.getElementById('themeBtn');
+const menuBtn = document.getElementById('menuBtn');
+const progressBar = document.getElementById('progressBar');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const savedTheme = (() => { try { return localStorage.getItem('fund-theme'); } catch(e) { return null; } })();
+if (savedTheme === 'dark') { document.body.classList.add('dark'); themeBtn.textContent = '☀️'; }
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  themeBtn.textContent = isDark ? '☀️' : '🌙';
+  try { localStorage.setItem('fund-theme', isDark ? 'dark' : 'light'); } catch(e) {}
+});
+
+menuBtn.addEventListener('click', () => {
+  nav.classList.toggle('menu-open');
+  menuBtn.textContent = nav.classList.contains('menu-open') ? '✕' : '☰';
+});
+navLinks.forEach(l => l.addEventListener('click', () => {
+  nav.classList.remove('menu-open');
+  menuBtn.textContent = '☰';
+}));
+
+const navIds = ['routing','files','scope','indexing','db','quiz','cheatsheet'];
+function onScroll() {
+  const sc = window.scrollY;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min(100, (sc / h) * 100) + '%';
+  nav.classList.toggle('scrolled', sc > 8);
+  let current = '';
+  for (const id of navIds) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top - 100 <= 0) current = id;
+  }
+  navLinks.forEach(l => l.classList.remove('active'));
+  if (current) {
+    const target = document.querySelector(`.nav-link[href="#${current}"]`);
+    if (target) target.classList.add('active');
+  }
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+function setupPillGroup(groupId, multi = false) {
+  const group = document.getElementById(groupId);
+  if (!group) return null;
+  group.querySelectorAll('.select-pill').forEach(p => {
+    p.addEventListener('click', () => {
+      if (multi) p.classList.toggle('active');
+      else {
+        group.querySelectorAll('.select-pill').forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+      }
+      if (group._onChange) group._onChange();
+    });
+  });
+  return group;
+}
+function getPillValue(group) {
+  const active = group.querySelector('.select-pill.active');
+  return active ? active.dataset.v : null;
+}
+
+// ========== ROUTING SIM 1: URL Matcher ==========
+const ROUTES = [
+  { method: 'GET', pattern: '/' },
+  { method: 'GET', pattern: '/users' },
+  { method: 'GET', pattern: '/users/{id}' },
+  { method: 'GET', pattern: '/users/{id}/orders' },
+  { method: 'GET', pattern: '/users/{id}/orders/{order_id}' },
+  { method: 'GET', pattern: '/products/{slug}' },
+];
+function matchRoute(url) {
+  const cleanUrl = url.split('?')[0].replace(/\/$/, '') || '/';
+  const urlParts = cleanUrl.split('/').filter(p => p !== '' || cleanUrl === '/');
+  if (cleanUrl === '/') urlParts.length = 0;
+
+  for (const route of ROUTES) {
+    const patternParts = route.pattern.split('/').filter(p => p !== '' || route.pattern === '/');
+    if (route.pattern === '/') patternParts.length = 0;
+    if (patternParts.length !== urlParts.length) continue;
+    const params = {};
+    let matched = true;
+    for (let i = 0; i < patternParts.length; i++) {
+      const pp = patternParts[i];
+      const up = urlParts[i];
+      if (pp.startsWith('{') && pp.endsWith('}')) {
+        params[pp.slice(1, -1)] = up;
+      } else if (pp !== up) {
+        matched = false;
+        break;
+      }
+    }
+    if (matched) return { route, params };
+  }
+  return null;
+}
+document.getElementById('navBtn').addEventListener('click', () => {
+  const url = document.getElementById('navUrl').value.trim();
+  const out = document.getElementById('navVerdict');
+  const result = matchRoute(url);
+  if (result) {
+    const paramStr = Object.keys(result.params).length === 0
+      ? 'No parameters'
+      : Object.entries(result.params).map(([k, v]) => `  ${escHtml(k)} = "${escHtml(v)}"`).join('\n');
+    out.innerHTML = `<div class="verdict allow"><div class="verdict-head"><div class="verdict-icon">✓</div>Match found</div>The router will run the handler for <code>${escHtml(result.route.method)} ${escHtml(result.route.pattern)}</code>.<pre>${paramStr}</pre></div>`;
+  } else {
+    out.innerHTML = `<div class="verdict block"><div class="verdict-head"><div class="verdict-icon">✕</div>404 Not Found</div>No route matches <code>${escHtml(url)}</code>. Check the available routes above.</div>`;
+  }
+});
+
+// ========== ROUTING SIM 2: Client vs Server ==========
+const ssrPages = ['Home page', 'About page', 'Contact page', 'Products page'];
+let ssrIdx = 0, csrIdx = 0;
+const ssrBrowser = document.getElementById('ssrBrowser');
+document.getElementById('ssrBtn').addEventListener('click', () => {
+  ssrIdx = (ssrIdx + 1) % ssrPages.length;
+  // simulate full reload — blank then flash
+  ssrBrowser.style.opacity = '0.3';
+  ssrBrowser.innerHTML = `<div style="color: var(--text-subtle); font-size: 0.75rem;">⏳ Loading from server...</div>`;
+  setTimeout(() => {
+    ssrBrowser.innerHTML = `<div style="color: var(--text-subtle); font-size: 0.75rem; margin-bottom: 8px;">📄 page reloaded</div><div id="ssrPage" style="color: var(--text);">${ssrPages[ssrIdx]}</div>`;
+    ssrBrowser.style.opacity = '1';
+  }, 500);
+});
+document.getElementById('csrBtn').addEventListener('click', () => {
+  csrIdx = (csrIdx + 1) % ssrPages.length;
+  // just swap text
+  const page = document.getElementById('csrPage');
+  page.style.animation = 'none';
+  page.offsetHeight;
+  page.style.animation = 'slideUp 0.2s ease';
+  page.textContent = ssrPages[csrIdx];
+});
+
+// ========== FILE SIM 0: C vs Python Language Switcher ==========
+const LANG_OPS = {
+  open: {
+    c: `<span style="color:#5EEAD4">FILE</span> *fp = <span style="color:#34D399">fopen</span>(<span style="color:#FCD34D">"notes.txt"</span>, <span style="color:#FCD34D">"r"</span>);
+<span style="color:#C084FC">if</span> (fp == <span style="color:#C084FC">NULL</span>) {
+    <span style="color:#34D399">perror</span>(<span style="color:#FCD34D">"open failed"</span>);
+    <span style="color:#C084FC">return</span> <span style="color:#F472B6">1</span>;
+}
+<span style="color:#64748B">// ...use fp...</span>
+<span style="color:#34D399">fclose</span>(fp);  <span style="color:#64748B">// MUST close manually</span>`,
+    py: `<span style="color:#C084FC">with</span> <span style="color:#60A5FA">open</span>(<span style="color:#FCD34D">"notes.txt"</span>) <span style="color:#C084FC">as</span> f:
+    <span style="color:#64748B"># ...use f...</span>
+    <span style="color:#C084FC">pass</span>
+<span style="color:#64748B"># Auto-closed when block exits</span>`,
+    note: 'Python\'s <code>with</code> block auto-closes the file when you leave the block — even if an exception happens. C makes you remember to call <code>fclose()</code> on every code path.',
+  },
+  write: {
+    c: `<span style="color:#5EEAD4">FILE</span> *fp = <span style="color:#34D399">fopen</span>(<span style="color:#FCD34D">"notes.txt"</span>, <span style="color:#FCD34D">"w"</span>);
+<span style="color:#C084FC">if</span> (fp == <span style="color:#C084FC">NULL</span>) <span style="color:#C084FC">return</span> <span style="color:#F472B6">1</span>;
+
+<span style="color:#34D399">fprintf</span>(fp, <span style="color:#FCD34D">"Hello world\\n"</span>);
+<span style="color:#34D399">fputs</span>(<span style="color:#FCD34D">"Second line\\n"</span>, fp);
+
+<span style="color:#34D399">fclose</span>(fp);`,
+    py: `<span style="color:#C084FC">with</span> <span style="color:#60A5FA">open</span>(<span style="color:#FCD34D">"notes.txt"</span>, <span style="color:#FCD34D">"w"</span>) <span style="color:#C084FC">as</span> f:
+    f.<span style="color:#34D399">write</span>(<span style="color:#FCD34D">"Hello world\\n"</span>)
+    f.<span style="color:#34D399">write</span>(<span style="color:#FCD34D">"Second line\\n"</span>)`,
+    note: 'C has multiple write functions (<code>fprintf</code>, <code>fputs</code>, <code>fwrite</code>) for different purposes. Python uses one method: <code>f.write()</code>.',
+  },
+  read: {
+    c: `<span style="color:#5EEAD4">FILE</span> *fp = <span style="color:#34D399">fopen</span>(<span style="color:#FCD34D">"notes.txt"</span>, <span style="color:#FCD34D">"r"</span>);
+<span style="color:#C084FC">if</span> (fp == <span style="color:#C084FC">NULL</span>) <span style="color:#C084FC">return</span> <span style="color:#F472B6">1</span>;
+
+<span style="color:#5EEAD4">char</span> buffer[<span style="color:#F472B6">1024</span>];   <span style="color:#64748B">// pick a size</span>
+<span style="color:#5EEAD4">size_t</span> n = <span style="color:#34D399">fread</span>(buffer, <span style="color:#F472B6">1</span>, <span style="color:#C084FC">sizeof</span>(buffer)-<span style="color:#F472B6">1</span>, fp);
+buffer[n] = <span style="color:#FCD34D">'\\0'</span>;     <span style="color:#64748B">// null-terminate!</span>
+<span style="color:#34D399">printf</span>(<span style="color:#FCD34D">"%s"</span>, buffer);
+
+<span style="color:#34D399">fclose</span>(fp);`,
+    py: `<span style="color:#C084FC">with</span> <span style="color:#60A5FA">open</span>(<span style="color:#FCD34D">"notes.txt"</span>) <span style="color:#C084FC">as</span> f:
+    text = f.<span style="color:#34D399">read</span>()
+<span style="color:#60A5FA">print</span>(text)`,
+    note: 'C reads into a fixed-size buffer you allocated. If the file is bigger than your buffer, you only get part of it. Python\'s <code>read()</code> just returns the whole file as a string.',
+  },
+  readline: {
+    c: `<span style="color:#5EEAD4">FILE</span> *fp = <span style="color:#34D399">fopen</span>(<span style="color:#FCD34D">"notes.txt"</span>, <span style="color:#FCD34D">"r"</span>);
+<span style="color:#5EEAD4">char</span> buffer[<span style="color:#F472B6">256</span>];
+
+<span style="color:#C084FC">while</span> (<span style="color:#34D399">fgets</span>(buffer, <span style="color:#C084FC">sizeof</span>(buffer), fp) != <span style="color:#C084FC">NULL</span>) {
+    <span style="color:#34D399">printf</span>(<span style="color:#FCD34D">"%s"</span>, buffer);
+}
+
+<span style="color:#34D399">fclose</span>(fp);`,
+    py: `<span style="color:#C084FC">with</span> <span style="color:#60A5FA">open</span>(<span style="color:#FCD34D">"notes.txt"</span>) <span style="color:#C084FC">as</span> f:
+    <span style="color:#C084FC">for</span> line <span style="color:#C084FC">in</span> f:
+        <span style="color:#60A5FA">print</span>(line, end=<span style="color:#FCD34D">""</span>)`,
+    note: 'Both iterate line by line. C requires a buffer with a hard size limit (lines longer than 256 chars get split). Python\'s file object is iterable — no buffer, no size limit.',
+  },
+  append: {
+    c: `<span style="color:#5EEAD4">FILE</span> *fp = <span style="color:#34D399">fopen</span>(<span style="color:#FCD34D">"notes.txt"</span>, <span style="color:#FCD34D">"a"</span>);
+<span style="color:#C084FC">if</span> (fp == <span style="color:#C084FC">NULL</span>) <span style="color:#C084FC">return</span> <span style="color:#F472B6">1</span>;
+
+<span style="color:#34D399">fprintf</span>(fp, <span style="color:#FCD34D">"Added later\\n"</span>);
+
+<span style="color:#34D399">fclose</span>(fp);`,
+    py: `<span style="color:#C084FC">with</span> <span style="color:#60A5FA">open</span>(<span style="color:#FCD34D">"notes.txt"</span>, <span style="color:#FCD34D">"a"</span>) <span style="color:#C084FC">as</span> f:
+    f.<span style="color:#34D399">write</span>(<span style="color:#FCD34D">"Added later\\n"</span>)`,
+    note: 'Identical concept in both — mode <code>"a"</code> means append. Existing content is preserved; new content lands at the end.',
+  },
+  close: {
+    c: `<span style="color:#5EEAD4">FILE</span> *fp = <span style="color:#34D399">fopen</span>(<span style="color:#FCD34D">"a.txt"</span>, <span style="color:#FCD34D">"r"</span>);
+<span style="color:#C084FC">if</span> (fp == <span style="color:#C084FC">NULL</span>) {
+    <span style="color:#34D399">perror</span>(<span style="color:#FCD34D">"open"</span>);
+    <span style="color:#C084FC">return</span> <span style="color:#F472B6">1</span>;
+}
+
+<span style="color:#5EEAD4">char</span> buf[<span style="color:#F472B6">100</span>];
+<span style="color:#C084FC">if</span> (<span style="color:#34D399">fgets</span>(buf, <span style="color:#F472B6">100</span>, fp) == <span style="color:#C084FC">NULL</span>) {
+    <span style="color:#34D399">fclose</span>(fp);  <span style="color:#64748B">// don't forget!</span>
+    <span style="color:#C084FC">return</span> <span style="color:#F472B6">1</span>;
+}
+
+<span style="color:#34D399">fclose</span>(fp);  <span style="color:#64748B">// and here too</span>`,
+    py: `<span style="color:#C084FC">try</span>:
+    <span style="color:#C084FC">with</span> <span style="color:#60A5FA">open</span>(<span style="color:#FCD34D">"a.txt"</span>) <span style="color:#C084FC">as</span> f:
+        line = f.<span style="color:#34D399">readline</span>()
+<span style="color:#C084FC">except</span> <span style="color:#60A5FA">FileNotFoundError</span>:
+    <span style="color:#60A5FA">print</span>(<span style="color:#FCD34D">"missing"</span>)
+
+<span style="color:#64748B"># Always closed, no matter what</span>`,
+    note: 'In C, you must close on every exit path: success, error, early return. Forget once, leak a handle. Python\'s <code>with</code> closes automatically — even if <code>readline()</code> raises an exception.',
+  },
+};
+function renderLangCompare() {
+  const op = getPillValue(document.getElementById('langOp'));
+  const data = LANG_OPS[op];
+  document.getElementById('cCode').innerHTML = data.c;
+  document.getElementById('pyCode').innerHTML = data.py;
+  document.getElementById('langExplain').innerHTML = `<strong style="color: var(--text);">💡 The difference:</strong> ${data.note}`;
+}
+const langOpGrp = setupPillGroup('langOp');
+langOpGrp._onChange = renderLangCompare;
+renderLangCompare();
+
+// ========== FILE SIM 1: Operations Playground ==========
+setupPillGroup('fileMode');
+let initialFile = "Hello world\nThis is a notebook\nThree lines of text";
+let currentFile = initialFile;
+function refreshFile() {
+  document.getElementById('fileContents').textContent = currentFile || '(empty file)';
+}
+function logFile(msg, kind = 'ok') {
+  const color = kind === 'ok' ? 'var(--success)' : 'var(--danger)';
+  document.getElementById('fileLog').innerHTML = `<span style="color: ${color}; font-weight: 600;">${msg}</span>`;
+}
+document.getElementById('fileRunBtn').addEventListener('click', () => {
+  const mode = getPillValue(document.getElementById('fileMode'));
+  const content = document.getElementById('fileContent').value;
+  if (mode === 'r') {
+    logFile(`✓ read() → returned ${currentFile.length} characters`);
+  } else if (mode === 'w') {
+    currentFile = content + '\n';
+    logFile(`⚠ write() → file was OVERWRITTEN (previous content erased)`, 'err');
+    refreshFile();
+  } else if (mode === 'a') {
+    if (currentFile && !currentFile.endsWith('\n')) currentFile += '\n';
+    currentFile += content + '\n';
+    logFile(`✓ append() → added "${content}" to the end`);
+    refreshFile();
+  }
+});
+document.getElementById('fileResetBtn').addEventListener('click', () => {
+  currentFile = initialFile;
+  logFile(`↺ file reset to original`);
+  refreshFile();
+});
+refreshFile();
+
+// ========== FILE SIM 2: File Cursor ==========
+const FILE_TEXT = "Hello\nWorld\nPython";
+let cursorPos = 0;
+function renderCursor() {
+  const display = document.getElementById('cursorDisplay');
+  let html = '';
+  for (let i = 0; i < FILE_TEXT.length; i++) {
+    const ch = FILE_TEXT[i];
+    const visibleCh = ch === '\n' ? '↵<br>' : ch;
+    if (i === cursorPos) {
+      html += `<span style="background: var(--success); color: #fff; padding: 0 4px; border-radius: 3px; animation: pulse 1s infinite;">${visibleCh === '↵<br>' ? '↵' : visibleCh}</span>${ch === '\n' ? '<br>' : ''}`;
+    } else {
+      html += visibleCh;
+    }
+  }
+  if (cursorPos === FILE_TEXT.length) {
+    html += `<span style="background: var(--success); color: #fff; padding: 0 4px; border-radius: 3px;">EOF</span>`;
+  }
+  display.innerHTML = html;
+}
+function curLog(msg) {
+  document.getElementById('cursorOutput').innerHTML = `<div style="color: var(--text); animation: slideUp 0.2s ease;"><span style="color: var(--success); font-weight: 700;">→</span> ${msg}</div><div style="color: var(--text-subtle); margin-top: 6px;">Position: byte ${cursorPos} of ${FILE_TEXT.length}</div>`;
+}
+document.getElementById('curReadChar').addEventListener('click', () => {
+  if (cursorPos >= FILE_TEXT.length) { curLog(`f.read(1) → returned '' (at EOF)`); return; }
+  const ch = FILE_TEXT[cursorPos];
+  cursorPos++;
+  curLog(`f.read(1) → returned ${ch === '\n' ? '"\\n"' : `"${ch}"`}`);
+  renderCursor();
+});
+document.getElementById('curReadLine').addEventListener('click', () => {
+  if (cursorPos >= FILE_TEXT.length) { curLog(`f.readline() → returned '' (at EOF)`); return; }
+  let line = '';
+  while (cursorPos < FILE_TEXT.length) {
+    line += FILE_TEXT[cursorPos];
+    cursorPos++;
+    if (FILE_TEXT[cursorPos - 1] === '\n') break;
+  }
+  curLog(`f.readline() → returned ${JSON.stringify(line)}`);
+  renderCursor();
+});
+document.getElementById('curSeek0').addEventListener('click', () => {
+  cursorPos = 0;
+  curLog(`f.seek(0) → cursor moved to byte 0`);
+  renderCursor();
+});
+document.getElementById('curSeekEnd').addEventListener('click', () => {
+  cursorPos = FILE_TEXT.length;
+  curLog(`f.seek(0, 2) → cursor moved to end`);
+  renderCursor();
+});
+document.getElementById('curReset').addEventListener('click', () => {
+  cursorPos = 0;
+  document.getElementById('cursorOutput').innerHTML = '';
+  renderCursor();
+});
+renderCursor();
+
+// ========== SCOPE SIM: Explorer ==========
+const SCOPE_LINES = [
+  { code: '<span class="o">global_var = </span><span class="n">10</span>', vars: { global_var: 'G' } },
+  { code: '', vars: {} },
+  { code: '<span class="k">def</span> <span class="f">outer</span><span class="o">():</span>', vars: { global_var: 'G' } },
+  { code: '    <span class="o">enclosing_var = </span><span class="n">20</span>', vars: { global_var: 'G', enclosing_var: 'E' } },
+  { code: '', vars: {} },
+  { code: '    <span class="k">def</span> <span class="f">inner</span><span class="o">():</span>', vars: { global_var: 'G', enclosing_var: 'E' } },
+  { code: '        <span class="o">local_var = </span><span class="n">30</span>', vars: { global_var: 'G', enclosing_var: 'E', local_var: 'L' } },
+  { code: '        <span class="b">print</span><span class="o">(global_var, enclosing_var, local_var)</span>', vars: { global_var: 'G', enclosing_var: 'E', local_var: 'L' } },
+  { code: '', vars: {} },
+  { code: '    <span class="f">inner</span><span class="o">()</span>', vars: { global_var: 'G', enclosing_var: 'E' } },
+  { code: '', vars: {} },
+  { code: '<span class="f">outer</span><span class="o">()</span>', vars: { global_var: 'G' } },
+];
+let selectedLine = -1;
+function renderScope() {
+  const codeEl = document.getElementById('scopeCode');
+  codeEl.innerHTML = SCOPE_LINES.map((l, i) => {
+    const bg = i === selectedLine ? 'rgba(20, 184, 166, 0.18)' : 'transparent';
+    const border = i === selectedLine ? 'var(--scope)' : 'transparent';
+    return `<div data-i="${i}" class="scope-line" style="padding: 0 18px; cursor: pointer; background: ${bg}; border-left: 3px solid ${border}; display: flex; transition: background 0.15s ease;">
+      <span style="color: #475569; margin-right: 18px; user-select: none; font-size: 0.75rem; min-width: 22px; text-align: right; padding-top: 1px; flex-shrink: 0;">${i + 1}</span>
+      <span style="color: #E2E8F0; white-space: pre;">${l.code || ' '}</span>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('.scope-line').forEach(el => {
+    el.addEventListener('mouseenter', () => { if (parseInt(el.dataset.i) !== selectedLine) el.style.background = 'rgba(20, 184, 166, 0.08)'; });
+    el.addEventListener('mouseleave', () => { if (parseInt(el.dataset.i) !== selectedLine) el.style.background = 'transparent'; });
+    el.addEventListener('click', () => {
+      selectedLine = parseInt(el.dataset.i);
+      renderScope();
+      renderScopeVisibility();
+    });
+  });
+}
+function renderScopeVisibility() {
+  const out = document.getElementById('scopeVisibility');
+  if (selectedLine < 0) { out.innerHTML = 'Click a line above to inspect scope'; return; }
+  const vars = SCOPE_LINES[selectedLine].vars;
+  if (Object.keys(vars).length === 0) {
+    out.innerHTML = '<span style="color: var(--text-subtle);">No user-defined variables visible at this point.</span>';
+    return;
+  }
+  const colors = { G: 'var(--info)', E: 'var(--purple)', L: 'var(--success)' };
+  const labels = { G: 'Global', E: 'Enclosing', L: 'Local' };
+  out.innerHTML = Object.entries(vars).map(([name, scope]) =>
+    `<div><span style="display: inline-block; min-width: 80px; padding: 2px 8px; border-radius: 6px; background: ${colors[scope]}; color: #fff; font-size: 0.7rem; font-weight: 700; margin-right: 8px;">${labels[scope]}</span><strong style="color: var(--text);">${name}</strong></div>`
+  ).join('');
+}
+renderScope();
+
+// ========== INDEXING SIM: Race ==========
+setupPillGroup('idxSize');
+document.getElementById('idxRunBtn').addEventListener('click', () => {
+  const size = parseInt(getPillValue(document.getElementById('idxSize')), 10);
+  // Random row position to find — simulate finding at ~halfway
+  const scanRows = Math.floor(size / 2);
+  const treeNodes = Math.ceil(Math.log2(size));
+  // Simulated times
+  const scanTimeMs = size / 1000; // scaled
+  const treeTimeMs = treeNodes * 0.1;
+  const factor = Math.round(scanTimeMs / Math.max(treeTimeMs, 0.01));
+
+  // Reset
+  document.getElementById('idxScanFill').style.width = '0%';
+  document.getElementById('idxTreeFill').style.width = '0%';
+  document.getElementById('idxScanCount').textContent = '0';
+  document.getElementById('idxTreeCount').textContent = '0';
+  document.getElementById('idxScanTime').textContent = '—';
+  document.getElementById('idxTreeTime').textContent = '—';
+  document.getElementById('idxVerdict').innerHTML = '';
+
+  setTimeout(() => {
+    document.getElementById('idxTreeFill').style.width = '100%';
+    document.getElementById('idxTreeCount').textContent = treeNodes.toLocaleString();
+    const treeDisplay = treeTimeMs < 1 ? '< 1 ms' : `${treeTimeMs.toFixed(1)} ms`;
+    document.getElementById('idxTreeTime').textContent = treeDisplay;
+  }, 100);
+
+  setTimeout(() => {
+    document.getElementById('idxScanFill').style.width = '100%';
+    document.getElementById('idxScanCount').textContent = scanRows.toLocaleString();
+    const scanDisplay = scanTimeMs < 1000 ? `${scanTimeMs.toFixed(0)} ms` : `${(scanTimeMs / 1000).toFixed(1)} s`;
+    document.getElementById('idxScanTime').textContent = scanDisplay;
+    document.getElementById('idxVerdict').innerHTML = `<span style="color: var(--success); font-weight: 700;">Index was ~${factor.toLocaleString()}× faster.</span> The bigger the table, the bigger the gap.`;
+  }, 1700);
+});
+
+// ========== DB RECOMMENDER ==========
+setupPillGroup('recUsers');
+setupPillGroup('recType');
+setupPillGroup('recFeatures');
+setupPillGroup('recDevops');
+document.getElementById('recBtn').addEventListener('click', () => {
+  const users = parseInt(getPillValue(document.getElementById('recUsers')), 10);
+  const type = getPillValue(document.getElementById('recType'));
+  const features = getPillValue(document.getElementById('recFeatures'));
+  const devops = getPillValue(document.getElementById('recDevops'));
+
+  let pick = '', reason = '', color = '';
+
+  if (type === 'mobile' || (users <= 10 && devops === 'zero')) {
+    pick = 'SQLite';
+    color = '#14B8A6';
+    reason = `Single-file, zero setup, embedded right in your app. ${type === 'mobile' ? 'Perfect for mobile/desktop apps — it ships inside the binary.' : 'For under ~100 users with simple needs, the simplicity wins.'}`;
+  } else if (type === 'analytics' || features === 'yes' || users >= 100000) {
+    pick = 'PostgreSQL';
+    color = '#0EA5E9';
+    if (type === 'analytics') reason = 'Analytics and fintech demand transactional integrity and advanced types — PostgreSQL is the standard here.';
+    else if (features === 'yes') reason = 'Advanced features (JSONB, full-text search, PostGIS) are first-class in PostgreSQL. MySQL plays catch-up; SQLite is too limited.';
+    else reason = `Tens of thousands of concurrent users need a serious database. ${devops === 'lots' ? 'You have the ops skills to manage it.' : 'Use a managed service (RDS, Supabase, Neon) to avoid heavy ops.'}`;
+  } else {
+    pick = 'MySQL';
+    color = '#F59E0B';
+    reason = 'Hundreds to thousands of users on a typical web app, no special advanced requirements — MySQL has been the workhorse for this scale for two decades. Endless tooling, hosting, and tutorials available.';
+  }
+
+  document.getElementById('recOutput').innerHTML = `<div style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid ${color}; border-radius: 12px; padding: 18px 22px; animation: slideUp 0.3s ease;"><div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; color: var(--text-subtle); letter-spacing: 0.08em; margin-bottom: 4px;">Recommended</div><div style="font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: ${color}; margin-bottom: 8px;">${pick}</div><p style="margin: 0; font-size: 0.9375rem; line-height: 1.6;">${reason}</p></div>`;
+});
+
+// ========== QUIZ DATA — 50 questions (10 per topic) ==========
+const QUIZ_DATA = [
+  // ===== ROUTING (10) =====
+  { cat: 'routing', q: 'What is the difference between "route" and "routing"?',
+    opts: ['No difference — they\'re synonyms', 'Route = one URL pattern; Routing = the system that matches URLs to routes', 'Route is server-side, routing is client-side', 'Route is for GET, routing is for POST'],
+    correct: 1, explain: 'A route is a single URL-to-handler mapping. Routing is the overall system that decides which route handles each incoming request.' },
+
+  { cat: 'routing', q: 'What\'s a "dynamic" route?',
+    opts: ['A route that changes at runtime', 'A route with placeholders that capture values from the URL (like /users/{id})', 'A route that uses dynamic JavaScript', 'A route only used in SPAs'],
+    correct: 1, explain: 'Dynamic routes use placeholders (in curly braces or with colons) to match any value at that position and extract it as a parameter.' },
+
+  { cat: 'routing', q: 'What URL would match the FastAPI route /users/{id}/orders/{oid}?',
+    opts: ['/users/orders', '/users/42/orders/8', '/users?id=42&oid=8', 'Both 1 and 2'],
+    correct: 1, explain: 'The pattern has two placeholders. /users/42/orders/8 matches with id=42 and oid=8. The first option is missing required path segments; the third uses query strings, not path params.' },
+
+  { cat: 'routing', q: 'What\'s the main difference between client-side routing and server-side routing?',
+    opts: ['Client-side is faster', 'Server-side hits the server on every URL change; client-side swaps content without reload', 'Client-side only works on mobile', 'Server-side doesn\'t support dynamic URLs'],
+    correct: 1, explain: 'Server-side routing makes a new HTTP request and reloads the page on every navigation. Client-side routing (used by SPAs) intercepts URL changes in JavaScript and updates content without a full reload.' },
+
+  { cat: 'routing', q: 'What does this Express route handle?',
+    code: 'app.get("/products/:slug", (req, res) => {\n  res.send(req.params.slug);\n});',
+    opts: ['GET /products only', 'GET /products/anything — the value of "anything" is in req.params.slug', 'POST /products/:slug', 'Only the literal URL /products/:slug'],
+    correct: 1, explain: 'In Express, :slug captures whatever appears in that URL position. /products/chai gives req.params.slug = "chai". /products/abc gives "abc". And so on.' },
+
+  { cat: 'routing', q: 'What\'s the difference between path parameters and query parameters?',
+    opts: ['No difference', 'Path params are part of the URL structure (/users/42); query params come after ? (?limit=10)', 'Path params are encrypted', 'Query params can\'t be used in REST APIs'],
+    correct: 1, explain: 'Path params identify a specific resource (which user). Query params usually filter, sort, or paginate (how many results). Different jobs, different syntax.' },
+
+  { cat: 'routing', q: 'In Next.js file-based routing, where do you put the page for /users/[id]?',
+    opts: ['routes/users/[id].tsx', 'app/users/[id]/page.tsx', 'pages/users.tsx', 'Add a config entry'],
+    correct: 1, explain: 'In Next.js App Router, the file structure IS the routing. app/users/[id]/page.tsx creates a route at /users/anything.' },
+
+  { cat: 'routing', q: 'You define two routes: /users/me and /users/{id}. Both could match /users/me. Which wins?',
+    opts: ['/users/me — static routes are matched before dynamic ones', '/users/{id} — dynamic routes win', 'Whichever was defined first', 'It causes an error'],
+    correct: 0, explain: 'Most routers (Express, FastAPI, Next.js) check static routes before dynamic ones. /users/me is more specific, so it takes precedence over /users/{id}.' },
+
+  { cat: 'routing', q: 'What is a Single Page App (SPA)?',
+    opts: ['An app with only one HTML page', 'An app that loads one HTML shell, then uses client-side routing to swap content without page reloads', 'An app deployed to a single server', 'An app with one route'],
+    correct: 1, explain: 'SPA = a single HTML file is loaded once, then JavaScript handles all navigation by swapping content. Feels instant. React, Vue, and most modern frameworks build SPAs by default.' },
+
+  { cat: 'routing', q: 'What happens for GET /unknown-path if no route matches?',
+    opts: ['Server crashes', 'Returns 404 Not Found', 'Returns 500 error', 'Returns the homepage'],
+    correct: 1, explain: 'No matching route = the standard HTTP 404 response. Modern frameworks let you customize this with a "catch-all" or "404 page" handler.' },
+
+  // ===== FILES (10) =====
+  { cat: 'files', q: 'What does open("notes.txt", "w") do if notes.txt already has content?',
+    opts: ['Appends to it', 'Reads it', 'Erases everything in it', 'Throws an error'],
+    correct: 2, explain: 'The "w" mode truncates the file — all existing content is gone the moment you open it, even before you write anything. Use "a" for append.' },
+
+  { cat: 'files', q: 'Why is "with open(...) as f:" recommended over plain open() + close()?',
+    opts: ['It\'s faster', 'It guarantees the file gets closed even if an error happens', 'It\'s more secure', 'It allows multiple files at once'],
+    correct: 1, explain: 'The "with" statement is a context manager — it auto-closes the file when the block exits, including when an exception is raised. Plain open()/close() requires manual cleanup that\'s easy to forget.' },
+
+  { cat: 'files', q: 'What does this code do?',
+    code: 'with open("data.txt", "a") as f:\n    f.write("new line\\n")',
+    opts: ['Overwrites data.txt with one line', 'Adds "new line" to the end of data.txt', 'Reads data.txt', 'Throws an error if data.txt exists'],
+    correct: 1, explain: '"a" mode appends. The new content goes to the end of the file; existing content is preserved.' },
+
+  { cat: 'files', q: 'What does f.read(5) do?',
+    opts: ['Reads line 5', 'Reads the first 5 lines', 'Reads 5 characters from the cursor position', 'Reads file with 5-byte buffer'],
+    correct: 2, explain: 'f.read(n) reads up to n characters (or bytes in binary mode) from the cursor\'s current position, advancing the cursor by that much.' },
+
+  { cat: 'files', q: 'What\'s the output of this code?',
+    code: 'with open("test.txt", "w") as f:\n    f.write("Hello")\nwith open("test.txt", "r") as f:\n    print(f.read())',
+    opts: ['Hello', 'HelloHello', 'Nothing (empty)', 'FileNotFoundError'],
+    correct: 0, explain: 'First block writes "Hello" to the file. Second block opens and reads it. Output: Hello.' },
+
+  { cat: 'files', q: 'In C, what happens if you forget to call fclose() on a file you opened with fopen()?',
+    opts: ['Nothing — the OS handles it', 'You leak a file handle, and any buffered writes may not reach disk', 'The program crashes immediately', 'The file becomes read-only'],
+    correct: 1, explain: 'C does not auto-close files. Forgetting fclose() leaks the OS file handle and — worse — buffered writes may sit in memory and never flush to disk. This is exactly why Python invented the `with` block.' },
+
+  { cat: 'files', q: 'When should you use "rb" mode instead of "r"?',
+    opts: ['When the file is large', 'When reading binary data (images, audio, PDFs)', 'For reading from disk vs network', 'When you need faster reads'],
+    correct: 1, explain: '"rb" = read binary. Use for non-text files. Text mode tries to decode bytes as characters, which corrupts binary data and may throw errors.' },
+
+  { cat: 'files', q: 'What happens if you try to open("missing.txt", "r") and the file doesn\'t exist?',
+    opts: ['Creates an empty file', 'Returns None', 'Raises FileNotFoundError', 'Returns an empty string'],
+    correct: 2, explain: 'Read mode requires the file to exist. Missing file = FileNotFoundError. Use try/except to handle this gracefully.' },
+
+  { cat: 'files', q: 'Which is true about file handling in C vs Python?',
+    opts: ['They use completely different file modes', 'The modes (r/w/a) are the same; Python auto-closes with "with", C requires manual fclose()', 'C is always faster, Python is always slower', 'Only Python supports binary mode'],
+    correct: 1, explain: 'Modes are identical. The big difference: Python\'s `with` block auto-closes the file (even on error). C makes you call fclose() on every code path — forget once, leak a handle.' },
+
+  { cat: 'files', q: 'What is the result?',
+    code: 'with open("a.txt", "w") as f:\n    f.write("AAA")\nwith open("a.txt", "a") as f:\n    f.write("BBB")\nwith open("a.txt", "r") as f:\n    print(f.read())',
+    opts: ['AAA', 'BBB', 'AAABBB', 'BBBAAA'],
+    correct: 2, explain: 'First block writes AAA (creates the file). Second appends BBB (doesn\'t erase). Final read returns the combined content: AAABBB.' },
+
+  // ===== SCOPE (10) =====
+  { cat: 'scope', q: 'What does LEGB stand for in Python scope?',
+    opts: ['Local, External, Global, Built-in', 'Local, Enclosing, Global, Built-in', 'Local, Engine, Generic, Background', 'Lambda, Enclosed, Global, Block'],
+    correct: 1, explain: 'L=Local (current function), E=Enclosing (outer function if nested), G=Global (top of file), B=Built-in (Python\'s own names like print). Python checks them in this order when resolving a variable.' },
+
+  { cat: 'scope', q: 'What does this print?',
+    code: 'x = 10\ndef foo():\n    x = 20\n    print(x)\nfoo()\nprint(x)',
+    opts: ['20\\n20', '10\\n10', '20\\n10', '10\\n20'],
+    correct: 2, explain: 'Inside foo(), "x = 20" creates a new local variable, shadowing the global x. Local prints 20. Outside, the global x is still 10.' },
+
+  { cat: 'scope', q: 'What does this code raise?',
+    code: 'count = 0\ndef inc():\n    count = count + 1\ninc()',
+    opts: ['Nothing — runs fine', 'NameError', 'UnboundLocalError', 'SyntaxError'],
+    correct: 2, explain: 'Python sees "count = ..." inside the function and decides count is local. Then "count + 1" tries to READ count before it\'s been assigned locally. UnboundLocalError. Fix with "global count".' },
+
+  { cat: 'scope', q: 'What does the "global" keyword do?',
+    opts: ['Makes a variable read-only', 'Tells Python "this name refers to the module-level variable, not a new local"', 'Creates a new global variable', 'Makes a variable thread-safe'],
+    correct: 1, explain: 'Without "global", assignment inside a function creates a local. With "global x", the function operates on the module-level x — reads and writes both affect it.' },
+
+  { cat: 'scope', q: 'What\'s the difference between "global" and "nonlocal"?',
+    opts: ['No difference', 'global refers to module-level; nonlocal refers to the enclosing function scope (used in nested functions)', 'nonlocal is for nested classes only', 'global is older syntax'],
+    correct: 1, explain: 'Both keywords let you modify variables in outer scopes. global = module level. nonlocal = nearest enclosing function (not the global one). Use nonlocal inside nested functions when you want to modify the outer function\'s variable.' },
+
+  { cat: 'scope', q: 'What does this print?',
+    code: 'def outer():\n    x = 10\n    def inner():\n        print(x)\n    inner()\nouter()',
+    opts: ['10', 'NameError', 'None', '0'],
+    correct: 0, explain: 'inner() doesn\'t define x locally and doesn\'t assign to it — just reads. Python\'s LEGB lookup finds x in the enclosing function scope (outer\'s x). Prints 10.' },
+
+  { cat: 'scope', q: 'When is the local variable inside a function destroyed?',
+    opts: ['Never — Python keeps them all', 'When the function returns', 'At program exit', 'When you call del'],
+    correct: 1, explain: 'Local variables exist only for the duration of the function call. When the function returns (or raises), its local namespace is discarded and the variables are garbage collected.' },
+
+  { cat: 'scope', q: 'Why should you avoid naming a variable "list" in Python?',
+    opts: ['It\'s a reserved keyword', 'It shadows the built-in list type, breaking list() calls in that scope', 'It\'s deprecated', 'It only works in Python 2'],
+    correct: 1, explain: 'list is a Python built-in. If you do "list = [1,2]" in a function, you can no longer call list(some_iterable) in that scope. Avoid shadowing built-ins.' },
+
+  { cat: 'scope', q: 'Inside a function, you assign to a variable that also exists globally. What happens by default?',
+    opts: ['The global is modified', 'A new local variable is created; the global is untouched', 'Python raises an error', 'Both the local and global update'],
+    correct: 1, explain: 'By default, assignment creates a local. The global keeps its original value. To actually modify the global, you must declare "global var" at the top of the function.' },
+
+  { cat: 'scope', q: 'What does this print?',
+    code: 'x = 5\ndef f():\n    global x\n    x += 10\nf()\nprint(x)',
+    opts: ['5', '10', '15', 'UnboundLocalError'],
+    correct: 2, explain: '"global x" tells the function to use the module-level x. x += 10 reads x (5), adds 10, writes back. Global x is now 15.' },
+
+  // ===== INDEXING (10) =====
+  { cat: 'indexing', q: 'What is a database index?',
+    opts: ['A column counter', 'A separate sorted lookup structure that speeds up searches on specific columns', 'A backup of the table', 'A type of constraint'],
+    correct: 1, explain: 'An index is an extra data structure (usually a B-Tree) that lets the database find rows by column value quickly, instead of scanning every row.' },
+
+  { cat: 'indexing', q: 'What is a "full table scan"?',
+    opts: ['A backup operation', 'Reading every row in the table to find matches — slow for large tables', 'A type of index', 'A SQL statement'],
+    correct: 1, explain: 'Without a useful index, the database reads every row checking if it matches. For a 1-million-row table, that\'s 1 million checks. Very slow.' },
+
+  { cat: 'indexing', q: 'Which columns are BEST candidates for indexing?',
+    opts: ['Columns rarely used in queries', 'Columns frequently used in WHERE, JOIN, or ORDER BY clauses, with high distinct-value count', 'Boolean (yes/no) columns', 'Columns that change frequently'],
+    correct: 1, explain: 'Index what you query. High-cardinality columns (many unique values like emails, IDs) benefit most. Boolean or low-cardinality columns rarely benefit — too many rows share each value.' },
+
+  { cat: 'indexing', q: 'What\'s the trade-off of adding more indexes?',
+    opts: ['No trade-off — always faster', 'Faster reads, but slower writes (every insert/update has to update all indexes) and more disk space', 'Slower reads but faster writes', 'Indexes only work on numeric columns'],
+    correct: 1, explain: 'Indexes accelerate reads but every INSERT/UPDATE/DELETE must update each index too. They also take disk space. Index only what you query frequently.' },
+
+  { cat: 'indexing', q: 'What SQL command creates a basic index?',
+    opts: ['ADD INDEX users(email)', 'CREATE INDEX idx_email ON users(email)', 'ALTER users ADD INDEX(email)', 'INDEX TABLE users(email)'],
+    correct: 1, explain: 'The standard syntax is CREATE INDEX <name> ON <table>(<column>). The index name lets you reference or drop it later.' },
+
+  { cat: 'indexing', q: 'What\'s a composite index?',
+    opts: ['An index on multiple tables', 'An index covering multiple columns together — useful when you query on those columns as a group', 'A combined primary and unique index', 'An index across multiple databases'],
+    correct: 1, explain: 'CREATE INDEX ON users(last_name, first_name) is a composite index. It helps queries that filter on both columns, especially when last_name is filtered first (column order matters).' },
+
+  { cat: 'indexing', q: 'A query takes 30 seconds. You add an index and now it takes 30 ms. The improvement factor is approximately:',
+    opts: ['10×', '100×', '1,000×', 'Depends on the SQL'],
+    correct: 2, explain: '30 seconds = 30,000 ms. Going to 30 ms is a 1,000× speedup. This kind of dramatic improvement from adding one index is very real for unindexed queries on large tables.' },
+
+  { cat: 'indexing', q: 'What does EXPLAIN do in SQL?',
+    opts: ['Adds comments to a query', 'Shows the database\'s execution plan — whether it used an index, scanned the table, joined how, etc.', 'Explains errors', 'Documents the schema'],
+    correct: 1, explain: 'EXPLAIN tells you HOW the database will run your query. Critical for diagnosing slow queries — if you see "Seq Scan" (full scan) on a large table, you probably need an index.' },
+
+  { cat: 'indexing', q: 'You have a "status" column with only 3 distinct values: "active", "inactive", "pending". Should you index it?',
+    opts: ['Yes — always index status fields', 'Probably not — low cardinality means the index doesn\'t narrow results enough to beat a scan', 'Only on PostgreSQL', 'Only if combined with the primary key'],
+    correct: 1, explain: 'When most queries return a large fraction of rows (because few distinct values exist), the database often skips the index anyway. Indexes shine with high cardinality.' },
+
+  { cat: 'indexing', q: 'What\'s a UNIQUE INDEX?',
+    opts: ['An index that\'s never used', 'A regular index that also prevents two rows from having the same value', 'The default index type', 'An index across multiple tables'],
+    correct: 1, explain: 'UNIQUE INDEX both speeds up lookups AND enforces uniqueness. Trying to insert a duplicate raises a constraint violation. Common on email columns.' },
+
+  // ===== DATABASES (10) =====
+  { cat: 'db', q: 'What\'s the fundamental difference between SQLite and MySQL/PostgreSQL?',
+    opts: ['SQLite is faster', 'SQLite is an embedded library (no server, single file); MySQL and PostgreSQL are client-server databases running as a separate process', 'SQLite doesn\'t support SQL', 'SQLite is for read-only data'],
+    correct: 1, explain: 'SQLite lives inside your app — no server, no port, no install. MySQL and PostgreSQL are standalone server processes your app connects to over a network.' },
+
+  { cat: 'db', q: 'Best database for a mobile app that stores local user data?',
+    opts: ['SQLite', 'MySQL', 'PostgreSQL', 'They\'re all equally suitable'],
+    correct: 0, explain: 'SQLite is bundled into iOS and Android. It\'s the de facto standard for on-device storage in mobile apps. No server to run, no network needed.' },
+
+  { cat: 'db', q: 'You need JSONB columns, PostGIS geographic queries, and full-text search out of the box. Which database?',
+    opts: ['SQLite', 'MySQL', 'PostgreSQL', 'Any of them'],
+    correct: 2, explain: 'PostgreSQL has first-class support for JSONB, PostGIS for geo data, and full-text search built in. MySQL\'s JSON support is good but younger; SQLite lacks all three.' },
+
+  { cat: 'db', q: 'What does ACID stand for in databases?',
+    opts: ['Atomic, Concurrent, Indexed, Durable', 'Atomicity, Consistency, Isolation, Durability', 'Asynchronous, Cached, Indexed, Distributed', 'Auto, Composite, Integrated, Direct'],
+    correct: 1, explain: 'ACID is the set of properties that guarantee reliable transactions: Atomicity (all-or-nothing), Consistency (rules enforced), Isolation (concurrent transactions don\'t conflict), Durability (committed data survives crashes).' },
+
+  { cat: 'db', q: 'Which database is best known for "many simultaneous writers" on a small device?',
+    opts: ['SQLite (handles unlimited concurrent writers)', 'SQLite — but only one writer at a time', 'PostgreSQL', 'MySQL'],
+    correct: 1, explain: 'SQLite is excellent at concurrent reads but only one writer at a time (file-level locking). High concurrent-write workloads need MySQL or PostgreSQL.' },
+
+  { cat: 'db', q: 'You\'re building an e-commerce site expecting millions of users. Best choice?',
+    opts: ['SQLite', 'MySQL or PostgreSQL', 'Either MySQL or PostgreSQL — both scale to that level', 'Always SQLite for speed'],
+    correct: 2, explain: 'Both MySQL and PostgreSQL handle millions of users. MySQL has more historical tooling for that scale; PostgreSQL offers better features. Both are solid choices.' },
+
+  { cat: 'db', q: 'Which command imports the SQLite library in Python?',
+    opts: ['import sqlite3', 'pip install sqlite3', 'import sql', 'from sqlite import *'],
+    correct: 0, explain: 'sqlite3 is part of Python\'s standard library — no install needed. Just "import sqlite3" and connect to a file path.' },
+
+  { cat: 'db', q: 'What does it mean that PostgreSQL is "extensible"?',
+    opts: ['You can add custom data types, operators, and even programming languages to it', 'You can extend its memory', 'It supports multiple databases at once', 'You can add columns to tables'],
+    correct: 0, explain: 'PostgreSQL\'s extension system is famous. PostGIS, TimescaleDB, pg_vector — all are extensions that add major new capabilities. No other open-source database matches this.' },
+
+  { cat: 'db', q: 'For a Python prototype storing a few hundred users, which is the easiest to set up?',
+    opts: ['SQLite — zero setup, ships with Python', 'MySQL — needs server install', 'PostgreSQL — needs server install', 'They\'re all equally easy'],
+    correct: 0, explain: 'SQLite needs nothing. For prototypes, demos, side projects, even small production apps with low concurrency, SQLite is the path of least resistance. You can always migrate later.' },
+
+  { cat: 'db', q: 'Which is generally considered the modern default for new web projects in 2026?',
+    opts: ['SQLite', 'MySQL', 'PostgreSQL', 'There\'s no consensus'],
+    correct: 2, explain: 'In 2026, most new web projects start with PostgreSQL. Modern hosting (Supabase, Neon, Render) makes it as easy as MySQL, and the feature set is stronger. MySQL is still popular for legacy and PHP-heavy work.' },
+];
+
+// ========== QUIZ ENGINE ==========
+const quizContent = document.getElementById('quizContent');
+const quizCurrent = document.getElementById('quizCurrent');
+const quizTotal = document.getElementById('quizTotal');
+const quizScore = document.getElementById('quizScore');
+const quizScoreTotal = document.getElementById('quizScoreTotal');
+const quizProgressBar = document.getElementById('quizProgressBar');
+const quizCatBadge = document.getElementById('quizCatBadge');
+const quizPrevBtn = document.getElementById('quizPrevBtn');
+const quizNextBtn = document.getElementById('quizNextBtn');
+const quizFilters = document.getElementById('quizFilters');
+
+const CAT_INFO = {
+  routing:  { label: 'Routing',   cls: 'badge badge-purple', color: '#8B5CF6' },
+  files:    { label: 'Files',     cls: 'badge badge-warning', color: '#F59E0B' },
+  scope:    { label: 'Scope',     cls: 'badge badge-teal', color: '#14B8A6' },
+  indexing: { label: 'Indexing',  cls: 'badge badge-pink', color: '#EC4899' },
+  db:       { label: 'Databases', cls: 'badge badge-info', color: '#0EA5E9' },
+};
+
+let quizFiltered = QUIZ_DATA.slice();
+let quizIdx = 0;
+let quizAnswers = new Map();
+let quizCorrect = new Set();
+
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+function renderQuiz() {
+  if (quizFiltered.length === 0) {
+    quizContent.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px 0;">No questions in this filter.</p>';
+    return;
+  }
+  if (quizIdx >= quizFiltered.length) { renderResults(); return; }
+  const q = quizFiltered[quizIdx];
+  const realIdx = QUIZ_DATA.indexOf(q);
+
+  quizCurrent.textContent = quizIdx + 1;
+  quizTotal.textContent = quizFiltered.length;
+  quizScore.textContent = Array.from(quizCorrect).filter(k => quizFiltered.includes(QUIZ_DATA[k])).length;
+  quizScoreTotal.textContent = quizFiltered.length;
+  quizProgressBar.style.width = ((quizIdx) / quizFiltered.length * 100) + '%';
+
+  const ci = CAT_INFO[q.cat];
+  quizCatBadge.className = ci.cls;
+  quizCatBadge.textContent = ci.label;
+
+  const letters = ['A','B','C','D'];
+  const answered = quizAnswers.has(realIdx);
+  const selectedOpt = quizAnswers.get(realIdx);
+
+  quizContent.innerHTML = `
+    <div style="font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 600; line-height: 1.4; margin-bottom: 20px; color: var(--text);">${escHtml(q.q)}</div>
+    ${q.code ? `<pre style="background: #0F172A; color: #E2E8F0; padding: 16px 20px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem; line-height: 1.7; margin: 0 0 16px; overflow-x: auto; white-space: pre;">${escHtml(q.code)}</pre>` : ''}
+    <div style="display: grid; gap: 10px;" id="quizOpts">
+      ${q.opts.map((opt, i) => {
+        let style = 'padding: 13px 16px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text); font-weight: 500; font-size: 0.9375rem; cursor: pointer; text-align: left; transition: all 0.15s ease; font-family: inherit; line-height: 1.5; display: flex; align-items: flex-start; gap: 12px;';
+        if (answered) {
+          if (i === q.correct) style += 'background: var(--success-bg); border-color: var(--success);';
+          else if (i === selectedOpt) style += 'background: var(--danger-bg); border-color: var(--danger);';
+          style += 'cursor: default;';
+        }
+        return `<button class="quiz-opt" data-i="${i}" style="${style}" ${answered ? 'disabled' : ''}>
+          <span style="width: 24px; height: 24px; border-radius: 50%; background: ${answered && i === q.correct ? 'var(--success)' : answered && i === selectedOpt ? 'var(--danger)' : 'var(--surface-2)'}; color: ${answered && (i === q.correct || i === selectedOpt) ? '#fff' : 'var(--text-muted)'}; display: grid; place-items: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0;">${letters[i]}</span>
+          <span>${escHtml(opt)}</span>
+        </button>`;
+      }).join('')}
+    </div>
+    ${answered ? `<div style="margin-top: 18px; padding: 14px 18px; background: var(--info-bg); border-radius: 12px; border-left: 4px solid var(--info); font-size: 0.875rem; line-height: 1.6; color: var(--text); animation: slideUp 0.3s ease;"><strong style="color: var(--info); display: block; margin-bottom: 4px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">${selectedOpt === q.correct ? '✓ Correct' : '✗ Explanation'}</strong>${escHtml(q.explain)}</div>` : ''}
+  `;
+
+  document.querySelectorAll('#quizOpts .quiz-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (quizAnswers.has(realIdx)) return;
+      const i = parseInt(btn.dataset.i, 10);
+      quizAnswers.set(realIdx, i);
+      if (i === q.correct) quizCorrect.add(realIdx);
+      renderQuiz();
+    });
+    btn.addEventListener('mouseenter', () => {
+      if (!quizAnswers.has(realIdx)) {
+        btn.style.borderColor = 'var(--primary)';
+        btn.style.background = 'var(--primary-light)';
+      }
+    });
+    btn.addEventListener('mouseleave', () => {
+      if (!quizAnswers.has(realIdx)) {
+        btn.style.borderColor = 'var(--border)';
+        btn.style.background = 'var(--surface)';
+      }
+    });
+  });
+
+  quizPrevBtn.disabled = quizIdx === 0;
+  quizNextBtn.textContent = (quizIdx === quizFiltered.length - 1) ? 'Finish →' : 'Next →';
+  quizNextBtn.disabled = false;
+}
+
+function renderResults() {
+  const correctInFilter = Array.from(quizCorrect).filter(k => quizFiltered.includes(QUIZ_DATA[k])).length;
+  const total = quizFiltered.length;
+  const pct = total > 0 ? Math.round((correctInFilter / total) * 100) : 0;
+
+  let emoji, msg;
+  if (pct >= 90) { emoji = '🏆'; msg = 'Outstanding! You\'ve nailed these fundamentals.'; }
+  else if (pct >= 75) { emoji = '🎉'; msg = 'Excellent work! Strong fundamentals across the board.'; }
+  else if (pct >= 60) { emoji = '👍'; msg = 'Good job. Review the topics where you stumbled.'; }
+  else if (pct >= 40) { emoji = '📚'; msg = 'You\'re on the way. Re-read the trickier sections.'; }
+  else { emoji = '💪'; msg = 'Keep going. This stuff sticks with practice.'; }
+
+  const breakdown = {};
+  quizFiltered.forEach(q => {
+    if (!breakdown[q.cat]) breakdown[q.cat] = { correct: 0, total: 0 };
+    breakdown[q.cat].total++;
+    const realIdx = QUIZ_DATA.indexOf(q);
+    if (quizCorrect.has(realIdx)) breakdown[q.cat].correct++;
+  });
+
+  quizContent.innerHTML = `
+    <div style="text-align: center; padding: 16px;">
+      <div style="font-size: 4.5rem; margin-bottom: 12px; animation: slideUp 0.4s ease;">${emoji}</div>
+      <div style="font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 800;"><span>${correctInFilter}</span><span style="color: var(--text-subtle);"> / ${total}</span></div>
+      <div style="color: var(--text-muted); font-size: 1rem; margin-bottom: 12px;">${pct}% correct</div>
+      <div style="font-size: 1rem; color: var(--text-muted); margin-bottom: 24px; max-width: 460px; margin-left: auto; margin-right: auto;">${msg}</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 24px; text-align: left;">
+        ${Object.entries(breakdown).map(([cat, b]) => `
+          <div style="padding: 12px; background: var(--surface-2); border-radius: 10px; border-top: 3px solid ${CAT_INFO[cat].color};">
+            <div style="font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: var(--text-subtle); margin-bottom: 4px;">${CAT_INFO[cat].label}</div>
+            <div style="font-family: 'Fraunces', serif; font-size: 1.375rem; font-weight: 700;">${b.correct}/${b.total}</div>
+          </div>
+        `).join('')}
+      </div>
+      <button class="btn btn-primary btn-lg" id="quizRestartBtn">↺ Restart</button>
+    </div>
+  `;
+  quizProgressBar.style.width = '100%';
+  quizPrevBtn.disabled = true;
+  quizNextBtn.disabled = true;
+  document.getElementById('quizRestartBtn').addEventListener('click', () => {
+    quizIdx = 0;
+    quizAnswers.clear();
+    quizCorrect.clear();
+    quizPrevBtn.disabled = false;
+    quizNextBtn.disabled = false;
+    renderQuiz();
+  });
+}
+
+quizNextBtn.addEventListener('click', () => {
+  if (quizIdx < quizFiltered.length) { quizIdx++; renderQuiz(); }
+});
+quizPrevBtn.addEventListener('click', () => {
+  if (quizIdx > 0) { quizIdx--; renderQuiz(); }
+});
+
+quizFilters.querySelectorAll('button[data-cat]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    quizFilters.querySelectorAll('button').forEach(b => {
+      b.classList.remove('btn-primary');
+      b.classList.add('btn-secondary');
+    });
+    btn.classList.remove('btn-secondary');
+    btn.classList.add('btn-primary');
+    const cat = btn.dataset.cat;
+    quizFiltered = cat === 'all' ? QUIZ_DATA.slice() : QUIZ_DATA.filter(q => q.cat === cat);
+    quizIdx = 0;
+    quizPrevBtn.disabled = false;
+    quizNextBtn.disabled = false;
+    renderQuiz();
+  });
+});
+
+renderQuiz();
+
+// ========== BACK TO TOP ==========
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+</script>
+</body>
+</html>
