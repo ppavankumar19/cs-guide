@@ -384,10 +384,42 @@ footer {
 footer p { color: var(--text-subtle); font-size: 0.875rem; }
 
 /* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .hero { padding: calc(var(--nav-h) + 36px) 20px 48px; }
+  .hero h1 { font-size: 1.75rem; }
+  .hero p { font-size: 0.9375rem; }
+  .hero-meta { gap: 20px; }
+  .hero-meta-num { font-size: 1.25rem; }
+  .section-divider { margin: 40px 0 24px; }
+  .section-label { font-size: 0.75rem; padding: 7px 14px; }
+}
+
 @media (max-width: 600px) {
-  .q-card { padding: 20px; }
-  .q-header { gap: 12px; }
+  .nav-inner { padding: 0 16px; }
+  .nav-home-btn { padding: 5px 10px; font-size: 0.75rem; }
+  .hero { padding: calc(var(--nav-h) + 24px) 16px 40px; }
+  .hero-badges { gap: 6px; }
+  .hero-meta { gap: 16px; padding-top: 20px; margin-top: 20px; }
+  .hero-meta-item { min-width: calc(50% - 8px); }
+  .container { padding: 0 16px; }
+  .instructions { padding: 18px 18px; }
+  .instructions li { font-size: 0.875rem; }
+  .q-card { padding: 18px 16px; }
+  .q-header { gap: 10px; align-items: flex-start; }
+  .q-num { width: 30px; height: 30px; font-size: 0.75rem; flex-shrink: 0; }
+  .q-title { font-size: 0.9375rem; }
   .q-marks { display: none; }
+  .q-body { font-size: 0.875rem; }
+  .req-box { padding: 12px 14px; }
+  .req-box li { font-size: 0.84rem; }
+  .code-body { font-size: 0.75rem; padding: 12px 14px; }
+  .json-block { font-size: 0.75rem; padding: 10px 14px; }
+  .io-content { font-size: 0.75rem; padding: 10px 12px; }
+  .note-box { font-size: 0.8125rem; padding: 12px 14px; }
+  .section-divider-line { display: none; }
+  .section-divider { justify-content: center; margin: 36px 0 20px; }
+  .q-progress { gap: 5px; }
+  .q-dot { width: 22px; }
 }
 </style>
 </head>
