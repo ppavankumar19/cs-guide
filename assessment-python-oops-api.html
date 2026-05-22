@@ -116,37 +116,10 @@ body.dark .nav { background: rgba(11,15,26,0.9); }
 }
 .nav-home-btn:hover { color: var(--primary); border-color: var(--primary); }
 
-/* ========== TIMER ========== */
-.timer-bar {
-  position: fixed; top: var(--nav-h); left: 0; right: 0;
-  background: var(--surface); border-bottom: 1px solid var(--border);
-  z-index: 99; padding: 8px 24px;
-  display: flex; align-items: center; justify-content: center; gap: 16px;
-  font-size: 0.875rem; font-weight: 600;
-}
-.timer-display {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.125rem; font-weight: 700;
-  color: var(--success);
-  min-width: 60px; text-align: center;
-  transition: color 0.3s;
-}
-.timer-display.warning { color: var(--warning); }
-.timer-display.danger { color: var(--danger); animation: blink 1s step-end infinite; }
-@keyframes blink { 50% { opacity: 0.4; } }
 .timer-label { color: var(--text-muted); }
-.timer-btn {
-  padding: 4px 14px; border-radius: 6px;
-  border: 1px solid var(--border); background: var(--surface-2);
-  color: var(--text); font-size: 0.8rem; font-weight: 600;
-  cursor: pointer; font-family: inherit;
-  transition: background 0.15s;
-}
-.timer-btn:hover { background: var(--border); }
-
 /* ========== HERO ========== */
 .hero {
-  padding: calc(var(--nav-h) + 56px + 46px) 24px 60px;
+  padding: calc(var(--nav-h) + 56px) 24px 60px;
   text-align: center;
   background: linear-gradient(160deg, var(--bg) 0%, var(--surface-2) 100%);
   border-bottom: 1px solid var(--border);
@@ -373,16 +346,6 @@ body.dark .nav { background: rgba(11,15,26,0.9); }
 .output-only .io-label { display: inline-block; border-radius: 6px 6px 0 0; }
 .output-only .io-content { border-radius: 0 10px 10px 10px; }
 
-/* ========== PRINT BTN ========== */
-.print-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 20px; border-radius: 10px;
-  background: var(--surface); border: 1px solid var(--border);
-  color: var(--text-muted); font-size: 0.875rem; font-weight: 600;
-  cursor: pointer; font-family: inherit;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-.print-btn:hover { background: var(--surface-2); border-color: var(--primary); color: var(--primary); }
 
 /* ========== PROGRESS PILL ========== */
 .q-progress {
@@ -426,12 +389,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
   .q-header { gap: 12px; }
   .q-marks { display: none; }
 }
-@media print {
-  .nav, .timer-bar, .nav-actions, .print-btn, footer, .answer-area { display: none !important; }
-  .hero { padding-top: 24px; }
-  .q-card { break-inside: avoid; }
-  body { background: #fff; color: #000; }
-}
 </style>
 </head>
 <body>
@@ -444,19 +401,11 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </a>
     <div class="nav-actions">
       <a href="index.html" class="nav-home-btn">← Home</a>
-      <button class="print-btn" onclick="window.print()" title="Print assessment">🖨️ Print</button>
       <button class="icon-btn" id="themeBtn" title="Toggle theme">🌙</button>
     </div>
   </div>
 </nav>
 
-<!-- Timer Bar -->
-<div class="timer-bar">
-  <span class="timer-label">Time Remaining:</span>
-  <span class="timer-display" id="timerDisplay">60:00</span>
-  <button class="timer-btn" id="timerStartBtn">▶ Start</button>
-  <button class="timer-btn" id="timerResetBtn">↺ Reset</button>
-</div>
 
 <!-- Hero -->
 <header class="hero">
@@ -1057,58 +1006,6 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 8);
 }, { passive: true });
 
-// ========== TIMER ==========
-const TOTAL = 60 * 60; // 60 minutes in seconds
-let remaining = TOTAL;
-let interval = null;
-let running = false;
-
-const display = document.getElementById('timerDisplay');
-const startBtn = document.getElementById('timerStartBtn');
-const resetBtn = document.getElementById('timerResetBtn');
-
-function formatTime(s) {
-  const m = Math.floor(s / 60);
-  const sec = s % 60;
-  return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-}
-function updateDisplay() {
-  display.textContent = formatTime(remaining);
-  display.className = 'timer-display';
-  if (remaining <= 300) display.classList.add('danger');       // last 5 min
-  else if (remaining <= 900) display.classList.add('warning'); // last 15 min
-}
-startBtn.addEventListener('click', () => {
-  if (running) {
-    clearInterval(interval);
-    running = false;
-    startBtn.textContent = '▶ Resume';
-  } else {
-    if (remaining <= 0) return;
-    running = true;
-    startBtn.textContent = '⏸ Pause';
-    interval = setInterval(() => {
-      remaining--;
-      updateDisplay();
-      if (remaining <= 0) {
-        clearInterval(interval);
-        running = false;
-        startBtn.textContent = '▶ Start';
-        display.textContent = '00:00';
-        display.classList.add('danger');
-        alert('⏰ Time is up! Please submit your answers.');
-      }
-    }, 1000);
-  }
-});
-resetBtn.addEventListener('click', () => {
-  clearInterval(interval);
-  running = false;
-  remaining = TOTAL;
-  startBtn.textContent = '▶ Start';
-  updateDisplay();
-});
-updateDisplay();
 
 // ========== PROGRESS DOTS ==========
 const qIds = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11'];
