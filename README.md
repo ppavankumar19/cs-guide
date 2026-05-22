@@ -53,13 +53,14 @@ Every guide follows the same structure:
 
 ## Fundamentals Mastery Guide — What's Covered (`fundamentals-mastery.html`)
 
-5 topics, 8 live simulators, 50 quiz questions, ~90 min read time:
+6 topics, 9 live simulators, 60 quiz questions, ~90 min read time:
 
 1. **Route vs Routing** — what a route is, static vs dynamic routes, path params vs query params, client-side vs server-side routing, file-based routing
 2. **File Handling (C & Python)** — open/read/write/append/close, C vs Python side-by-side, file cursor visualizer, context managers vs manual fclose
 3. **Variable Scope** — LEGB rule, local vs global vs enclosing, `global` and `nonlocal` keywords, interactive scope explorer
 4. **Database Indexing** — full table scan vs B-Tree lookup, index types, composite indexes, when to/not to index, Index Race simulator
 5. **Pick a Database** — SQLite vs MySQL vs PostgreSQL: embedded vs client-server, concurrency, features, when to use each, DB Recommender simulator
+6. **SQL Queries** — SELECT, WHERE, ORDER BY, LIMIT, INSERT, UPDATE, DELETE, aggregate functions, GROUP BY, HAVING, JOINs (INNER/LEFT/RIGHT/FULL OUTER), JOIN Visualizer simulator
 
 ### Simulators
 | Simulator | Topic |
@@ -72,6 +73,7 @@ Every guide follows the same structure:
 | Scope Explorer — click any line | Variable Scope |
 | Index Race — full scan vs B-Tree | Database Indexing |
 | DB Recommender — 4-question picker | Pick a Database |
+| JOIN Visualizer — INNER/LEFT/RIGHT/FULL | SQL Queries |
 
 ### Quiz categories
 | Category | Count |
@@ -81,7 +83,8 @@ Every guide follows the same structure:
 | Scope | 10 |
 | Indexing | 10 |
 | Databases | 10 |
-| **Total** | **50** |
+| Queries | 10 |
+| **Total** | **60** |
 
 ---
 
