@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assessment — Python + OOPS + APIs | CS Guide</title>
+<meta name="description" content="1-hour coding assessment covering Python logic building, object-oriented programming, and FastAPI. 11 questions across 3 sections.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ========== TOKENS ========== */
+:root {
+  --primary: #6366F1;
+  --primary-dark: #4F46E5;
+  --primary-light: rgba(99,102,241,0.1);
+  --warning: #F59E0B;
+  --warning-bg: rgba(245,158,11,0.1);
+  --success: #10B981;
+  --success-bg: rgba(16,185,129,0.1);
+  --danger: #EF4444;
+  --danger-bg: rgba(239,68,68,0.1);
+  --info: #0EA5E9;
+  --info-bg: rgba(14,165,233,0.1);
+  --purple: #8B5CF6;
+  --purple-bg: rgba(139,92,246,0.1);
+  --teal: #14B8A6;
+  --teal-bg: rgba(20,184,166,0.1);
+
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-2: #F1F5F9;
+  --border: #E2E8F0;
+  --text: #0F172A;
+  --text-muted: #475569;
+  --text-subtle: #94A3B8;
+
+  --nav-h: 64px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.12);
+}
+body.dark {
+  --bg: #0B0F1A;
+  --surface: #131929;
+  --surface-2: #1A2235;
+  --border: #243044;
+  --text: #F0F4FF;
+  --text-muted: #94A3B8;
+  --text-subtle: #4A5568;
+  --primary-light: rgba(99,102,241,0.15);
+  --warning-bg: rgba(245,158,11,0.15);
+  --success-bg: rgba(16,185,129,0.15);
+  --danger-bg: rgba(239,68,68,0.15);
+  --info-bg: rgba(14,165,233,0.15);
+  --purple-bg: rgba(139,92,246,0.15);
+  --teal-bg: rgba(20,184,166,0.15);
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ========== NAV ========== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(248,250,252,0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid transparent;
+  z-index: 100;
+  transition: border-color 0.2s, background 0.2s;
+}
+body.dark .nav { background: rgba(11,15,26,0.9); }
+.nav.scrolled { border-bottom-color: var(--border); }
+.nav-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--text);
+  font-weight: 700; font-size: 1rem;
+}
+.nav-brand-icon {
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, var(--primary), var(--purple));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; color: #fff; font-weight: 800;
+}
+.nav-actions { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 8px;
+  border: none; background: none;
+  color: var(--text-muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; transition: background 0.15s, color 0.15s;
+}
+.icon-btn:hover { background: var(--surface-2); color: var(--text); }
+.nav-home-btn {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.8125rem; font-weight: 600;
+  color: var(--text-muted); text-decoration: none;
+  padding: 6px 12px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface);
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.nav-home-btn:hover { color: var(--primary); border-color: var(--primary); }
+
+/* ========== TIMER ========== */
+.timer-bar {
+  position: fixed; top: var(--nav-h); left: 0; right: 0;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  z-index: 99; padding: 8px 24px;
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  font-size: 0.875rem; font-weight: 600;
+}
+.timer-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.125rem; font-weight: 700;
+  color: var(--success);
+  min-width: 60px; text-align: center;
+  transition: color 0.3s;
+}
+.timer-display.warning { color: var(--warning); }
+.timer-display.danger { color: var(--danger); animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0.4; } }
+.timer-label { color: var(--text-muted); }
+.timer-btn {
+  padding: 4px 14px; border-radius: 6px;
+  border: 1px solid var(--border); background: var(--surface-2);
+  color: var(--text); font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  transition: background 0.15s;
+}
+.timer-btn:hover { background: var(--border); }
+
+/* ========== HERO ========== */
+.hero {
+  padding: calc(var(--nav-h) + 56px + 46px) 24px 60px;
+  text-align: center;
+  background: linear-gradient(160deg, var(--bg) 0%, var(--surface-2) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.hero-badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 14px; border-radius: 100px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.badge-warning { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
+.badge-info    { background: var(--info-bg);    color: var(--info);    border: 1px solid rgba(14,165,233,0.3); }
+.badge-purple  { background: var(--purple-bg);  color: var(--purple);  border: 1px solid rgba(139,92,246,0.3); }
+.badge-success { background: var(--success-bg); color: var(--success); border: 1px solid rgba(16,185,129,0.3); }
+.badge-teal    { background: var(--teal-bg);    color: var(--teal);    border: 1px solid rgba(20,184,166,0.3); }
+.hero h1 {
+  font-size: clamp(1.875rem, 4vw, 2.75rem);
+  font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.15; margin-bottom: 14px; color: var(--text);
+}
+.hero p { color: var(--text-muted); font-size: 1.0625rem; max-width: 540px; margin: 0 auto 32px; line-height: 1.65; }
+.hero-meta {
+  display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+  margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border);
+}
+.hero-meta-item { text-align: center; }
+.hero-meta-num { font-size: 1.5rem; font-weight: 800; color: var(--primary); line-height: 1; }
+.hero-meta-label { font-size: 0.75rem; color: var(--text-subtle); font-weight: 500; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ========== LAYOUT ========== */
+.container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+/* ========== INSTRUCTIONS ========== */
+.instructions {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin: 40px 0 0;
+}
+.instructions h3 {
+  font-size: 0.875rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--primary); margin-bottom: 14px;
+}
+.instructions ol { padding-left: 20px; }
+.instructions li {
+  color: var(--text-muted); font-size: 0.9375rem;
+  line-height: 1.7; margin-bottom: 4px; padding-left: 4px;
+}
+.instructions li strong { color: var(--text); }
+
+/* ========== SECTION DIVIDER ========== */
+.section-divider {
+  display: flex; align-items: center; gap: 16px;
+  margin: 56px 0 32px;
+}
+.section-divider-line { flex: 1; height: 1px; background: var(--border); }
+.section-label {
+  padding: 8px 20px; border-radius: 100px;
+  font-size: 0.8125rem; font-weight: 800;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.section-label.a { background: var(--purple-bg); color: var(--purple); border: 1px solid rgba(139,92,246,0.25); }
+.section-label.b { background: var(--teal-bg);   color: var(--teal);   border: 1px solid rgba(20,184,166,0.25); }
+.section-label.c { background: var(--info-bg);   color: var(--info);   border: 1px solid rgba(14,165,233,0.25); }
+
+/* ========== QUESTION CARD ========== */
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.q-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--qc, var(--primary));
+}
+.q-card:hover { box-shadow: var(--shadow-lg); border-color: var(--qc, var(--primary)); }
+
+.q-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+.q-num {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--qc-bg, var(--primary-light));
+  color: var(--qc, var(--primary));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.875rem; font-weight: 800;
+  flex-shrink: 0;
+}
+.q-title {
+  font-size: 1.0625rem; font-weight: 700;
+  color: var(--text); line-height: 1.4; flex: 1;
+}
+.q-marks {
+  flex-shrink: 0;
+  font-size: 0.75rem; font-weight: 700;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 3px 10px;
+  color: var(--text-subtle);
+}
+.q-body { color: var(--text-muted); font-size: 0.9375rem; line-height: 1.75; }
+.q-body p { margin-bottom: 12px; }
+.q-body p:last-child { margin-bottom: 0; }
+.q-body ul, .q-body ol { padding-left: 22px; margin-bottom: 12px; }
+.q-body li { margin-bottom: 6px; }
+.q-body strong { color: var(--text); font-weight: 600; }
+
+/* ========== REQUIREMENTS BOX ========== */
+.req-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.req-box-title {
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-subtle); margin-bottom: 10px;
+}
+.req-box ul { padding-left: 18px; }
+.req-box li { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px; line-height: 1.6; }
+.req-box li strong { color: var(--text); }
+
+/* ========== CODE BLOCKS ========== */
+.code-block {
+  background: #0F172A;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 14px 0;
+  border: 1px solid #1E293B;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.code-head {
+  padding: 8px 14px;
+  background: #1E293B;
+  color: #94A3B8;
+  font-size: 0.75rem; font-weight: 600;
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.code-dots { display: flex; gap: 5px; }
+.code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.code-dots span:nth-child(1) { background: #EF4444; }
+.code-dots span:nth-child(2) { background: #F59E0B; }
+.code-dots span:nth-child(3) { background: #10B981; }
+.code-body {
+  padding: 16px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem; line-height: 1.7;
+  color: #E2E8F0;
+  overflow-x: auto;
+  white-space: pre;
+}
+/* syntax colours */
+.kw { color: #C084FC; }
+.fn { color: #34D399; }
+.st { color: #FCD34D; }
+.cm { color: #475569; font-style: italic; }
+.nm { color: #F472B6; }
+.tp { color: #5EEAD4; }
+.dc { color: #60A5FA; }
+.op { color: #E2E8F0; }
+
+/* ========== IO BOXES ========== */
+.io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+@media (max-width: 560px) { .io-grid { grid-template-columns: 1fr; } }
+.io-box { border-radius: 10px; overflow: hidden; }
+.io-label {
+  font-size: 0.6875rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 6px 12px;
+}
+.io-label.input  { background: rgba(139,92,246,0.12); color: #8B5CF6; }
+.io-label.output { background: rgba(16,185,129,0.12);  color: #10B981; }
+.io-content {
+  background: #0F172A;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem; line-height: 1.65;
+  color: #E2E8F0; padding: 12px 16px;
+  white-space: pre;
+}
+
+/* ========== JSON OUTPUT ========== */
+.json-block {
+  background: #0F172A;
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem; line-height: 1.7;
+  color: #E2E8F0; overflow-x: auto;
+  margin: 14px 0;
+  border: 1px solid #1E293B;
+}
+.json-key   { color: #5EEAD4; }
+.json-str   { color: #FCD34D; }
+.json-num   { color: #F472B6; }
+.json-punct { color: #94A3B8; }
+
+/* ========== NOTE BOX ========== */
+.note-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--warning);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.note-box strong { color: var(--warning); }
+
+/* ========== SAMPLE OUTPUT (no input) ========== */
+.output-only { margin: 14px 0; }
+.output-only .io-label { display: inline-block; border-radius: 6px 6px 0 0; }
+.output-only .io-content { border-radius: 0 10px 10px 10px; }
+
+/* ========== PRINT BTN ========== */
+.print-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text-muted); font-size: 0.875rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.print-btn:hover { background: var(--surface-2); border-color: var(--primary); color: var(--primary); }
+
+/* ========== PROGRESS PILL ========== */
+.q-progress {
+  display: flex; gap: 6px; margin: 32px 0 8px;
+  flex-wrap: wrap;
+}
+.q-dot {
+  width: 28px; height: 6px; border-radius: 3px;
+  background: var(--border);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.q-dot.done { background: var(--success); }
+.q-dot.active { background: var(--primary); }
+
+/* ========== SECTION ANSWER AREA ========== */
+.answer-area {
+  background: var(--surface-2);
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  min-height: 120px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem;
+  color: var(--text-subtle);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; line-height: 1.6;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  padding: 48px 0; border-top: 1px solid var(--border); margin-top: 80px;
+  text-align: center;
+}
+footer p { color: var(--text-subtle); font-size: 0.875rem; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  .q-card { padding: 20px; }
+  .q-header { gap: 12px; }
+  .q-marks { display: none; }
+}
+@media print {
+  .nav, .timer-bar, .nav-actions, .print-btn, footer, .answer-area { display: none !important; }
+  .hero { padding-top: 24px; }
+  .q-card { break-inside: avoid; }
+  body { background: #fff; color: #000; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="topNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-brand-icon">CS</div>
+      <span>CS Guide</span>
+    </a>
+    <div class="nav-actions">
+      <a href="index.html" class="nav-home-btn">← Home</a>
+      <button class="print-btn" onclick="window.print()" title="Print assessment">🖨️ Print</button>
+      <button class="icon-btn" id="themeBtn" title="Toggle theme">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Timer Bar -->
+<div class="timer-bar">
+  <span class="timer-label">Time Remaining:</span>
+  <span class="timer-display" id="timerDisplay">60:00</span>
+  <button class="timer-btn" id="timerStartBtn">▶ Start</button>
+  <button class="timer-btn" id="timerResetBtn">↺ Reset</button>
+</div>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badges">
+      <span class="badge badge-warning">⏱ 1 Hour</span>
+      <span class="badge badge-info">Python Only</span>
+      <span class="badge badge-purple">OOPS</span>
+      <span class="badge badge-teal">FastAPI</span>
+    </div>
+    <h1>Coding Assessment</h1>
+    <p>Python Programming · Object-Oriented Programming · REST APIs<br>Answer all 11 questions across 3 sections.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-num">11</div>
+        <div class="hero-meta-label">Questions</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-num">3</div>
+        <div class="hero-meta-label">Sections</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-num">60</div>
+        <div class="hero-meta-label">Minutes</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-num">Python</div>
+        <div class="hero-meta-label">Language</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main>
+<div class="container">
+
+  <!-- Instructions -->
+  <div class="instructions">
+    <h3>Instructions</h3>
+    <ol>
+      <li>Write all programs using <strong>Python only</strong>.</li>
+      <li>Follow <strong>proper indentation</strong> — Python is indentation-sensitive.</li>
+      <li>Write <strong>clean and readable code</strong> with meaningful variable names.</li>
+      <li>Candidates should write <strong>code only</strong> — no explanations needed unless specified.</li>
+      <li><strong>Output format must match exactly</strong> as shown in the sample output.</li>
+    </ol>
+  </div>
+
+  <!-- Progress tracker -->
+  <div style="margin-top: 32px; font-size: 0.8125rem; color: var(--text-subtle); font-weight: 600; margin-bottom: 8px;">Question Progress</div>
+  <div class="q-progress" id="qProgress"></div>
+
+  <!-- ===== SECTION A ===== -->
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <span class="section-label a">Section A — Logic Building</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-card" id="q1" style="--qc: #8B5CF6; --qc-bg: rgba(139,92,246,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q1</div>
+      <div class="q-title">Prime Numbers Within a Given Range</div>
+      <div class="q-marks">Logic</div>
+    </div>
+    <div class="q-body">
+      <p>Write a Python program to print all prime numbers within a given range.</p>
+      <div class="req-box">
+        <div class="req-box-title">Input Format</div>
+        <ul>
+          <li>Two integers on one line: <strong>start</strong> and <strong>end</strong></li>
+          <li>Print all primes between start and end (inclusive), separated by spaces</li>
+        </ul>
+      </div>
+      <div class="io-grid">
+        <div class="io-box">
+          <div class="io-label input">Sample Input</div>
+          <div class="io-content">10 30</div>
+        </div>
+        <div class="io-box">
+          <div class="io-label output">Sample Output</div>
+          <div class="io-content">11 13 17 19 23 29</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q1.py</div>
+        <div class="code-body"><span class="cm"># Write your solution here</span>
+<span class="kw">def</span> <span class="fn">is_prime</span><span class="op">(n):</span>
+    <span class="op">...</span>
+
+<span class="kw">def</span> <span class="fn">primes_in_range</span><span class="op">(start, end):</span>
+    <span class="op">...</span>
+
+<span class="op">start, end = </span><span class="fn">map</span><span class="op">(</span><span class="dc">int</span><span class="op">, </span><span class="fn">input</span><span class="op">().</span><span class="fn">split</span><span class="op">())</span>
+<span class="fn">primes_in_range</span><span class="op">(start, end)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card" id="q2" style="--qc: #8B5CF6; --qc-bg: rgba(139,92,246,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q2</div>
+      <div class="q-title">Prime Factors of a Number</div>
+      <div class="q-marks">Logic</div>
+    </div>
+    <div class="q-body">
+      <p>Write a Python program to find all <strong>prime factors</strong> of a given number. Print them in ascending order separated by spaces.</p>
+      <div class="io-grid">
+        <div class="io-box">
+          <div class="io-label input">Sample Input</div>
+          <div class="io-content">84</div>
+        </div>
+        <div class="io-box">
+          <div class="io-label output">Sample Output</div>
+          <div class="io-content">2 2 3 7</div>
+        </div>
+      </div>
+      <div class="note-box"><strong>Hint:</strong> Start dividing from 2 upward. Each time the number divides evenly, record that factor and continue dividing.</div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q2.py</div>
+        <div class="code-body"><span class="cm"># Write your solution here</span>
+<span class="kw">def</span> <span class="fn">prime_factors</span><span class="op">(n):</span>
+    <span class="op">...</span>
+
+<span class="op">n = </span><span class="dc">int</span><span class="op">(</span><span class="fn">input</span><span class="op">())</span>
+<span class="fn">prime_factors</span><span class="op">(n)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card" id="q3" style="--qc: #8B5CF6; --qc-bg: rgba(139,92,246,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q3</div>
+      <div class="q-title">Reverse a Number Using Recursion</div>
+      <div class="q-marks">Recursion</div>
+    </div>
+    <div class="q-body">
+      <p>Write a Python program to reverse a number using <strong>recursion</strong>. Do not use string slicing or built-in reverse functions.</p>
+      <div class="io-grid">
+        <div class="io-box">
+          <div class="io-label input">Sample Input</div>
+          <div class="io-content">12345</div>
+        </div>
+        <div class="io-box">
+          <div class="io-label output">Sample Output</div>
+          <div class="io-content">54321</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q3.py</div>
+        <div class="code-body"><span class="cm"># Write your solution here — must use recursion</span>
+<span class="kw">def</span> <span class="fn">reverse_number</span><span class="op">(n, reversed_num=</span><span class="nm">0</span><span class="op">):</span>
+    <span class="op">...</span>
+
+<span class="op">n = </span><span class="dc">int</span><span class="op">(</span><span class="fn">input</span><span class="op">())</span>
+<span class="fn">print</span><span class="op">(</span><span class="fn">reverse_number</span><span class="op">(n))</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card" id="q4" style="--qc: #8B5CF6; --qc-bg: rgba(139,92,246,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q4</div>
+      <div class="q-title">Factorial Using Recursion</div>
+      <div class="q-marks">Recursion</div>
+    </div>
+    <div class="q-body">
+      <p>Write a Python program to find the <strong>factorial</strong> of a number using recursion.</p>
+      <div class="io-grid">
+        <div class="io-box">
+          <div class="io-label input">Sample Input</div>
+          <div class="io-content">5</div>
+        </div>
+        <div class="io-box">
+          <div class="io-label output">Sample Output</div>
+          <div class="io-content">120</div>
+        </div>
+      </div>
+      <div class="note-box"><strong>Recall:</strong> factorial(5) = 5 × 4 × 3 × 2 × 1 = 120. Base case: factorial(0) = 1.</div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q4.py</div>
+        <div class="code-body"><span class="cm"># Write your solution here — must use recursion</span>
+<span class="kw">def</span> <span class="fn">factorial</span><span class="op">(n):</span>
+    <span class="op">...</span>
+
+<span class="op">n = </span><span class="dc">int</span><span class="op">(</span><span class="fn">input</span><span class="op">())</span>
+<span class="fn">print</span><span class="op">(</span><span class="fn">factorial</span><span class="op">(n))</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION B ===== -->
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <span class="section-label b">Section B — OOPS Programming</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card" id="q5" style="--qc: #14B8A6; --qc-bg: rgba(20,184,166,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q5</div>
+      <div class="q-title">Student Result Management System</div>
+      <div class="q-marks">Class</div>
+    </div>
+    <div class="q-body">
+      <p>Create a class named <strong><code>Student</code></strong> that models a student's result.</p>
+      <div class="req-box">
+        <div class="req-box-title">Requirements</div>
+        <ul>
+          <li>Store <strong>student name</strong></li>
+          <li>Store <strong>marks of 3 subjects</strong></li>
+          <li>Method <strong><code>calculate_total()</code></strong> — returns sum of all marks</li>
+          <li>Method <strong><code>calculate_average()</code></strong> — returns average rounded to 2 decimal places</li>
+          <li>Method <strong><code>display()</code></strong> — prints student details as shown</li>
+        </ul>
+      </div>
+      <div class="io-grid">
+        <div class="io-box">
+          <div class="io-label input">Sample Input</div>
+          <div class="io-content">Rahul
+78 82 91</div>
+        </div>
+        <div class="io-box">
+          <div class="io-label output">Sample Output</div>
+          <div class="io-content">Student Name: Rahul
+Total Marks: 251
+Average Marks: 83.67</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q5.py</div>
+        <div class="code-body"><span class="kw">class</span> <span class="tp">Student</span><span class="op">:</span>
+    <span class="kw">def</span> <span class="fn">__init__</span><span class="op">(self, name, marks):</span>
+        <span class="op">...</span>
+
+    <span class="kw">def</span> <span class="fn">calculate_total</span><span class="op">(self):</span>
+        <span class="op">...</span>
+
+    <span class="kw">def</span> <span class="fn">calculate_average</span><span class="op">(self):</span>
+        <span class="op">...</span>
+
+    <span class="kw">def</span> <span class="fn">display</span><span class="op">(self):</span>
+        <span class="op">...</span>
+
+<span class="cm"># Driver code</span>
+<span class="op">name = </span><span class="fn">input</span><span class="op">()</span>
+<span class="op">marks = </span><span class="fn">list</span><span class="op">(</span><span class="fn">map</span><span class="op">(</span><span class="dc">int</span><span class="op">, </span><span class="fn">input</span><span class="op">().</span><span class="fn">split</span><span class="op">()))</span>
+<span class="op">s = </span><span class="tp">Student</span><span class="op">(name, marks)</span>
+<span class="op">s.</span><span class="fn">display</span><span class="op">()</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card" id="q6" style="--qc: #14B8A6; --qc-bg: rgba(20,184,166,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q6</div>
+      <div class="q-title">Vehicle Inheritance Program</div>
+      <div class="q-marks">Inheritance</div>
+    </div>
+    <div class="q-body">
+      <p>Demonstrate <strong>inheritance</strong> using vehicles.</p>
+      <div class="req-box">
+        <div class="req-box-title">Parent Class — Vehicle</div>
+        <ul>
+          <li>Attributes: <strong>brand</strong>, <strong>speed</strong></li>
+          <li>Constructor using <code>__init__</code></li>
+        </ul>
+      </div>
+      <div class="req-box">
+        <div class="req-box-title">Child Class — Car (extends Vehicle)</div>
+        <ul>
+          <li>Additional attribute: <strong>fuel_type</strong></li>
+          <li>Call parent constructor using <code>super()</code></li>
+          <li>Method <strong><code>display()</code></strong> — prints all 3 attributes</li>
+        </ul>
+      </div>
+      <div class="output-only">
+        <div class="io-label output">Sample Output</div>
+        <div class="io-content" style="border-radius: 0 10px 10px 10px;">Brand: Hyundai
+Speed: 180
+Fuel Type: Petrol</div>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q6.py</div>
+        <div class="code-body"><span class="kw">class</span> <span class="tp">Vehicle</span><span class="op">:</span>
+    <span class="kw">def</span> <span class="fn">__init__</span><span class="op">(self, brand, speed):</span>
+        <span class="op">...</span>
+
+<span class="kw">class</span> <span class="tp">Car</span><span class="op">(</span><span class="tp">Vehicle</span><span class="op">):</span>
+    <span class="kw">def</span> <span class="fn">__init__</span><span class="op">(self, brand, speed, fuel_type):</span>
+        <span class="op">...</span>
+
+    <span class="kw">def</span> <span class="fn">display</span><span class="op">(self):</span>
+        <span class="op">...</span>
+
+<span class="cm"># Driver code</span>
+<span class="op">c = </span><span class="tp">Car</span><span class="op">(</span><span class="st">"Hyundai"</span><span class="op">, </span><span class="nm">180</span><span class="op">, </span><span class="st">"Petrol"</span><span class="op">)</span>
+<span class="op">c.</span><span class="fn">display</span><span class="op">()</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card" id="q7" style="--qc: #14B8A6; --qc-bg: rgba(20,184,166,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q7</div>
+      <div class="q-title">Bank Account Encapsulation Program</div>
+      <div class="q-marks">Encapsulation</div>
+    </div>
+    <div class="q-body">
+      <p>Demonstrate <strong>encapsulation</strong> using a bank account. Hide the balance from direct access.</p>
+      <div class="req-box">
+        <div class="req-box-title">Class — BankAccount</div>
+        <ul>
+          <li>Store <strong>account holder name</strong></li>
+          <li><strong>Private attribute</strong> <code>__balance</code> (initialized to 0)</li>
+          <li>Method <strong><code>deposit(amount)</code></strong> — adds to balance, prints "Deposited: &lt;amount&gt;"</li>
+          <li>Method <strong><code>withdraw(amount)</code></strong> — deducts if sufficient funds, prints "Withdrawn: &lt;amount&gt;" or "Insufficient Balance"</li>
+          <li>Method <strong><code>display_balance()</code></strong> — prints "Available Balance: &lt;balance&gt;"</li>
+        </ul>
+      </div>
+      <div class="output-only">
+        <div class="io-label output">Sample Output</div>
+        <div class="io-content" style="border-radius: 0 10px 10px 10px;">Deposited: 5000
+Withdrawn: 2000
+Available Balance: 3000</div>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q7.py</div>
+        <div class="code-body"><span class="kw">class</span> <span class="tp">BankAccount</span><span class="op">:</span>
+    <span class="kw">def</span> <span class="fn">__init__</span><span class="op">(self, holder_name):</span>
+        <span class="op">self.holder_name = holder_name</span>
+        <span class="op">self.__balance = </span><span class="nm">0</span>    <span class="cm"># private attribute</span>
+
+    <span class="kw">def</span> <span class="fn">deposit</span><span class="op">(self, amount):</span>
+        <span class="op">...</span>
+
+    <span class="kw">def</span> <span class="fn">withdraw</span><span class="op">(self, amount):</span>
+        <span class="op">...</span>
+
+    <span class="kw">def</span> <span class="fn">display_balance</span><span class="op">(self):</span>
+        <span class="op">...</span>
+
+<span class="cm"># Driver code</span>
+<span class="op">acc = </span><span class="tp">BankAccount</span><span class="op">(</span><span class="st">"Rahul"</span><span class="op">)</span>
+<span class="op">acc.</span><span class="fn">deposit</span><span class="op">(</span><span class="nm">5000</span><span class="op">)</span>
+<span class="op">acc.</span><span class="fn">withdraw</span><span class="op">(</span><span class="nm">2000</span><span class="op">)</span>
+<span class="op">acc.</span><span class="fn">display_balance</span><span class="op">()</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card" id="q8" style="--qc: #14B8A6; --qc-bg: rgba(20,184,166,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q8</div>
+      <div class="q-title">Payment System Using Polymorphism</div>
+      <div class="q-marks">Polymorphism</div>
+    </div>
+    <div class="q-body">
+      <p>Demonstrate <strong>polymorphism</strong> through a payment system where each payment method has its own behaviour for the same method name.</p>
+      <div class="req-box">
+        <div class="req-box-title">Requirements</div>
+        <ul>
+          <li>Base class: <strong><code>Payment</code></strong> with method <code>pay()</code></li>
+          <li>Subclass <strong><code>PhonePe</code></strong> — overrides <code>pay()</code></li>
+          <li>Subclass <strong><code>GooglePay</code></strong> — overrides <code>pay()</code></li>
+          <li>Subclass <strong><code>Paytm</code></strong> — overrides <code>pay()</code></li>
+          <li>Call <code>pay()</code> on each object through a loop to show polymorphism</li>
+        </ul>
+      </div>
+      <div class="output-only">
+        <div class="io-label output">Sample Output</div>
+        <div class="io-content" style="border-radius: 0 10px 10px 10px;">Payment done using PhonePe
+Payment done using GooglePay
+Payment done using Paytm</div>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q8.py</div>
+        <div class="code-body"><span class="kw">class</span> <span class="tp">Payment</span><span class="op">:</span>
+    <span class="kw">def</span> <span class="fn">pay</span><span class="op">(self):</span>
+        <span class="kw">pass</span>
+
+<span class="kw">class</span> <span class="tp">PhonePe</span><span class="op">(</span><span class="tp">Payment</span><span class="op">):</span>
+    <span class="kw">def</span> <span class="fn">pay</span><span class="op">(self):</span>
+        <span class="op">...</span>
+
+<span class="kw">class</span> <span class="tp">GooglePay</span><span class="op">(</span><span class="tp">Payment</span><span class="op">):</span>
+    <span class="kw">def</span> <span class="fn">pay</span><span class="op">(self):</span>
+        <span class="op">...</span>
+
+<span class="kw">class</span> <span class="tp">Paytm</span><span class="op">(</span><span class="tp">Payment</span><span class="op">):</span>
+    <span class="kw">def</span> <span class="fn">pay</span><span class="op">(self):</span>
+        <span class="op">...</span>
+
+<span class="cm"># Driver code — use a loop to demonstrate polymorphism</span>
+<span class="op">payments = [</span><span class="tp">PhonePe</span><span class="op">(), </span><span class="tp">GooglePay</span><span class="op">(), </span><span class="tp">Paytm</span><span class="op">()]</span>
+<span class="kw">for</span><span class="op"> p </span><span class="kw">in</span><span class="op"> payments:</span>
+    <span class="op">p.</span><span class="fn">pay</span><span class="op">()</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION C ===== -->
+  <div class="section-divider">
+    <div class="section-divider-line"></div>
+    <span class="section-label c">Section C — API Programming (FastAPI)</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <div class="note-box" style="margin-bottom: 24px;">
+    <strong>Setup:</strong> Install FastAPI and Uvicorn before starting — <code>pip install fastapi uvicorn</code>. Run with <code>uvicorn filename:app --reload</code>.
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-card" id="q9" style="--qc: #0EA5E9; --qc-bg: rgba(14,165,233,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q9</div>
+      <div class="q-title">Create a Basic FastAPI GET Route</div>
+      <div class="q-marks">FastAPI</div>
+    </div>
+    <div class="q-body">
+      <p>Create a FastAPI application with a single GET route that returns a welcome message.</p>
+      <div class="req-box">
+        <div class="req-box-title">Requirements</div>
+        <ul>
+          <li>Route: <strong><code>GET /home</code></strong></li>
+          <li>Returns a JSON response with the key <strong><code>message</code></strong></li>
+        </ul>
+      </div>
+      <div class="output-only" style="margin-top: 14px;">
+        <div class="io-label output">Expected JSON Response</div>
+        <div class="json-block" style="border-radius: 0 10px 10px 10px; margin: 0;"><span class="json-punct">{</span>
+  <span class="json-key">"message"</span><span class="json-punct">: </span><span class="json-str">"Welcome to FastAPI"</span>
+<span class="json-punct">}</span></div>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q9.py</div>
+        <div class="code-body"><span class="kw">from</span><span class="op"> fastapi </span><span class="kw">import</span><span class="op"> FastAPI</span>
+
+<span class="op">app = </span><span class="fn">FastAPI</span><span class="op">()</span>
+
+<span class="cm"># Write your GET route here</span>
+<span class="op">...</span>
+
+<span class="cm"># Run: uvicorn solution_q9:app --reload</span>
+<span class="cm"># Test: http://127.0.0.1:8000/home</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-card" id="q10" style="--qc: #0EA5E9; --qc-bg: rgba(14,165,233,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q10</div>
+      <div class="q-title">Create a Student API Using FastAPI</div>
+      <div class="q-marks">FastAPI · POST</div>
+    </div>
+    <div class="q-body">
+      <p>Create a FastAPI <strong>POST</strong> endpoint that accepts student data and returns it with a status message.</p>
+      <div class="req-box">
+        <div class="req-box-title">Requirements</div>
+        <ul>
+          <li>Route: <strong><code>POST /student</code></strong></li>
+          <li>Accept request body with: <strong><code>student_name</code></strong> (string), <strong><code>marks</code></strong> (integer)</li>
+          <li>Use a <strong>Pydantic model</strong> for request body validation</li>
+          <li>Return a JSON response that echoes both fields plus a <strong><code>status</code></strong> field</li>
+        </ul>
+      </div>
+      <div class="io-grid" style="margin-top: 14px;">
+        <div class="io-box">
+          <div class="io-label input">Request Body (JSON)</div>
+          <div class="json-block" style="border-radius: 0 10px 10px 10px; margin: 0;"><span class="json-punct">{</span>
+  <span class="json-key">"student_name"</span><span class="json-punct">: </span><span class="json-str">"Rahul"</span><span class="json-punct">,</span>
+  <span class="json-key">"marks"</span><span class="json-punct">: </span><span class="json-num">95</span>
+<span class="json-punct">}</span></div>
+        </div>
+        <div class="io-box">
+          <div class="io-label output">JSON Response</div>
+          <div class="json-block" style="border-radius: 0 10px 10px 10px; margin: 0;"><span class="json-punct">{</span>
+  <span class="json-key">"student_name"</span><span class="json-punct">: </span><span class="json-str">"Rahul"</span><span class="json-punct">,</span>
+  <span class="json-key">"marks"</span><span class="json-punct">: </span><span class="json-num">95</span><span class="json-punct">,</span>
+  <span class="json-key">"status"</span><span class="json-punct">: </span><span class="json-str">"Record Added"</span>
+<span class="json-punct">}</span></div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q10.py</div>
+        <div class="code-body"><span class="kw">from</span><span class="op"> fastapi </span><span class="kw">import</span><span class="op"> FastAPI</span>
+<span class="kw">from</span><span class="op"> pydantic </span><span class="kw">import</span><span class="op"> BaseModel</span>
+
+<span class="op">app = </span><span class="fn">FastAPI</span><span class="op">()</span>
+
+<span class="cm"># Define Pydantic model for request body</span>
+<span class="kw">class</span> <span class="tp">Student</span><span class="op">(</span><span class="tp">BaseModel</span><span class="op">):</span>
+    <span class="op">...</span>
+
+<span class="cm"># Write your POST route here</span>
+<span class="op">...</span>
+
+<span class="cm"># Run: uvicorn solution_q10:app --reload</span>
+<span class="cm"># Test via Swagger UI: http://127.0.0.1:8000/docs</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="q-card" id="q11" style="--qc: #0EA5E9; --qc-bg: rgba(14,165,233,0.1);">
+    <div class="q-header">
+      <div class="q-num">Q11</div>
+      <div class="q-title">Middleware Logging Program</div>
+      <div class="q-marks">Middleware</div>
+    </div>
+    <div class="q-body">
+      <p>Create a FastAPI application with <strong>custom middleware</strong> that logs every request and response to the console.</p>
+      <div class="req-box">
+        <div class="req-box-title">Requirements</div>
+        <ul>
+          <li>Print <strong><code>Request Received</code></strong> — before every API request is processed</li>
+          <li>Print <strong><code>Response Sent</code></strong> — after every API response is sent</li>
+          <li>Create a sample GET route: <strong><code>/test</code></strong> that returns <code>{"message": "API Working"}</code></li>
+          <li>Use <code>@app.middleware("http")</code> decorator</li>
+        </ul>
+      </div>
+      <div class="io-grid" style="margin-top: 14px;">
+        <div class="io-box">
+          <div class="io-label output">Console Log (on every request)</div>
+          <div class="io-content" style="border-radius: 0 10px 10px 10px;">Request Received
+Response Sent</div>
+        </div>
+        <div class="io-box">
+          <div class="io-label output">GET /test Response</div>
+          <div class="json-block" style="border-radius: 0 10px 10px 10px; margin: 0;"><span class="json-punct">{</span>
+  <span class="json-key">"message"</span><span class="json-punct">: </span><span class="json-str">"API Working"</span>
+<span class="json-punct">}</span></div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>solution_q11.py</div>
+        <div class="code-body"><span class="kw">from</span><span class="op"> fastapi </span><span class="kw">import</span><span class="op"> FastAPI, Request</span>
+
+<span class="op">app = </span><span class="fn">FastAPI</span><span class="op">()</span>
+
+<span class="cm"># Write middleware here</span>
+<span class="op">@app.</span><span class="fn">middleware</span><span class="op">(</span><span class="st">"http"</span><span class="op">)</span>
+<span class="kw">async def</span> <span class="fn">log_middleware</span><span class="op">(request: </span><span class="tp">Request</span><span class="op">, call_next):</span>
+    <span class="op">...</span>
+
+<span class="cm"># Write GET /test route here</span>
+<span class="op">...</span>
+
+<span class="cm"># Run: uvicorn solution_q11:app --reload</span>
+<span class="cm"># Test: http://127.0.0.1:8000/test  — watch the terminal</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End note -->
+  <div style="text-align: center; margin: 48px 0; padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);">
+    <div style="font-size: 2rem; margin-bottom: 12px;">🎯</div>
+    <div style="font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 8px;">End of Assessment</div>
+    <div style="color: var(--text-muted); font-size: 0.9375rem; line-height: 1.6;">
+      Review your solutions before time runs out.<br>
+      Make sure output matches the sample format exactly.
+    </div>
+  </div>
+
+</div><!-- /container -->
+</main>
+
+<footer>
+  <div class="container">
+    <p>CS Guide · Assessment Paper — Python + OOPS + APIs</p>
+    <p style="margin-top: 4px;">1 Hour · 11 Questions · Python Only</p>
+  </div>
+</footer>
+
+<script>
+// ========== THEME ==========
+const themeBtn = document.getElementById('themeBtn');
+const nav = document.getElementById('topNav');
+const saved = (() => { try { return localStorage.getItem('cs-guide-theme'); } catch(e) { return null; } })();
+if (saved === 'dark') { document.body.classList.add('dark'); themeBtn.textContent = '☀️'; }
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  themeBtn.textContent = isDark ? '☀️' : '🌙';
+  try { localStorage.setItem('cs-guide-theme', isDark ? 'dark' : 'light'); } catch(e) {}
+});
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 8);
+}, { passive: true });
+
+// ========== TIMER ==========
+const TOTAL = 60 * 60; // 60 minutes in seconds
+let remaining = TOTAL;
+let interval = null;
+let running = false;
+
+const display = document.getElementById('timerDisplay');
+const startBtn = document.getElementById('timerStartBtn');
+const resetBtn = document.getElementById('timerResetBtn');
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+}
+function updateDisplay() {
+  display.textContent = formatTime(remaining);
+  display.className = 'timer-display';
+  if (remaining <= 300) display.classList.add('danger');       // last 5 min
+  else if (remaining <= 900) display.classList.add('warning'); // last 15 min
+}
+startBtn.addEventListener('click', () => {
+  if (running) {
+    clearInterval(interval);
+    running = false;
+    startBtn.textContent = '▶ Resume';
+  } else {
+    if (remaining <= 0) return;
+    running = true;
+    startBtn.textContent = '⏸ Pause';
+    interval = setInterval(() => {
+      remaining--;
+      updateDisplay();
+      if (remaining <= 0) {
+        clearInterval(interval);
+        running = false;
+        startBtn.textContent = '▶ Start';
+        display.textContent = '00:00';
+        display.classList.add('danger');
+        alert('⏰ Time is up! Please submit your answers.');
+      }
+    }, 1000);
+  }
+});
+resetBtn.addEventListener('click', () => {
+  clearInterval(interval);
+  running = false;
+  remaining = TOTAL;
+  startBtn.textContent = '▶ Start';
+  updateDisplay();
+});
+updateDisplay();
+
+// ========== PROGRESS DOTS ==========
+const qIds = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11'];
+const prog = document.getElementById('qProgress');
+const done = new Set();
+
+qIds.forEach((id, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'q-dot';
+  dot.title = `Question ${i + 1}`;
+  dot.addEventListener('click', () => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    done.add(id);
+    refreshDots();
+  });
+  prog.appendChild(dot);
+});
+
+// Mark question visited when scrolled into view
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && e.intersectionRatio > 0.3) {
+      done.add(e.target.id);
+      refreshDots();
+    }
+  });
+}, { threshold: 0.3 });
+
+qIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+
+function refreshDots() {
+  const dots = prog.querySelectorAll('.q-dot');
+  dots.forEach((dot, i) => {
+    dot.className = 'q-dot';
+    if (done.has(qIds[i])) dot.classList.add('done');
+  });
+}
+</script>
+</body>
+</html>
