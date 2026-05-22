@@ -726,7 +726,7 @@
 
   /* ========== RESPONSIVE SIMULATORS ========== */
   @media (max-width: 600px) {
-    .routing-grid, .idx-grid { grid-template-columns: 1fr !important; }
+    .routing-grid, .idx-grid, .join-tables-grid { grid-template-columns: 1fr !important; }
   }
 
   /* ========== HOME BUTTON ========== */
@@ -792,6 +792,7 @@
       <a href="#scope" class="nav-link">Scope</a>
       <a href="#indexing" class="nav-link">Indexing</a>
       <a href="#db" class="nav-link">Databases</a>
+      <a href="#queries" class="nav-link">Queries</a>
       <a href="#quiz" class="nav-link">Quiz</a>
       <a href="#cheatsheet" class="nav-link">Cheatsheet</a>
     </div>
@@ -820,15 +821,15 @@
     </div>
     <div class="hero-stats">
       <div>
-        <div class="stat-num">5</div>
+        <div class="stat-num">6</div>
         <div class="stat-label">Topics</div>
       </div>
       <div>
-        <div class="stat-num">11</div>
+        <div class="stat-num">9</div>
         <div class="stat-label">Simulators</div>
       </div>
       <div>
-        <div class="stat-num">50</div>
+        <div class="stat-num">60</div>
         <div class="stat-label">Quiz questions</div>
       </div>
       <div>
@@ -872,6 +873,11 @@
         <div class="topic-card-num">05</div>
         <div class="topic-card-title">Pick a Database</div>
         <div class="topic-card-desc">PostgreSQL vs MySQL vs SQLite — which fits when</div>
+      </a>
+      <a href="#queries" class="topic-card" style="--bar: #10B981;">
+        <div class="topic-card-num">06</div>
+        <div class="topic-card-title">SQL Queries</div>
+        <div class="topic-card-desc">SELECT, JOINs, GROUP BY, subqueries — the patterns you write every day</div>
       </a>
     </div>
   </div>
@@ -1787,23 +1793,282 @@ Three lines of text</pre>
   </div>
 </section>
 
+<!-- ========== TOPIC 06: SQL QUERIES ========== -->
+<section class="topic-section" id="queries" style="--accent-color: #10B981; --mark-bg: #ECFDF5; --mark-color: #059669;">
+  <div class="container-narrow">
+    <div class="topic-hero">
+      <div class="topic-mark">
+        <span class="topic-mark-num">06</span>
+        Topic · SQL Query Fundamentals
+      </div>
+      <h2>SQL Queries</h2>
+      <p>SQL is the language every database speaks. Whether you're on SQLite, MySQL, or PostgreSQL — the query syntax is nearly identical. These are the patterns you'll write every single day as a backend developer.</p>
+    </div>
+
+    <div class="topic-body">
+
+      <div class="topic-block">
+        <h3>Think in tables, not loops</h3>
+        <p>In Python you'd loop through a list to find users older than 25. In SQL you describe <em>what</em> you want — the database figures out <em>how</em> to find it efficiently.</p>
+        <div class="info-box info" style="border-left-color: #10B981; background: #ECFDF5;">
+          <div class="info-box-title">💡 SQL is declarative</div>
+          <div class="info-box-body">
+            <p>The database query planner automatically decides whether to use an index, which rows to scan, and how to join tables — you just state the result you want.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>SELECT — read data</h3>
+        <p>Every query starts here. SELECT names the columns, FROM names the table.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>SQL · SELECT</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c">-- All columns, all rows</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> users;</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="c">-- Specific columns only</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> name, email </span><span class="k">FROM</span><span class="o"> users;</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="c">-- Rename a column with AS (alias)</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> name </span><span class="k">AS</span><span class="o"> full_name, email </span><span class="k">FROM</span><span class="o"> users;</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="c">-- No duplicates in results</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="k">SELECT DISTINCT</span><span class="o"> city </span><span class="k">FROM</span><span class="o"> users;</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>WHERE — filter rows</h3>
+        <p>WHERE limits which rows come back. All comparison operators work (<code>=</code> <code>&lt;&gt;</code> <code>&lt;</code> <code>&gt;</code>), plus SQL-specific ones.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>SQL · WHERE</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> users </span><span class="k">WHERE</span><span class="o"> age &gt; </span><span class="n">25</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="c">-- Combine with AND / OR</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> users </span><span class="k">WHERE</span><span class="o"> age &gt; </span><span class="n">25</span><span class="o"> </span><span class="k">AND</span><span class="o"> city = </span><span class="s">'Hyderabad'</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="c">-- IN — match any value in a list</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> users </span><span class="k">WHERE</span><span class="o"> city </span><span class="k">IN</span><span class="o"> (</span><span class="s">'Delhi'</span><span class="o">, </span><span class="s">'Mumbai'</span><span class="o">, </span><span class="s">'Hyderabad'</span><span class="o">);</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="c">-- LIKE — pattern match (% = any chars, _ = one char)</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> users </span><span class="k">WHERE</span><span class="o"> email </span><span class="k">LIKE</span><span class="o"> </span><span class="s">'%@gmail.com'</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="c">-- BETWEEN — inclusive range</span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> orders </span><span class="k">WHERE</span><span class="o"> amount </span><span class="k">BETWEEN</span><span class="o"> </span><span class="n">100</span><span class="o"> </span><span class="k">AND</span><span class="o"> </span><span class="n">500</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="c">-- IS NULL — find missing values</span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> users </span><span class="k">WHERE</span><span class="o"> phone </span><span class="k">IS NULL</span><span class="o">;</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>ORDER BY · LIMIT · OFFSET — sort and paginate</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>SQL · Sorting &amp; Pagination</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c">-- Youngest users first</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> users </span><span class="k">ORDER BY</span><span class="o"> age </span><span class="k">ASC</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="c">-- Biggest orders, top 5 only</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> orders </span><span class="k">ORDER BY</span><span class="o"> amount </span><span class="k">DESC</span><span class="o"> </span><span class="k">LIMIT</span><span class="o"> </span><span class="n">5</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="c">-- Page 2 of 10 results per page (skip first 10)</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> * </span><span class="k">FROM</span><span class="o"> users </span><span class="k">ORDER BY</span><span class="o"> id </span><span class="k">LIMIT</span><span class="o"> </span><span class="n">10</span><span class="o"> </span><span class="k">OFFSET</span><span class="o"> </span><span class="n">10</span><span class="o">;</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Aggregate functions + GROUP BY + HAVING</h3>
+        <p>Aggregate functions collapse many rows into one summary value. GROUP BY runs them per group. HAVING then filters those groups — like WHERE but applied after grouping.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>SQL · Aggregates &amp; GROUP BY</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c">-- The five aggregate functions</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> </span><span class="f">COUNT</span><span class="o">(*) </span><span class="k">FROM</span><span class="o"> users;             </span><span class="c">-- total row count</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> </span><span class="f">SUM</span><span class="o">(amount) </span><span class="k">FROM</span><span class="o"> orders;         </span><span class="c">-- total revenue</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> </span><span class="f">AVG</span><span class="o">(age) </span><span class="k">FROM</span><span class="o"> users;            </span><span class="c">-- average age</span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> </span><span class="f">MAX</span><span class="o">(amount), </span><span class="f">MIN</span><span class="o">(amount) </span><span class="k">FROM</span><span class="o"> orders;</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="c">-- GROUP BY: count orders per user</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> user_id, </span><span class="f">COUNT</span><span class="o">(*) </span><span class="k">AS</span><span class="o"> order_count</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="k">FROM</span><span class="o">   orders</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="k">GROUP BY</span><span class="o"> user_id;</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="c">-- HAVING: only groups with more than 2 orders</span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> user_id, </span><span class="f">COUNT</span><span class="o">(*) </span><span class="k">AS</span><span class="o"> order_count</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="k">FROM</span><span class="o">   orders</span></span></div>
+<div class="ln"><span class="ln-num">15</span><span class="ln-content"><span class="k">GROUP BY</span><span class="o"> user_id</span></span></div>
+<div class="ln"><span class="ln-num">16</span><span class="ln-content"><span class="k">HAVING</span><span class="o"> </span><span class="f">COUNT</span><span class="o">(*) &gt; </span><span class="n">2</span><span class="o">;</span></span></div>
+          </div>
+        </div>
+        <div class="info-box warning">
+          <div class="info-box-title">⚠️ WHERE vs HAVING</div>
+          <div class="info-box-body">
+            <p><strong>WHERE</strong> filters rows <em>before</em> grouping. <strong>HAVING</strong> filters groups <em>after</em> aggregation. You cannot use an aggregate like <code>COUNT(*)</code> inside a WHERE clause.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>JOINs — combine rows from two tables</h3>
+        <p>A JOIN links rows from two tables on a shared column (usually a foreign key). Four types — each decides what to do when a row has no match on the other side.</p>
+        <ul>
+          <li><strong>INNER JOIN</strong> — only rows that match in both tables. Unmatched rows from either side are dropped.</li>
+          <li><strong>LEFT JOIN</strong> — every row from the left table. If no right-side match, those columns are NULL.</li>
+          <li><strong>RIGHT JOIN</strong> — every row from the right table. If no left-side match, those columns are NULL.</li>
+          <li><strong>FULL OUTER JOIN</strong> — every row from both tables. NULLs wherever there's no match. (Not supported natively in SQLite.)</li>
+        </ul>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>SQL · JOINs</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c">-- INNER JOIN: only matched rows</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> u.name, o.product</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="k">FROM</span><span class="o">   users u </span><span class="k">INNER JOIN</span><span class="o"> orders o </span><span class="k">ON</span><span class="o"> u.id = o.user_id;</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="c">-- LEFT JOIN: all users, even those with no orders</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> u.name, o.product</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="k">FROM</span><span class="o">   users u </span><span class="k">LEFT JOIN</span><span class="o"> orders o </span><span class="k">ON</span><span class="o"> u.id = o.user_id;</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="c">-- Find users who have placed NO orders</span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> u.name</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="k">FROM</span><span class="o">   users u </span><span class="k">LEFT JOIN</span><span class="o"> orders o </span><span class="k">ON</span><span class="o"> u.id = o.user_id</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="k">WHERE</span><span class="o">  o.user_id </span><span class="k">IS NULL</span><span class="o">;</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- JOIN VISUALIZER SIMULATOR -->
+      <div class="sim">
+        <div class="sim-head">
+          <h4>Simulator</h4>
+          <div class="sim-title">🔗 JOIN Visualizer — see which rows survive</div>
+        </div>
+        <p style="margin-bottom: 20px;">Two tables share a <code>user_id</code> column. Pick a JOIN type — highlighted rows are included in the result, dimmed rows are excluded.</p>
+        <div class="input-row">
+          <label class="input-label">JOIN type</label>
+          <div class="select-pill-group" id="joinType">
+            <button class="select-pill active" data-v="inner">INNER JOIN</button>
+            <button class="select-pill" data-v="left">LEFT JOIN</button>
+            <button class="select-pill" data-v="right">RIGHT JOIN</button>
+            <button class="select-pill" data-v="full">FULL OUTER JOIN</button>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;" class="join-tables-grid">
+          <div>
+            <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--info); margin-bottom: 8px;">users (left table)</div>
+            <table style="width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
+              <thead><tr style="background: var(--surface-2);">
+                <th style="padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-subtle); font-weight: 600;">id</th>
+                <th style="padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-subtle); font-weight: 600;">name</th>
+              </tr></thead>
+              <tbody id="jvLeftBody"></tbody>
+            </table>
+          </div>
+          <div>
+            <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--purple); margin-bottom: 8px;">orders (right table)</div>
+            <table style="width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
+              <thead><tr style="background: var(--surface-2);">
+                <th style="padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-subtle); font-weight: 600;">order_id</th>
+                <th style="padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-subtle); font-weight: 600;">user_id</th>
+                <th style="padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-subtle); font-weight: 600;">product</th>
+              </tr></thead>
+              <tbody id="jvRightBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div style="margin-bottom: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-subtle); background: #0F172A; padding: 10px 14px; border-radius: 8px;" id="jvQuery"></div>
+        <div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--success); margin-bottom: 8px;">Result</div>
+        <table style="width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
+          <thead><tr style="background: var(--surface-2);">
+            <th style="padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-subtle); font-weight: 600;">u.name</th>
+            <th style="padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-subtle); font-weight: 600;">o.order_id</th>
+            <th style="padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-subtle); font-weight: 600;">o.product</th>
+          </tr></thead>
+          <tbody id="jvResultBody"></tbody>
+        </table>
+        <div style="margin-top: 12px; padding: 12px 16px; background: var(--surface-2); border-radius: 8px; font-size: 0.875rem; color: var(--text-muted); line-height: 1.6;" id="jvExplain"></div>
+      </div>
+
+      <div class="topic-block">
+        <h3>INSERT · UPDATE · DELETE — write data</h3>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>SQL · Write Operations</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c">-- INSERT: add a row</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">INSERT INTO</span><span class="o"> users (name, email, age)</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="k">VALUES</span><span class="o"> (</span><span class="s">'Priya'</span><span class="o">, </span><span class="s">'priya@example.com'</span><span class="o">, </span><span class="n">28</span><span class="o">);</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="c">-- INSERT multiple rows at once</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="k">INSERT INTO</span><span class="o"> users (name, email, age) </span><span class="k">VALUES</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="o">  (</span><span class="s">'Arjun'</span><span class="o">, </span><span class="s">'arjun@example.com'</span><span class="o">, </span><span class="n">24</span><span class="o">),</span></span></div>
+<div class="ln"><span class="ln-num">8</span><span class="ln-content"><span class="o">  (</span><span class="s">'Meena'</span><span class="o">, </span><span class="s">'meena@example.com'</span><span class="o">, </span><span class="n">31</span><span class="o">);</span></span></div>
+<div class="ln"><span class="ln-num">9</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">10</span><span class="ln-content"><span class="c">-- UPDATE: modify rows — ALWAYS use WHERE</span></span></div>
+<div class="ln"><span class="ln-num">11</span><span class="ln-content"><span class="k">UPDATE</span><span class="o"> users </span><span class="k">SET</span><span class="o"> age = </span><span class="n">29</span><span class="o"> </span><span class="k">WHERE</span><span class="o"> id = </span><span class="n">1</span><span class="o">;</span></span></div>
+<div class="ln"><span class="ln-num">12</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">13</span><span class="ln-content"><span class="c">-- DELETE: remove rows — ALWAYS use WHERE</span></span></div>
+<div class="ln"><span class="ln-num">14</span><span class="ln-content"><span class="k">DELETE FROM</span><span class="o"> users </span><span class="k">WHERE</span><span class="o"> id = </span><span class="n">5</span><span class="o">;</span></span></div>
+          </div>
+        </div>
+        <div class="info-box danger">
+          <div class="info-box-title">🚨 Never UPDATE or DELETE without WHERE</div>
+          <div class="info-box-body">
+            <p><code>UPDATE users SET active = false;</code> deactivates <strong>every single user</strong>. <code>DELETE FROM users;</code> empties the entire table. Always write the WHERE clause first.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-block">
+        <h3>Subqueries — queries inside queries</h3>
+        <p>A subquery is a SELECT nested inside another statement. Use them when you need a dynamic value from the database itself — like the average, or a set of IDs.</p>
+        <div class="code-block">
+          <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>SQL · Subqueries</div>
+          <div class="code-body">
+<div class="ln"><span class="ln-num">1</span><span class="ln-content"><span class="c">-- Users older than the average age</span></span></div>
+<div class="ln"><span class="ln-num">2</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> name </span><span class="k">FROM</span><span class="o"> users</span></span></div>
+<div class="ln"><span class="ln-num">3</span><span class="ln-content"><span class="k">WHERE</span><span class="o">  age &gt; (</span><span class="k">SELECT</span><span class="o"> </span><span class="f">AVG</span><span class="o">(age) </span><span class="k">FROM</span><span class="o"> users);</span></span></div>
+<div class="ln"><span class="ln-num">4</span><span class="ln-content"><span class="o"></span></span></div>
+<div class="ln"><span class="ln-num">5</span><span class="ln-content"><span class="c">-- Users who have placed at least one order</span></span></div>
+<div class="ln"><span class="ln-num">6</span><span class="ln-content"><span class="k">SELECT</span><span class="o"> name </span><span class="k">FROM</span><span class="o"> users</span></span></div>
+<div class="ln"><span class="ln-num">7</span><span class="ln-content"><span class="k">WHERE</span><span class="o">  id </span><span class="k">IN</span><span class="o"> (</span><span class="k">SELECT DISTINCT</span><span class="o"> user_id </span><span class="k">FROM</span><span class="o"> orders);</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <div class="info-box-title">🎯 SQL query order in one line</div>
+        <div class="info-box-body">
+          <p><strong>SELECT</strong> → <strong>FROM</strong> → <strong>JOIN</strong> → <strong>WHERE</strong> → <strong>GROUP BY</strong> → <strong>HAVING</strong> → <strong>ORDER BY</strong> → <strong>LIMIT</strong>. Not all clauses are needed every time — use only what the query requires.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ========== QUIZ ========== -->
 <section id="quiz" style="background: var(--surface-2);">
   <div class="container">
     <div class="section-head">
       <span class="badge badge-pink">Test yourself</span>
-      <h2>50 questions across all 5 topics</h2>
+      <h2>60 questions across all 6 topics</h2>
       <p>10 questions per topic — basic, intermediate, and code-output mixed. Filter by topic to focus.</p>
     </div>
 
     <div style="max-width: 760px; margin: 0 auto;">
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; justify-content: center;" id="quizFilters">
-        <button class="btn btn-sm btn-primary" data-cat="all">All · 50</button>
+        <button class="btn btn-sm btn-primary" data-cat="all">All · 60</button>
         <button class="btn btn-sm btn-secondary" data-cat="routing">Routing · 10</button>
         <button class="btn btn-sm btn-secondary" data-cat="files">Files · 10</button>
         <button class="btn btn-sm btn-secondary" data-cat="scope">Scope · 10</button>
         <button class="btn btn-sm btn-secondary" data-cat="indexing">Indexing · 10</button>
         <button class="btn btn-sm btn-secondary" data-cat="db">Databases · 10</button>
+        <button class="btn btn-sm btn-secondary" data-cat="queries">Queries · 10</button>
       </div>
 
       <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow);" id="quizCard">
@@ -1881,6 +2146,19 @@ EXPLAIN SELECT ...;</pre>
         <pre style="background: var(--surface-2); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow-x: auto; margin: 0;">sqlite3.connect("app.db")
 psycopg2.connect(host=...)
 mysql.connector.connect(...)</pre>
+      </div>
+      <div class="topic-card" style="--bar: #10B981; cursor: default;">
+        <div class="topic-card-num">06 · Queries</div>
+        <div class="topic-card-title">SQL clause order</div>
+        <div class="topic-card-desc" style="margin-bottom: 12px;">SELECT → FROM → JOIN → WHERE → GROUP BY → HAVING → ORDER BY → LIMIT</div>
+        <pre style="background: var(--surface-2); padding: 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; overflow-x: auto; margin: 0;">SELECT col, COUNT(*)
+FROM t1 LEFT JOIN t2
+  ON t1.id = t2.fk
+WHERE col > 5
+GROUP BY col
+HAVING COUNT(*) > 1
+ORDER BY col DESC
+LIMIT 10;</pre>
       </div>
     </div>
   </div>
@@ -1987,7 +2265,7 @@ navLinks.forEach(l => l.addEventListener('click', () => {
   menuBtn.textContent = '☰';
 }));
 
-const navIds = ['routing','files','scope','indexing','db','quiz','cheatsheet'];
+const navIds = ['routing','files','scope','indexing','db','queries','quiz','cheatsheet'];
 function onScroll() {
   const sc = window.scrollY;
   const h = document.documentElement.scrollHeight - window.innerHeight;
@@ -2416,7 +2694,78 @@ document.getElementById('recBtn').addEventListener('click', () => {
   document.getElementById('recOutput').innerHTML = `<div style="background: var(--surface); border: 1px solid var(--border); border-left: 4px solid ${color}; border-radius: 12px; padding: 18px 22px; animation: slideUp 0.3s ease;"><div style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; color: var(--text-subtle); letter-spacing: 0.08em; margin-bottom: 4px;">Recommended</div><div style="font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: ${color}; margin-bottom: 8px;">${pick}</div><p style="margin: 0; font-size: 0.9375rem; line-height: 1.6;">${reason}</p></div>`;
 });
 
-// ========== QUIZ DATA — 50 questions (10 per topic) ==========
+// ========== QUERIES SIM: JOIN Visualizer ==========
+const JV_USERS  = [{id:1,name:'Alice'},{id:2,name:'Bob'},{id:3,name:'Carol'}];
+const JV_ORDERS = [{order_id:1,user_id:1,product:'Laptop'},{order_id:2,user_id:2,product:'Phone'},{order_id:3,user_id:4,product:'Tablet'}];
+
+const JV_QUERIES = {
+  inner: 'SELECT u.name, o.order_id, o.product FROM users u INNER JOIN orders o ON u.id = o.user_id',
+  left:  'SELECT u.name, o.order_id, o.product FROM users u LEFT JOIN orders o ON u.id = o.user_id',
+  right: 'SELECT u.name, o.order_id, o.product FROM users u RIGHT JOIN orders o ON u.id = o.user_id',
+  full:  'SELECT u.name, o.order_id, o.product FROM users u FULL OUTER JOIN orders o ON u.id = o.user_id',
+};
+const JV_EXPLAIN = {
+  inner: 'Only rows with a matching user_id on both sides survive. Alice (id=1) ↔ order 1 ✓ · Bob (id=2) ↔ order 2 ✓ · Carol (id=3) has no order → excluded · Order 3 (user_id=4) has no user → excluded.',
+  left:  'All users are kept. If no matching order exists, order columns are NULL. Carol (id=3) appears with NULL order data. Order 3 (user_id=4) is dropped because it has no matching user.',
+  right: 'All orders are kept. If no matching user exists, user columns are NULL. Order 3 (user_id=4) appears with NULL name. Carol (id=3) is dropped because she has no order.',
+  full:  'Every row from both tables appears. Carol appears with NULL order columns. Order 3 appears with NULL user columns. Nothing is excluded. Note: SQLite requires a LEFT JOIN UNION RIGHT JOIN workaround.',
+};
+
+function doJoin(type) {
+  const rows = [];
+  if (type === 'inner') {
+    JV_USERS.forEach(u => JV_ORDERS.filter(o => o.user_id === u.id).forEach(o =>
+      rows.push({name: u.name, order_id: o.order_id, product: o.product})));
+  } else if (type === 'left') {
+    JV_USERS.forEach(u => {
+      const matched = JV_ORDERS.filter(o => o.user_id === u.id);
+      if (matched.length) matched.forEach(o => rows.push({name: u.name, order_id: o.order_id, product: o.product}));
+      else rows.push({name: u.name, order_id: null, product: null});
+    });
+  } else if (type === 'right') {
+    JV_ORDERS.forEach(o => {
+      const u = JV_USERS.find(u => u.id === o.user_id);
+      rows.push({name: u ? u.name : null, order_id: o.order_id, product: o.product});
+    });
+  } else {
+    JV_USERS.forEach(u => {
+      const matched = JV_ORDERS.filter(o => o.user_id === u.id);
+      if (matched.length) matched.forEach(o => rows.push({name: u.name, order_id: o.order_id, product: o.product}));
+      else rows.push({name: u.name, order_id: null, product: null});
+    });
+    JV_ORDERS.forEach(o => { if (!JV_USERS.find(u => u.id === o.user_id)) rows.push({name: null, order_id: o.order_id, product: o.product}); });
+  }
+  return rows;
+}
+
+function renderJoin(type) {
+  const includedUsers  = {inner: new Set([1,2]), left: new Set([1,2,3]), right: new Set([1,2]), full: new Set([1,2,3])}[type];
+  const includedOrders = {inner: new Set([1,2]), left: new Set([1,2]),   right: new Set([1,2,3]), full: new Set([1,2,3])}[type];
+  const nullCell = `<span style="color:var(--text-subtle);font-style:italic;">NULL</span>`;
+
+  document.getElementById('jvLeftBody').innerHTML = JV_USERS.map(u => {
+    const ok = includedUsers.has(u.id);
+    return `<tr style="${ok ? 'background:rgba(16,185,129,.08)' : 'opacity:.3'}"><td style="padding:6px 10px;border-bottom:1px solid var(--border)">${u.id}</td><td style="padding:6px 10px;border-bottom:1px solid var(--border)">${u.name}</td></tr>`;
+  }).join('');
+
+  document.getElementById('jvRightBody').innerHTML = JV_ORDERS.map(o => {
+    const ok = includedOrders.has(o.order_id);
+    return `<tr style="${ok ? 'background:rgba(16,185,129,.08)' : 'opacity:.3'}"><td style="padding:6px 10px;border-bottom:1px solid var(--border)">${o.order_id}</td><td style="padding:6px 10px;border-bottom:1px solid var(--border)">${o.user_id}</td><td style="padding:6px 10px;border-bottom:1px solid var(--border)">${o.product}</td></tr>`;
+  }).join('');
+
+  document.getElementById('jvResultBody').innerHTML = doJoin(type).map(r =>
+    `<tr style="background:rgba(16,185,129,.05)"><td style="padding:6px 10px;border-bottom:1px solid var(--border)">${r.name ?? nullCell}</td><td style="padding:6px 10px;border-bottom:1px solid var(--border)">${r.order_id ?? nullCell}</td><td style="padding:6px 10px;border-bottom:1px solid var(--border)">${r.product ?? nullCell}</td></tr>`
+  ).join('');
+
+  document.getElementById('jvQuery').innerHTML = `<span style="color:#94A3B8">${escHtml(JV_QUERIES[type])}</span>`;
+  document.getElementById('jvExplain').textContent = JV_EXPLAIN[type];
+}
+
+const joinTypeGrp = setupPillGroup('joinType');
+joinTypeGrp._onChange = () => renderJoin(getPillValue(document.getElementById('joinType')));
+renderJoin('inner');
+
+// ========== QUIZ DATA — 60 questions (10 per topic) ==========
 const QUIZ_DATA = [
   // ===== ROUTING (10) =====
   { cat: 'routing', q: 'What is the difference between "route" and "routing"?',
@@ -2630,6 +2979,49 @@ const QUIZ_DATA = [
   { cat: 'db', q: 'Which is generally considered the modern default for new web projects in 2026?',
     opts: ['SQLite', 'MySQL', 'PostgreSQL', 'There\'s no consensus'],
     correct: 2, explain: 'In 2026, most new web projects start with PostgreSQL. Modern hosting (Supabase, Neon, Render) makes it as easy as MySQL, and the feature set is stronger. MySQL is still popular for legacy and PHP-heavy work.' },
+
+  // ===== QUERIES (10) =====
+  { cat: 'queries', q: 'What does SELECT DISTINCT do?',
+    opts: ['Selects the fastest rows', 'Returns only unique values, removing duplicates from the result', 'Creates a unique index', 'Selects only primary key columns'],
+    correct: 1, explain: 'DISTINCT removes duplicate rows from the result. SELECT DISTINCT city FROM users returns each city only once, even if many users share the same city.' },
+
+  { cat: 'queries', q: 'What is the key difference between WHERE and HAVING?',
+    opts: ['No difference — use either one', 'WHERE filters rows before grouping; HAVING filters groups after aggregation', 'HAVING is for strings, WHERE is for numbers', 'WHERE only works with SELECT; HAVING works with all statements'],
+    correct: 1, explain: 'WHERE runs before GROUP BY and filters individual rows. HAVING runs after GROUP BY and filters the resulting groups. You cannot use aggregate functions (like COUNT) inside a WHERE clause.' },
+
+  { cat: 'queries', q: 'What does this query return?',
+    code: 'SELECT COUNT(*) FROM users WHERE age > 25;',
+    opts: ['All users over 25', 'A list of names of users over 25', 'The number of users older than 25', 'The average age of users over 25'],
+    correct: 2, explain: 'COUNT(*) collapses all matching rows into one number. WHERE filters to age > 25 first, then COUNT(*) counts how many rows passed the filter.' },
+
+  { cat: 'queries', q: 'Which JOIN returns only rows that have a match in both tables?',
+    opts: ['LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'FULL OUTER JOIN'],
+    correct: 2, explain: 'INNER JOIN returns the intersection — only rows where the join condition is satisfied on both sides. Rows without a match in either table are excluded.' },
+
+  { cat: 'queries', q: 'After a LEFT JOIN, some rows show NULL in the right-table columns. What does that mean?',
+    opts: ['Those rows were deleted', 'Those left-table rows have no matching row in the right table', 'The JOIN condition failed entirely', 'The right table is empty'],
+    correct: 1, explain: 'LEFT JOIN keeps all rows from the left table. When no matching row exists in the right table, those columns come back as NULL — showing that no match was found.' },
+
+  { cat: 'queries', q: 'What is the correct SQL to get the 3 most expensive orders?',
+    opts: ['SELECT * FROM orders LIMIT 3', 'SELECT * FROM orders ORDER BY amount DESC LIMIT 3', 'SELECT TOP 3 * FROM orders ORDER BY amount', 'SELECT * FROM orders WHERE amount = MAX(amount) LIMIT 3'],
+    correct: 1, explain: 'ORDER BY amount DESC sorts from highest to lowest. LIMIT 3 then keeps only the first 3 rows of that sorted result. This top-N pattern works in all SQL databases.' },
+
+  { cat: 'queries', q: 'What does BETWEEN 100 AND 500 mean in SQL?',
+    opts: ['amount > 100 AND amount < 500 (exclusive)', 'amount >= 100 AND amount <= 500 (inclusive on both ends)', 'amount = 100 OR amount = 500 only', 'A random value between 100 and 500'],
+    correct: 1, explain: 'BETWEEN is inclusive on both ends. BETWEEN 100 AND 500 is exactly equivalent to amount >= 100 AND amount <= 500.' },
+
+  { cat: 'queries', q: 'Why must UPDATE and DELETE almost always include a WHERE clause?',
+    opts: ['It makes the query run faster', 'Without WHERE, the operation applies to every row in the table', 'WHERE is required by SQL syntax for write operations', 'WHERE prevents index corruption'],
+    correct: 1, explain: 'Without WHERE, UPDATE changes every row in the table and DELETE removes every row. Always scope your write operations with WHERE to the rows you actually intend to modify.' },
+
+  { cat: 'queries', q: 'What does LIKE \'%@gmail.com\' match?',
+    opts: ['Only the literal string %@gmail.com', 'Any string ending in @gmail.com', 'Any string containing @gmail.com anywhere', 'Strings with exactly one character before @gmail.com'],
+    correct: 1, explain: '% is a wildcard meaning zero or more of any characters. \'%@gmail.com\' matches anything ending with @gmail.com — such as alice@gmail.com or user123@gmail.com.' },
+
+  { cat: 'queries', q: 'What does this query return?',
+    code: 'SELECT user_id, COUNT(*) AS order_count\nFROM orders\nGROUP BY user_id\nHAVING COUNT(*) > 2;',
+    opts: ['All orders for users with more than 2 orders', 'The user_id and order count for users who have placed more than 2 orders', 'Deletes users with more than 2 orders', 'User details joined with orders, filtered to count > 2'],
+    correct: 1, explain: 'GROUP BY user_id groups orders per customer. COUNT(*) counts orders in each group. HAVING COUNT(*) > 2 keeps only the groups where that count exceeds 2. Result: user_id + count for power users only.' },
 ];
 
 // ========== QUIZ ENGINE ==========
@@ -2649,7 +3041,8 @@ const CAT_INFO = {
   files:    { label: 'Files',     cls: 'badge badge-warning', color: '#F59E0B' },
   scope:    { label: 'Scope',     cls: 'badge badge-teal', color: '#14B8A6' },
   indexing: { label: 'Indexing',  cls: 'badge badge-pink', color: '#EC4899' },
-  db:       { label: 'Databases', cls: 'badge badge-info', color: '#0EA5E9' },
+  db:       { label: 'Databases', cls: 'badge badge-info',    color: '#0EA5E9' },
+  queries:  { label: 'Queries',   cls: 'badge badge-success', color: '#10B981' },
 };
 
 let quizFiltered = QUIZ_DATA.slice();
