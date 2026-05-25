@@ -63,6 +63,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   transition: background 0.2s, color 0.2s;
 }
@@ -148,7 +149,6 @@ body.dark .nav { background: rgba(11,15,26,0.9); }
   .back-to-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
 }
 
-.timer-label { color: var(--text-muted); }
 /* ========== HERO ========== */
 .hero {
   padding: calc(var(--nav-h) + 56px) 24px 60px;
@@ -393,21 +393,6 @@ body.dark .nav { background: rgba(11,15,26,0.9); }
 .q-dot.done { background: var(--success); }
 .q-dot.active { background: var(--primary); }
 
-/* ========== SECTION ANSWER AREA ========== */
-.answer-area {
-  background: var(--surface-2);
-  border: 2px dashed var(--border);
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 20px;
-  min-height: 120px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8125rem;
-  color: var(--text-subtle);
-  display: flex; align-items: center; justify-content: center;
-  text-align: center; line-height: 1.6;
-}
-
 /* ========== FOOTER ========== */
 footer {
   padding: 48px 0; border-top: 1px solid var(--border); margin-top: 80px;
@@ -430,13 +415,14 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
   .nav-inner { padding: 0 16px; }
   .nav-home-btn { padding: 5px 10px; font-size: 0.75rem; }
   .hero { padding: calc(var(--nav-h) + 24px) 16px 40px; }
+  .hero h1 { font-size: 1.625rem; }
   .hero-badges { gap: 6px; }
   .hero-meta { gap: 16px; padding-top: 20px; margin-top: 20px; }
   .hero-meta-item { min-width: calc(50% - 8px); }
   .container { padding: 0 16px; }
-  .instructions { padding: 18px 18px; }
+  .instructions { padding: 16px; }
   .instructions li { font-size: 0.875rem; }
-  .q-card { padding: 18px 16px; }
+  .q-card { padding: 16px; margin-bottom: 16px; }
   .q-header { gap: 10px; align-items: flex-start; }
   .q-num { width: 30px; height: 30px; font-size: 0.75rem; flex-shrink: 0; }
   .q-title { font-size: 0.9375rem; }
@@ -444,6 +430,7 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
   .q-body { font-size: 0.875rem; }
   .req-box { padding: 12px 14px; }
   .req-box li { font-size: 0.84rem; }
+  .code-block { margin: 10px 0; }
   .code-body { font-size: 0.75rem; padding: 12px 14px; }
   .json-block { font-size: 0.75rem; padding: 10px 14px; }
   .io-content { font-size: 0.75rem; padding: 10px 12px; }
@@ -452,6 +439,7 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
   .section-divider { justify-content: center; margin: 36px 0 20px; }
   .q-progress { gap: 5px; }
   .q-dot { width: 22px; }
+  footer { padding: 32px 0; }
 }
 </style>
 </head>
