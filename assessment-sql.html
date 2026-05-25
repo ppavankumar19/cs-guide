@@ -642,13 +642,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all records from the <code>users</code> table.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q1.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q2 -->
@@ -660,13 +653,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display only the <strong>name</strong> and <strong>email</strong> columns from the <code>users</code> table.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q2.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="dc">...</span><span class="op">,</span> <span class="dc">...</span>
-<span class="kw">FROM</span> <span class="tp">users</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q3 -->
@@ -678,13 +664,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display <strong>name</strong> aliased as <code>full_name</code>, and <strong>email</strong> from the <code>users</code> table.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q3.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="dc">name</span> <span class="kw">AS</span> <span class="dc">...</span><span class="op">,</span> <span class="dc">email</span>
-<span class="kw">FROM</span> <span class="tp">users</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q4 -->
@@ -696,13 +675,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all unique (distinct) cities from the <code>users</code> table.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q4.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT DISTINCT</span> <span class="dc">...</span>
-<span class="kw">FROM</span> <span class="tp">users</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q5 -->
@@ -714,14 +686,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all users whose <strong>age</strong> is greater than <strong>25</strong>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q5.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">users</span>
-<span class="kw">WHERE</span> <span class="dc">age</span> <span class="op">&gt;</span> <span class="nm">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q6 -->
@@ -733,14 +697,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display users whose <strong>age &gt; 22</strong> AND whose <strong>city</strong> is <code>'Hyderabad'</code>. Use <code>AND</code>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q6.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">users</span>
-<span class="kw">WHERE</span> <span class="dc">age</span> <span class="op">&gt;</span> <span class="nm">...</span> <span class="kw">AND</span> <span class="dc">city</span> <span class="op">=</span> <span class="st">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q7 -->
@@ -752,14 +708,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display users whose city is either <strong>Delhi</strong>, <strong>Mumbai</strong>, or <strong>Hyderabad</strong>. Use <code>IN</code>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q7.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">users</span>
-<span class="kw">WHERE</span> <span class="dc">city</span> <span class="kw">IN</span> <span class="op">(</span><span class="st">...</span><span class="op">,</span> <span class="st">...</span><span class="op">,</span> <span class="st">...</span><span class="op">);</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q8 -->
@@ -771,14 +719,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display users whose <strong>email</strong> ends with <code>@gmail.com</code>. Use <code>LIKE</code>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q8.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">users</span>
-<span class="kw">WHERE</span> <span class="dc">email</span> <span class="kw">LIKE</span> <span class="st">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q9 -->
@@ -790,14 +730,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display orders whose <strong>amount</strong> is between <strong>10000</strong> and <strong>50000</strong>. Use <code>BETWEEN</code>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q9.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">orders</span>
-<span class="kw">WHERE</span> <span class="dc">amount</span> <span class="kw">BETWEEN</span> <span class="nm">...</span> <span class="kw">AND</span> <span class="nm">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q10 -->
@@ -809,14 +741,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all users whose <strong>email</strong> value is <code>NULL</code>. Use <code>IS NULL</code>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q10.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">users</span>
-<span class="kw">WHERE</span> <span class="dc">email</span> <span class="kw">IS NULL</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- ===== SECTION B ===== -->
@@ -835,14 +759,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all users sorted by <strong>age</strong> in <strong>ascending</strong> order.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q11.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">users</span>
-<span class="kw">ORDER BY</span> <span class="dc">...</span> <span class="kw">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q12 -->
@@ -854,14 +770,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all orders sorted by <strong>amount</strong> in <strong>descending</strong> order.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q12.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">orders</span>
-<span class="kw">ORDER BY</span> <span class="dc">...</span> <span class="kw">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q13 -->
@@ -873,15 +781,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display the top <strong>3</strong> orders with the highest <strong>amount</strong>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q13.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">orders</span>
-<span class="kw">ORDER BY</span> <span class="dc">amount</span> <span class="kw">DESC</span>
-<span class="kw">LIMIT</span> <span class="nm">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q14 -->
@@ -893,14 +792,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display the first <strong>2</strong> users from the <code>users</code> table using <code>LIMIT</code>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q14.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">users</span>
-<span class="kw">LIMIT</span> <span class="nm">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q15 -->
@@ -913,14 +804,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     <div class="q-body">
       <p>Display <strong>page 2</strong> of users, assuming <strong>2 records per page</strong>. Use <code>LIMIT</code> and <code>OFFSET</code>.</p>
       <div class="note-box"><strong>Hint:</strong> Page 2 starts after the first 2 records. OFFSET = (page - 1) × records per page.</div>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q15.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">users</span>
-<span class="kw">LIMIT</span> <span class="nm">...</span> <span class="kw">OFFSET</span> <span class="nm">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- ===== SECTION C ===== -->
@@ -939,13 +822,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Find the <strong>total number of users</strong> in the <code>users</code> table.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q16.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="fn">COUNT</span><span class="op">(*)</span>
-<span class="kw">FROM</span> <span class="tp">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q17 -->
@@ -957,13 +833,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Find the <strong>total revenue</strong> (sum of all amounts) from the <code>orders</code> table.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q17.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="fn">SUM</span><span class="op">(</span><span class="dc">...</span><span class="op">)</span>
-<span class="kw">FROM</span> <span class="tp">orders</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q18 -->
@@ -975,13 +844,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Find the <strong>average age</strong> of all users.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q18.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="fn">AVG</span><span class="op">(</span><span class="dc">...</span><span class="op">)</span>
-<span class="kw">FROM</span> <span class="tp">users</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q19 -->
@@ -993,13 +855,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Find the <strong>highest</strong> and <strong>lowest</strong> order amounts from the <code>orders</code> table in a single query.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q19.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="fn">MAX</span><span class="op">(</span><span class="dc">...</span><span class="op">),</span> <span class="fn">MIN</span><span class="op">(</span><span class="dc">...</span><span class="op">)</span>
-<span class="kw">FROM</span> <span class="tp">orders</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q20 -->
@@ -1011,14 +866,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Count the total orders placed by <strong>each user</strong>. Display <strong>user_id</strong> and <strong>order_count</strong>. Use <code>GROUP BY</code>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q20.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="dc">user_id</span><span class="op">,</span> <span class="fn">COUNT</span><span class="op">(*)</span> <span class="kw">AS</span> <span class="dc">order_count</span>
-<span class="kw">FROM</span> <span class="tp">orders</span>
-<span class="kw">GROUP BY</span> <span class="dc">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q21 -->
@@ -1030,15 +877,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display only users who have placed <strong>more than 1 order</strong>. Use <code>GROUP BY</code> and <code>HAVING</code>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q21.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="dc">user_id</span><span class="op">,</span> <span class="fn">COUNT</span><span class="op">(*)</span> <span class="kw">AS</span> <span class="dc">order_count</span>
-<span class="kw">FROM</span> <span class="tp">orders</span>
-<span class="kw">GROUP BY</span> <span class="dc">user_id</span>
-<span class="kw">HAVING</span> <span class="fn">COUNT</span><span class="op">(*)</span> <span class="op">&gt;</span> <span class="nm">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- ===== SECTION D ===== -->
@@ -1064,15 +902,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
           <li>Join condition: <code>u.id = o.user_id</code></li>
         </ul>
       </div>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q22.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="tp">u</span><span class="op">.</span><span class="dc">name</span><span class="op">,</span> <span class="tp">o</span><span class="op">.</span><span class="dc">product</span><span class="op">,</span> <span class="tp">o</span><span class="op">.</span><span class="dc">amount</span>
-<span class="kw">FROM</span> <span class="tp">users</span> <span class="tp">u</span>
-<span class="kw">INNER JOIN</span> <span class="tp">orders</span> <span class="tp">o</span>
-<span class="kw">ON</span> <span class="tp">u</span><span class="op">.</span><span class="dc">id</span> <span class="op">=</span> <span class="tp">o</span><span class="op">.</span><span class="dc">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q23 -->
@@ -1091,15 +920,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
           <li>Users with no orders will show <code>NULL</code> for product</li>
         </ul>
       </div>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q23.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="tp">u</span><span class="op">.</span><span class="dc">name</span><span class="op">,</span> <span class="tp">o</span><span class="op">.</span><span class="dc">product</span>
-<span class="kw">FROM</span> <span class="tp">users</span> <span class="tp">u</span>
-<span class="kw">LEFT JOIN</span> <span class="tp">orders</span> <span class="tp">o</span>
-<span class="kw">ON</span> <span class="tp">u</span><span class="op">.</span><span class="dc">id</span> <span class="op">=</span> <span class="tp">o</span><span class="op">.</span><span class="dc">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q24 -->
@@ -1112,15 +932,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     <div class="q-body">
       <p>Using a <code>LEFT JOIN</code>, display users who have <strong>not placed any orders</strong>.</p>
       <div class="note-box"><strong>Hint:</strong> After a LEFT JOIN, rows where the right-side key is NULL represent unmatched (no-order) users.</div>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q24.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="tp">u</span><span class="op">.</span><span class="dc">name</span>
-<span class="kw">FROM</span> <span class="tp">users</span> <span class="tp">u</span>
-<span class="kw">LEFT JOIN</span> <span class="tp">orders</span> <span class="tp">o</span> <span class="kw">ON</span> <span class="tp">u</span><span class="op">.</span><span class="dc">id</span> <span class="op">=</span> <span class="tp">o</span><span class="op">.</span><span class="dc">user_id</span>
-<span class="kw">WHERE</span> <span class="tp">o</span><span class="op">.</span><span class="dc">...</span> <span class="kw">IS NULL</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q25 -->
@@ -1139,15 +950,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
           <li>Join condition: <code>e.dept_id = d.dept_id</code></li>
         </ul>
       </div>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q25.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="tp">e</span><span class="op">.</span><span class="dc">emp_name</span><span class="op">,</span> <span class="tp">d</span><span class="op">.</span><span class="dc">dept_name</span><span class="op">,</span> <span class="tp">d</span><span class="op">.</span><span class="dc">location</span>
-<span class="kw">FROM</span> <span class="tp">employees</span> <span class="tp">e</span>
-<span class="kw">INNER JOIN</span> <span class="tp">departments</span> <span class="tp">d</span>
-<span class="kw">ON</span> <span class="tp">e</span><span class="op">.</span><span class="dc">dept_id</span> <span class="op">=</span> <span class="tp">d</span><span class="op">.</span><span class="dc">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q26 -->
@@ -1159,15 +961,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display <strong>all employees</strong> and their <strong>department names</strong> using a <code>LEFT JOIN</code>. Employees without a department should still appear.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q26.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">SELECT</span> <span class="tp">e</span><span class="op">.</span><span class="dc">emp_name</span><span class="op">,</span> <span class="tp">d</span><span class="op">.</span><span class="dc">dept_name</span>
-<span class="kw">FROM</span> <span class="tp">employees</span> <span class="tp">e</span>
-<span class="kw">LEFT JOIN</span> <span class="tp">departments</span> <span class="tp">d</span>
-<span class="kw">ON</span> <span class="tp">e</span><span class="op">.</span><span class="dc">dept_id</span> <span class="op">=</span> <span class="tp">d</span><span class="op">.</span><span class="dc">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- ===== SECTION E ===== -->
@@ -1195,13 +988,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
           <li><strong>email:</strong> meena@gmail.com</li>
         </ul>
       </div>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q27.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">INSERT INTO</span> <span class="tp">users</span> <span class="op">(</span><span class="dc">name</span><span class="op">,</span> <span class="dc">age</span><span class="op">,</span> <span class="dc">city</span><span class="op">,</span> <span class="dc">email</span><span class="op">)</span>
-<span class="kw">VALUES</span> <span class="op">(</span><span class="st">...</span><span class="op">,</span> <span class="nm">...</span><span class="op">,</span> <span class="st">...</span><span class="op">,</span> <span class="st">...</span><span class="op">);</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q28 -->
@@ -1213,14 +999,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Update the <strong>city</strong> of the user named <strong>Rahul</strong> to <code>'Bangalore'</code>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q28.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">UPDATE</span> <span class="tp">users</span>
-<span class="kw">SET</span> <span class="dc">city</span> <span class="op">=</span> <span class="st">...</span>
-<span class="kw">WHERE</span> <span class="dc">name</span> <span class="op">=</span> <span class="st">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- Q29 -->
@@ -1232,13 +1010,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Delete the user whose <strong>id</strong> is <strong>5</strong> from the <code>users</code> table.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q29.sql</div>
-        <div class="code-body"><span class="cm">-- Write your query here</span>
-<span class="kw">DELETE FROM</span> <span class="tp">users</span>
-<span class="kw">WHERE</span> <span class="dc">id</span> <span class="op">=</span> <span class="nm">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- ===== SECTION F ===== -->
@@ -1261,55 +1032,6 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
       <!-- Part A -->
       <div class="part-label">Part A — Subquery</div>
       <p>Display all users who are <strong>older than the average age</strong> of all users. Use a <strong>subquery</strong>.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q30a.sql</div>
-        <div class="code-body"><span class="cm">-- Part A: Subquery</span>
-<span class="kw">SELECT</span> <span class="op">*</span>
-<span class="kw">FROM</span> <span class="tp">users</span>
-<span class="kw">WHERE</span> <span class="dc">age</span> <span class="op">&gt;</span> <span class="op">(</span>
-    <span class="kw">SELECT</span> <span class="fn">AVG</span><span class="op">(</span><span class="dc">...</span><span class="op">)</span>
-    <span class="kw">FROM</span> <span class="tp">...</span>
-<span class="op">);</span></div>
-      </div>
-
-      <!-- Part B -->
-      <div class="part-label">Part B — Create an Index</div>
-      <p>Create an index named <code>idx_name</code> on the <strong>name</strong> column of the <code>users</code> table.</p>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q30b.sql</div>
-        <div class="code-body"><span class="cm">-- Part B: Create Index</span>
-<span class="kw">CREATE INDEX</span> <span class="dc">...</span>
-<span class="kw">ON</span> <span class="tp">users</span><span class="op">(</span><span class="dc">...</span><span class="op">);</span></div>
-      </div>
-
-      <!-- Part C -->
-      <div class="part-label">Part C — Query Execution Plan</div>
-      <p>Write the query execution plan for <code>SELECT * FROM users WHERE name='Rahul';</code> using the correct syntax for each database:</p>
-      <div class="req-box">
-        <div class="req-box-title">Syntax Reference</div>
-        <ul>
-          <li><strong>MySQL:</strong> Use <code>EXPLAIN</code></li>
-          <li><strong>PostgreSQL:</strong> Use <code>EXPLAIN ANALYZE</code></li>
-          <li><strong>SQLite3:</strong> Use <code>EXPLAIN QUERY PLAN</code></li>
-        </ul>
-      </div>
-      <div class="code-block">
-        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div>query_q30c.sql</div>
-        <div class="code-body"><span class="cm">-- Part C: Execution Plans</span>
-
-<span class="cm">-- MySQL</span>
-<span class="kw">EXPLAIN</span>
-<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> <span class="tp">users</span> <span class="kw">WHERE</span> <span class="dc">name</span> <span class="op">=</span> <span class="st">...</span><span class="op">;</span>
-
-<span class="cm">-- PostgreSQL</span>
-<span class="kw">EXPLAIN ANALYZE</span>
-<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> <span class="tp">users</span> <span class="kw">WHERE</span> <span class="dc">name</span> <span class="op">=</span> <span class="st">...</span><span class="op">;</span>
-
-<span class="cm">-- SQLite3</span>
-<span class="kw">EXPLAIN QUERY PLAN</span>
-<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> <span class="tp">users</span> <span class="kw">WHERE</span> <span class="dc">name</span> <span class="op">=</span> <span class="st">...</span><span class="op">;</span></div>
-      </div>
-    </div>
   </div>
 
   <!-- End note -->
