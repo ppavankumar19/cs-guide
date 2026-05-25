@@ -362,45 +362,32 @@ table.db-tbl tr:nth-child(even) td { background: var(--surface-2); }
   color: var(--info);
 }
 
-/* ========== CODE BLOCKS ========== */
-.code-block {
-  background: #0F172A;
+/* ========== ANSWER AREA ========== */
+.answer-area {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 16px;
+  padding: 14px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1.5px dashed var(--border);
   border-radius: 10px;
-  overflow: hidden;
-  margin: 14px 0;
-  border: 1px solid #1E293B;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
 }
-.code-head {
-  padding: 8px 14px;
-  background: #1E293B;
-  color: #94A3B8;
-  font-size: 0.75rem; font-weight: 600;
-  display: flex; align-items: center; gap: 10px;
-  font-family: 'JetBrains Mono', monospace;
+.answer-area:focus {
+  border-color: var(--primary);
+  border-style: solid;
+  background: var(--surface);
 }
-.code-dots { display: flex; gap: 5px; }
-.code-dots span { width: 10px; height: 10px; border-radius: 50%; }
-.code-dots span:nth-child(1) { background: #EF4444; }
-.code-dots span:nth-child(2) { background: #F59E0B; }
-.code-dots span:nth-child(3) { background: #10B981; }
-.code-body {
-  padding: 16px 18px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8125rem; line-height: 1.8;
-  color: #E2E8F0;
-  overflow-x: auto;
-  white-space: pre;
+.answer-area::placeholder {
+  color: var(--text-subtle);
+  font-style: italic;
 }
-/* SQL syntax colours */
-.kw  { color: #C084FC; }   /* keywords: SELECT, FROM, WHERE, JOIN… */
-.fn  { color: #34D399; }   /* aggregate functions: COUNT, SUM, AVG… */
-.st  { color: #FCD34D; }   /* string literals */
-.cm  { color: #475569; font-style: italic; }  /* comments */
-.nm  { color: #F472B6; }   /* numbers */
-.tp  { color: #5EEAD4; }   /* table names / aliases */
-.dc  { color: #60A5FA; }   /* column names */
-.op  { color: #E2E8F0; }   /* operators, punctuation */
 
 /* ========== NOTE BOX ========== */
 .note-box {
@@ -475,7 +462,7 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
   .q-body { font-size: 0.875rem; }
   .req-box { padding: 12px 14px; }
   .req-box li { font-size: 0.84rem; }
-  .code-body { font-size: 0.75rem; padding: 12px 14px; }
+  .answer-area { font-size: 0.8rem; padding: 10px 12px; }
   .note-box { font-size: 0.8125rem; padding: 12px 14px; }
   .section-divider-line { display: none; }
   .section-divider { justify-content: center; margin: 36px 0 20px; }
@@ -642,6 +629,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all records from the <code>users</code> table.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q2 -->
@@ -653,6 +642,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display only the <strong>name</strong> and <strong>email</strong> columns from the <code>users</code> table.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q3 -->
@@ -664,6 +655,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display <strong>name</strong> aliased as <code>full_name</code>, and <strong>email</strong> from the <code>users</code> table.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q4 -->
@@ -675,6 +668,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all unique (distinct) cities from the <code>users</code> table.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q5 -->
@@ -686,6 +681,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all users whose <strong>age</strong> is greater than <strong>25</strong>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q6 -->
@@ -697,6 +694,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display users whose <strong>age &gt; 22</strong> AND whose <strong>city</strong> is <code>'Hyderabad'</code>. Use <code>AND</code>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q7 -->
@@ -708,6 +707,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display users whose city is either <strong>Delhi</strong>, <strong>Mumbai</strong>, or <strong>Hyderabad</strong>. Use <code>IN</code>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q8 -->
@@ -719,6 +720,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display users whose <strong>email</strong> ends with <code>@gmail.com</code>. Use <code>LIKE</code>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q9 -->
@@ -730,6 +733,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display orders whose <strong>amount</strong> is between <strong>10000</strong> and <strong>50000</strong>. Use <code>BETWEEN</code>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q10 -->
@@ -741,6 +746,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all users whose <strong>email</strong> value is <code>NULL</code>. Use <code>IS NULL</code>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- ===== SECTION B ===== -->
@@ -759,6 +766,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all users sorted by <strong>age</strong> in <strong>ascending</strong> order.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q12 -->
@@ -770,6 +779,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display all orders sorted by <strong>amount</strong> in <strong>descending</strong> order.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q13 -->
@@ -781,6 +792,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display the top <strong>3</strong> orders with the highest <strong>amount</strong>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q14 -->
@@ -792,6 +805,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display the first <strong>2</strong> users from the <code>users</code> table using <code>LIMIT</code>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q15 -->
@@ -804,6 +819,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     <div class="q-body">
       <p>Display <strong>page 2</strong> of users, assuming <strong>2 records per page</strong>. Use <code>LIMIT</code> and <code>OFFSET</code>.</p>
       <div class="note-box"><strong>Hint:</strong> Page 2 starts after the first 2 records. OFFSET = (page - 1) × records per page.</div>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- ===== SECTION C ===== -->
@@ -822,6 +839,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Find the <strong>total number of users</strong> in the <code>users</code> table.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q17 -->
@@ -833,6 +852,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Find the <strong>total revenue</strong> (sum of all amounts) from the <code>orders</code> table.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q18 -->
@@ -844,6 +865,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Find the <strong>average age</strong> of all users.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q19 -->
@@ -855,6 +878,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Find the <strong>highest</strong> and <strong>lowest</strong> order amounts from the <code>orders</code> table in a single query.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q20 -->
@@ -866,6 +891,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Count the total orders placed by <strong>each user</strong>. Display <strong>user_id</strong> and <strong>order_count</strong>. Use <code>GROUP BY</code>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q21 -->
@@ -877,6 +904,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display only users who have placed <strong>more than 1 order</strong>. Use <code>GROUP BY</code> and <code>HAVING</code>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- ===== SECTION D ===== -->
@@ -902,6 +931,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
           <li>Join condition: <code>u.id = o.user_id</code></li>
         </ul>
       </div>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q23 -->
@@ -920,6 +951,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
           <li>Users with no orders will show <code>NULL</code> for product</li>
         </ul>
       </div>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q24 -->
@@ -932,6 +965,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     <div class="q-body">
       <p>Using a <code>LEFT JOIN</code>, display users who have <strong>not placed any orders</strong>.</p>
       <div class="note-box"><strong>Hint:</strong> After a LEFT JOIN, rows where the right-side key is NULL represent unmatched (no-order) users.</div>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q25 -->
@@ -950,6 +985,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
           <li>Join condition: <code>e.dept_id = d.dept_id</code></li>
         </ul>
       </div>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q26 -->
@@ -961,6 +998,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Display <strong>all employees</strong> and their <strong>department names</strong> using a <code>LEFT JOIN</code>. Employees without a department should still appear.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- ===== SECTION E ===== -->
@@ -988,6 +1027,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
           <li><strong>email:</strong> meena@gmail.com</li>
         </ul>
       </div>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q28 -->
@@ -999,6 +1040,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Update the <strong>city</strong> of the user named <strong>Rahul</strong> to <code>'Bangalore'</code>.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- Q29 -->
@@ -1010,6 +1053,8 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
     </div>
     <div class="q-body">
       <p>Delete the user whose <strong>id</strong> is <strong>5</strong> from the <code>users</code> table.</p>
+      <textarea class="answer-area" placeholder="-- Write your SQL query here..." rows="6" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- ===== SECTION F ===== -->
@@ -1032,6 +1077,26 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
       <!-- Part A -->
       <div class="part-label">Part A — Subquery</div>
       <p>Display all users who are <strong>older than the average age</strong> of all users. Use a <strong>subquery</strong>.</p>
+      <textarea class="answer-area" placeholder="-- Part A: Write your subquery here..." rows="5" spellcheck="false"></textarea>
+
+      <!-- Part B -->
+      <div class="part-label">Part B — Create an Index</div>
+      <p>Create an index named <code>idx_name</code> on the <strong>name</strong> column of the <code>users</code> table.</p>
+      <textarea class="answer-area" placeholder="-- Part B: Write your CREATE INDEX statement here..." rows="4" spellcheck="false"></textarea>
+
+      <!-- Part C -->
+      <div class="part-label">Part C — Query Execution Plan</div>
+      <p>Write the query execution plan for <code>SELECT * FROM users WHERE name='Rahul';</code> using the correct syntax for each database:</p>
+      <div class="req-box">
+        <div class="req-box-title">Syntax Reference</div>
+        <ul>
+          <li><strong>MySQL:</strong> Use <code>EXPLAIN</code></li>
+          <li><strong>PostgreSQL:</strong> Use <code>EXPLAIN ANALYZE</code></li>
+          <li><strong>SQLite3:</strong> Use <code>EXPLAIN QUERY PLAN</code></li>
+        </ul>
+      </div>
+      <textarea class="answer-area" placeholder="-- Part C: Write all three EXPLAIN queries here..." rows="8" spellcheck="false"></textarea>
+    </div>
   </div>
 
   <!-- End note -->
