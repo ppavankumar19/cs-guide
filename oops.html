@@ -1457,11 +1457,12 @@
   /* ========== FOOTER ========== */
   footer {
     border-top: 1px solid var(--border);
-    padding: 48px 24px;
+    padding: 48px 0;
     text-align: center;
     color: var(--text-subtle);
     font-size: 0.875rem;
   }
+  footer .container { display: flex; flex-direction: column; align-items: center; gap: 6px; }
   footer .heart { color: var(--pink); }
 
   /* ========== ANIMATIONS ========== */
@@ -1616,9 +1617,6 @@
     to   { opacity: 1; transform: translateY(0); }
   }
   .nav.menu-open .nav-links { animation: slideDown 0.2s ease; }
-
-  /* Footer horizontal padding fix — let container handle sides */
-  footer { padding: 48px 0; }
 
   /* Comparison table — responsive horizontal scroll */
   .comparison-table-wrap {
@@ -3010,7 +3008,7 @@
 <footer>
   <div class="container">
     <p>Built with <span class="heart">♥</span> for Python learners. Open in any browser — no installation needed.</p>
-    <p style="margin-top: 8px; font-size: 0.75rem;">A single-file interactive guide to OOP. Hosted nowhere, runs everywhere.</p>
+    <p style="font-size: 0.75rem;">A single-file interactive guide to OOP. Hosted nowhere, runs everywhere.</p>
   </div>
 </footer>
 
