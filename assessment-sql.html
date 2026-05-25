@@ -66,6 +66,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   transition: background 0.2s, color 0.2s;
 }
@@ -451,10 +452,11 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
   .hero-meta { gap: 16px; padding-top: 20px; margin-top: 20px; }
   .hero-meta-item { min-width: calc(50% - 8px); }
   .container { padding: 0 16px; }
-  .instructions { padding: 18px 18px; }
+  .hero h1 { font-size: 1.625rem; }
+  .instructions { padding: 16px; }
   .instructions li { font-size: 0.875rem; }
-  .db-setup { padding: 18px 18px; }
-  .q-card { padding: 18px 16px; }
+  .db-setup { padding: 16px; }
+  .q-card { padding: 16px; margin-bottom: 16px; }
   .q-header { gap: 10px; align-items: flex-start; }
   .q-num { width: 30px; height: 30px; font-size: 0.75rem; flex-shrink: 0; }
   .q-title { font-size: 0.9375rem; }
@@ -462,12 +464,14 @@ footer p { color: var(--text-subtle); font-size: 0.875rem; }
   .q-body { font-size: 0.875rem; }
   .req-box { padding: 12px 14px; }
   .req-box li { font-size: 0.84rem; }
-  .answer-area { font-size: 0.8rem; padding: 10px 12px; }
+  .answer-area { font-size: 0.8rem; padding: 10px 12px; rows: 4; }
   .note-box { font-size: 0.8125rem; padding: 12px 14px; }
   .section-divider-line { display: none; }
   .section-divider { justify-content: center; margin: 36px 0 20px; }
   .q-progress { gap: 4px; }
   .q-dot { width: 18px; }
+  .part-label { margin: 14px 0 6px; }
+  footer { padding: 32px 0; }
 }
 </style>
 </head>
